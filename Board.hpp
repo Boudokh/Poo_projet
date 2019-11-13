@@ -5,7 +5,7 @@
 class Board
 {
 private:
-    Board(); //gente random board
+    Board(); //generate random board
 public:
 };
 
