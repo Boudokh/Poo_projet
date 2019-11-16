@@ -12,7 +12,7 @@ class Streumons : public Movable {
         Streumons(char symbol = 's');
         virtual void dévore(Oueurj* player);
         virtual void déplacer(char _move);
-        getnbr_streumons() const;
+        int getnbr_streumons() const;
 };
 
 #endif
