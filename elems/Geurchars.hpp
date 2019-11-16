@@ -7,14 +7,15 @@ class Geurchars : public Fixed {
 
     private:
         char symbol;
-        int x_axis;
-        int y_axis;
+        int nbr_teleport;
+        int nbr_geuchars;
+
     public:
-        void setSymbol(const char symbol = '*');
-        int getX() const;
-        int getY() const;
-        void setX(const int);
-        void setY(const int);
-};
+        Geurchars(char symbol = '*');
+        virtual bool etrePrisPar(Oueurj* joueur);
+        void setTeleport(int _nbr); /* Quand le joueur prend un geuchar, teleportation infini  */
+        int getnbr_teleport() const;
+        int getnbr_geuchars() const;
+};  
 
 #endif

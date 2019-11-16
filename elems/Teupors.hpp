@@ -2,21 +2,17 @@
 #define TEUPORS_HPP
 
 #include "Fixed.hpp"
+#include "Oueurj.hpp"
+#include "Diams.hpp"
 
 class Teupors : public Fixed {
 
     private:
         char symbol;
-        int x_axis;
-        int y_axis;
     public:
-        void setOpenTeupors(const char symbol = '+');
-        void setCloseTeupors(const char symbol = '-');
-        char getStateTeupors() const;
-        int getX() const;
-        int getY() const;
-        void setX(const int);
-        void setY(const int);       
-};
+        Teupors(char symbol = '-'); /* par défaut la porte est fermée */
+        char getStateTeupors() const; /* état courante de la porte */
+        void openTeupors(Diams* diamant); /* ouverture d'une porte après que le joueur ait pris un diamant */     
+};      
 
 #endif

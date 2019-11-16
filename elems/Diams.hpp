@@ -7,14 +7,11 @@ class Diams : public Fixed {
 
     private:
         char symbol;
-        int x_axis;
-        int y_axis;
+        int nbr_diams;
     public:
-        void setSymbol(const char symbol = '$');
-        int getX() const;
-        int getY() const;
-        void setX(const int);
-        void setY(const int);
+        Diams(char symbol = '$');
+        virtual bool etrePrisPar(Oueurj* joueur);
+        int getnbr_diams() const;
 };
 
 #endif

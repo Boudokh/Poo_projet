@@ -1,20 +1,18 @@
 #ifndef REUMUS_HPP
 #define REUMUS_HPP
-
+#include <iostream>
+#include <cstdlib>
 #include "Fixed.hpp"
 
 class Reumus : public Fixed {
 
     private:
         char symbol;
-        int x_axis;
-        int y_axis;
+        int nbr_reumus;
     public:
-        void setSymbol(const char symbol = 'X');
-        int getX() const;
-        int getY() const;
-        void setX(const int);
-        void setY(const int);
+        Reumus(char symbol = 'X');
+        int getnbr_reumus() const;
 };
+
 
 #endif

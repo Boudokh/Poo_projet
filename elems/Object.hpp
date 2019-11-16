@@ -3,11 +3,14 @@
 
 
 class Object{
-protected:
-    char* symbol;
-private:
 
-public:
+    protected:
+        char* symbol;
+    private:
+
+    public:
+        Object();
+        virtual char getSymbol() const;
 };
 
 #endif

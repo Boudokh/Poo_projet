@@ -7,15 +7,12 @@ class Streumons : public Movable {
 
     private:
         char symbol;
-        int x_axis;
-        int y_axis;
-
+        int nbr_streumons;
     public:
-        void setSymbol(const char symbol = 's');
-        int getX() const;
-        int getY() const;
-        void setX(const int);
-        void setY(const int);
+        Streumons(char symbol = 's');
+        virtual void dévore(Oueurj* player);
+        virtual void déplacer(char _move);
+        getnbr_streumons() const;
 };
 
 #endif
