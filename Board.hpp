@@ -12,9 +12,11 @@
 class Board
 {
 private:
+
     int lon;
     int lar;
     std::vector<std::vector<Object *>> coord;
+
 
 public:
     Board(int x, int y, int nb_teupor = 1); //generate random board
