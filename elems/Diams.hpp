@@ -10,7 +10,7 @@ class Diams : public Fixed {
         int nbr_diams;
     public:
         Diams(char symbol = '$');
-        virtual bool etrePrisPar(Oueurj* joueur);
+        virtual bool etrePrisPar(Diams* diamant);
         int getnbr_diams() const;
 };
 

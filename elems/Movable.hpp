@@ -7,14 +7,12 @@
 
 class Movable : public Object {
     private:
-        std::vector<Streumons*> streumons;
     protected:
         char move;
     public:
         Movable();
-        virtual char getSymbol();
-        virtual void dévore(Oueurj* player);
-        virtual void déplacer(Streumons* streumon, char _move);
+        virtual char getSymbol() const;
+        virtual void déplacer(char _move);
 };
 
 #endif

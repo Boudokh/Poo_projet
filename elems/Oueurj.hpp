@@ -3,33 +3,20 @@
 
 #include "Fixed.hpp"
 #include "Geuchars.hpp"
-#include <limits>
+#include "Movable.hpp"
 
-/*
-Listing des mouvements :
-
-    - F : reste en place
-    - R : en haut
-    - V : en bas
-    - D : à gauche
-    - G : à droite
-    - E : en haut à gauche (diag)
-    - T : en haut à droite (diag)
-    - C : en bas à gauche (diag)
-    - V : en bas à droite (diag)
-*/
-
-class Oueurj {
+class Oueurj : Movable {
 
     private:
         char symbol;
+        int state; // 0 mort, 1 en jeu, 2 gagné
         char move;
         int nbr_teleport;
+        int nbr_diams;
     public:
-        Oueurj(char symbol = 'J', char _move = 'F', int _nbr_teleport = 0);
-        void déplacer(char _move);
+        Oueurj(char symbol = 'J', char _move = 'F', int _nbr_teleport = 0, int _state = 0);
         void prendre(Fixed* objet);
-        void seTeleporter(Geuchars* geuchars, int _nbr_teleport = std::numeric_limits<int>::max());
+        void seTeleporter(Geuchars* geuchars, int _nbr_teleport = 100000000);
         void sortir();
 };
 

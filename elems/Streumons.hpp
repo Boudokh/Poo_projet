@@ -10,9 +10,10 @@ class Streumons : public Movable {
         int nbr_streumons;
     public:
         Streumons(char symbol = 's');
-        virtual void dévore(Oueurj* player);
         virtual void déplacer(char _move);
         int getnbr_streumons() const;
+        virtual char getSymbol() const;
+
 };
 
 #endif

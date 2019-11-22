@@ -5,8 +5,9 @@
 class Board
 {
 private:
-    Board(); //generate random board
+    std::vector<std::vector<Object *>> coord;
 public:
+    Board(); //generate random board
 };
 
 #endif
