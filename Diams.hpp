@@ -7,11 +7,8 @@ class Diams : public Fixed {
 
     private:
         char symbol;
-        int nbr_diams;
     public:
-        Diams(char symbol = '$');
-        virtual bool etrePrisPar(Diams* diamant);
-        int getnbr_diams() const;
+        Diams();
 };
 
 #endif

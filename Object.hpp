@@ -1,7 +1,6 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
 
-
 class Object{
 
     protected:
@@ -10,7 +9,7 @@ class Object{
 
     public:
         Object();
-        virtual char getSymbol() const;
+        virtual char getSymbol();
 };
 
 #endif

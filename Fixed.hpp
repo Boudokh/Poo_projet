@@ -3,12 +3,6 @@
 
 #include <vector>
 #include "Object.hpp"
-#include "Oueurj.hpp"
-
-class Diams;
-class Reumus;
-class Geurchars;
-class Teupors;
 
 class Fixed : public Object {
 
