@@ -9,8 +9,8 @@ class Oueurj : Movable {
 
     private:
         char symbol;
-        int state; // 0 mort, 1 en jeu, 2 gagné
         char move;
+        int state; // 0 mort, 1 en jeu, 2 gagné
         int nbr_teleport;
         int nbr_diams;
     public:
