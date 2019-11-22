@@ -9,7 +9,7 @@ class Game
 {
 private:
     std::vector<Board *> boards;
-
+    
 public:
     void generateBoardList();
 };
