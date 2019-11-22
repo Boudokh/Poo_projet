@@ -4,11 +4,10 @@
 class Object{
 
     protected:
-        char* symbol;
+        char symbol;
     private:
 
     public:
-        Object();
         virtual char getSymbol();
 };
 

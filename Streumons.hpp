@@ -7,12 +7,8 @@ class Streumons : public Movable {
 
     private:
         char symbol;
-        int nbr_streumons;
     public:
-        Streumons(char symbol = 's');
-        virtual void deplacer(char _move);
-        int getnbr_streumons() const;
-        virtual char getSymbol() const;
+        Streumons();
 
 };
 

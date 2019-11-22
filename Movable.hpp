@@ -6,7 +6,6 @@
 class Movable : public Object {
     private:
     protected:
-        char move;
     public:
         Movable();
 };

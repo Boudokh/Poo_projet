@@ -8,9 +8,7 @@ class Fixed : public Object {
 
     private:
     protected:
-
     public:
-        Fixed();
 };
 
 #endif

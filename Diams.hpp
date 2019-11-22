@@ -6,7 +6,7 @@
 class Diams : public Fixed {
 
     private:
-        char symbol;
+
     public:
         Diams();
 };
