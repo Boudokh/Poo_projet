@@ -1,10 +1,13 @@
 CPP=g++ --std=c++11 -Wall
 all: Board
-Board: board_gen.o Board.o Object.o Fixed.o Reumus.o Teupor.o
-	$(CPP) board_gen.o Board.o Object.o Fixed.o Reumus.o Teupor.o -o Board
+Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o
+	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o -o Board
 
 board_gen.o: board_gen.cpp
 	$(CPP) -c board_gen.cpp
+
+Game.o: Game.cpp Game.hpp
+	$(CPP) -c Game.cpp
 
 Board.o: Board.cpp Board.hpp
 	$(CPP) -c Board.cpp

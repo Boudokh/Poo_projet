@@ -1,19 +1,16 @@
 #include "Board.hpp"
 
-Board::Board(int x, int y, int nb_teupor) : lar(x), lon(y)
+Board::Board(int _hau, int _lar, int nb_teupor) : hau(_hau), lar(_lar)
 {
-    srand(time(NULL));
-
-    nb_teupor = std::min(2*(lon + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
+    nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
 
     std::vector<Object *> tmp_line;
-
-    for (int i = 0; i < lar; i++)
+    for (int i = 0; i < hau; i++)
     {
-        for (int j = 0; j < lon; j++)
+        for (int j = 0; j < lar; j++)
         {
 
-            if (j == 0 || j == lon - 1 || i == 0 || i == lar - 1)
+            if (j == 0 || j == lar - 1 || i == 0 || i == hau - 1)
             {
                 Reumus *tmp_reumus = new Reumus();
                 tmp_line.push_back(tmp_reumus);
@@ -27,49 +24,48 @@ Board::Board(int x, int y, int nb_teupor) : lar(x), lon(y)
         coord.push_back(tmp_line);
         tmp_line.clear();
     }
-    std::cout << nb_teupor << std::endl;
+
     while (nb_teupor > 0)
     {
         int coord_i, coord_j;
-        int rd = rand() % (2 * (lon + lar));
+        int rd = rand() % (2 * (hau + lar));
         if (rd < lar)
         {
             coord_i = 0;
             coord_j = rd;
         }
-        else if (rd < lon + lar)
+        else if (rd < hau + lar)
         {
             coord_i = rd - lar;
             coord_j = lar - 1;
         }
-        else if (rd < 2 * lar + lon)
+        else if (rd < 2 * lar + hau)
         {
-            coord_i = lon - 1;
-            coord_j = rd - lon - lar;
+            coord_i = hau - 1;
+            coord_j = rd - hau - lar;
         }
         else
         {
-            coord_i = rd - 2 * lar - lon;
+            coord_i = rd - 2 * lar - hau;
             coord_j = 0;
         }
-
         if (coord[coord_i][coord_j]->getName() == typeid(Reumus *).name())
         {
             Teupor *tmp_teupor = new Teupor();
             coord[coord_i][coord_j] = tmp_teupor;
             nb_teupor--;
-            std::cout << nb_teupor << std::endl;
-
         }
     }
+
+    //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
 }
 
 std::string Board::display()
 {
     std::string plateau = "";
-    for (int i = 0; i < lar; i++)
+    for (int i = 0; i < hau; i++)
     {
-        for (int j = 0; j < lon; j++)
+        for (int j = 0; j < lar; j++)
         {
             if (coord[i][j])
             {
@@ -85,3 +81,4 @@ std::string Board::display()
 
     return plateau;
 }
+

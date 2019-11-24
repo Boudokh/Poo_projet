@@ -6,18 +6,17 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <random>
 #include <time.h>
 #include "Teupor.hpp"
 
 class Board
 {
 private:
-    int lon;
+    int hau;
     int lar;
-
-    std::vector<std::vector<Object *>> coord;
-
 public:
+    std::vector<std::vector<Object *>> coord;
     Board(int x, int y, int nb_teupor = 1); //generate random board
     std::string display();
 };
