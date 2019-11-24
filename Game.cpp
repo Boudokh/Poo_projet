@@ -64,15 +64,15 @@ void Game::to_txt()
 
 void Game::to_read()
 {
-    std::string str;
     std::ifstream readFile;
+    std::string STRING;
     readFile.open("jeu.txt");
     if(readFile.is_open())
     {
         while(!readFile.eof)
         {
-            getline(readFile,str); // sauvegarder la ligne dans str
-            std::cout << str; // affichage de str
+            getline(readFile,STRING); // sauvegarder la ligne dans STRING
+            std::cout << STRING; // affichage de STRING
         }
     }
     readFile.close();
