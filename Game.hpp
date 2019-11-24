@@ -3,6 +3,7 @@
 
 #include "Board.hpp"
 #include <fstream>
+#include <string>
 
 class Game
 {
@@ -19,6 +20,7 @@ public:
     ~Game();
     void affiche();
     void to_txt();
+    void to_read();
 };
 
 #endif
