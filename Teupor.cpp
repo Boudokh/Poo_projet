@@ -10,3 +10,8 @@ std::string Teupor::getName()
 }
 
 Teupor::~Teupor(){}
+
+void Teupor::openTeupor()
+{
+    this->symbol = '+';
+}
