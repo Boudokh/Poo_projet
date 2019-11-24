@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     std::cout << test->display() << std::endl;
 
     Game a(6, 12, 10, 6);
-    a.affiche();
+    //a.affiche();
+    //a.to_txt();
     return 0;
 }

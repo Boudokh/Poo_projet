@@ -41,3 +41,16 @@ void Game::affiche()
         std::cout << (*it)->display() << std::endl;
     }
 }
+
+void Game::to_txt()
+{
+    std::ofstream sortie;
+    sortie.open("jeu.txt");
+    sortie << this->hau << "*" << this->lar << "|" << this->levels.size() << std::endl;
+
+    for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
+    {
+        sortie << (*it)->display() << std::endl;
+    }
+    sortie.close();
+}

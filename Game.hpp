@@ -2,6 +2,7 @@
 #define GAME_HPP
 
 #include "Board.hpp"
+#include <fstream>
 
 class Game
 {
@@ -15,7 +16,8 @@ public:
     Game();
     Game(int _hau, int _lar, int nb_level, int nb_teupor = 0);
     void generateBoardList();
-    void affiche() ;
+    void affiche();
+    void to_txt();
 };
 
 #endif
