@@ -12,6 +12,8 @@ public:
     char getStateTeupor() const; /* état courante de la porte */
     void openTeupor();           /* ouverture d'une porte après que le joueur ait pris un diamant */
     virtual std::string  getName();
+    ~Teupor();
+
 };
 
 #endif

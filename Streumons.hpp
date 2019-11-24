@@ -9,6 +9,8 @@ class Streumons : public Movable {
         char symbol;
     public:
         Streumons();
+        ~Streumons();
+
 
 };
 

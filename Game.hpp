@@ -12,6 +12,8 @@ private:
     
 public:
     void generateBoardList();
+    ~Game();
+
 };
 
 #endif
