@@ -1,14 +1,18 @@
 #ifndef OBJECT_HPP
 #define OBJECT_HPP
+#include <typeinfo>
+#include <string>
 
-class Object{
+class Object
+{
 
-    protected:
-        char symbol;
-    private:
+protected:
+    char symbol;
 
-    public:
-        virtual char getSymbol();
+private:
+public:
+    virtual char getSymbol() const;
+    virtual std::string  getName();
 };
 
 #endif

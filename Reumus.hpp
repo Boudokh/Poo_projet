@@ -3,11 +3,13 @@
 #include <cstdlib>
 #include "Fixed.hpp"
 
-class Reumus : public Fixed {
+class Reumus : public Fixed
+{
 
-    private:
-    public:
-        Reumus();
+private:
+public:
+    Reumus();
+    virtual std::string  getName(); //à améliorer
 };
 
 #endif

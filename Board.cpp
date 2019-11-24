@@ -4,6 +4,8 @@ Board::Board(int x, int y, int nb_teupor) : lar(x), lon(y)
 {
     srand(time(NULL));
 
+    nb_teupor = std::min(2*(lon + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
+
     std::vector<Object *> tmp_line;
 
     for (int i = 0; i < lar; i++)
@@ -25,40 +27,40 @@ Board::Board(int x, int y, int nb_teupor) : lar(x), lon(y)
         coord.push_back(tmp_line);
         tmp_line.clear();
     }
-
+    std::cout << nb_teupor << std::endl;
     while (nb_teupor > 0)
     {
-        nb_teupor--;
         int coord_i, coord_j;
-        int rd = rand() % (2 * (lon + lar - 2));
-
-        if (rd <= lar - 1)
+        int rd = rand() % (2 * (lon + lar));
+        if (rd < lar)
         {
-            std::cout << "1" << std::endl;
             coord_i = 0;
             coord_j = rd;
         }
-        else if (rd <= lon + lar - 1)
+        else if (rd < lon + lar)
         {
-            std::cout << "2" << std::endl;
-            coord_i = rd - lar - 1;
-            coord_j = lar -1;
+            coord_i = rd - lar;
+            coord_j = lar - 1;
         }
-        else if (rd <= 2 * lar + lon - 1)
+        else if (rd < 2 * lar + lon)
         {
-            std::cout << "3" << std::endl;
             coord_i = lon - 1;
-            coord_j = rd - lon - lar - 2;
+            coord_j = rd - lon - lar;
         }
         else
         {
-            std::cout << "4 " << rd << std::endl;
-            coord_i = rd - 2* lar - lon  + 3;
+            coord_i = rd - 2 * lar - lon;
             coord_j = 0;
         }
-        Teupor* tmp_teupor = new Teupor();
-        std::cout << coord_i << " " << coord_j << std::endl;
-        coord[coord_i][coord_j] = tmp_teupor;
+
+        if (coord[coord_i][coord_j]->getName() == typeid(Reumus *).name())
+        {
+            Teupor *tmp_teupor = new Teupor();
+            coord[coord_i][coord_j] = tmp_teupor;
+            nb_teupor--;
+            std::cout << nb_teupor << std::endl;
+
+        }
     }
 }
 
@@ -72,7 +74,6 @@ std::string Board::display()
             if (coord[i][j])
             {
                 plateau.push_back(coord[i][j]->getSymbol());
-                //std::cout << *(coord[i][j]->getSymbol());
             }
             else
             {
