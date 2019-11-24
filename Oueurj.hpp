@@ -15,6 +15,7 @@ class Oueurj : Movable {
         Oueurj(int _nbr_teleport = 0, int _state = 0);
         void seTeleporter();
         void sortir();
+        ~Oueurj();
 };
 
 #endif

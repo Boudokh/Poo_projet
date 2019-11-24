@@ -19,6 +19,8 @@ public:
     std::vector<std::vector<Object *>> coord;
     Board(int x, int y, int nb_teupor = 1); //generate random board
     std::string display();
+    ~Board();
+    
 };
 
 #endif

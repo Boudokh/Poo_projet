@@ -10,6 +10,8 @@ class Geurchars : public Fixed {
     public:
         Geurchars();
         void setTeleport(int _nbr); // Quand le joueur prend un geuchar, teleportation infini
+        ~Geurchars();
+
 };
 
 #endif

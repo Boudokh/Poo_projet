@@ -8,6 +8,7 @@ class Movable : public Object {
     protected:
     public:
         Movable();
+        ~Movable();
 };
 
 #endif

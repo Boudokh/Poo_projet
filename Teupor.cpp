@@ -9,6 +9,8 @@ std::string Teupor::getName()
     return typeid(this).name();
 }
 
+Teupor::~Teupor(){}
+
 void Teupor::openTeupor()
 {
     this->symbol = '+';
