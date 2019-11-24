@@ -85,3 +85,15 @@ std::string Board::display()
 
     return plateau;
 }
+
+Board::~Board()
+{
+    for(std::vector<std::vector<Object*>>::iterator i = coord.begin(); i<coord.end();i++)
+    {
+        for(std::vector<Object *>::iterator j = (*i).begin(); j<(*i).end(); j++ )
+        {
+            delete *j;
+        }
+    }
+}
+

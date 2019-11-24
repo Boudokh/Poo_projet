@@ -8,6 +8,4 @@ std::string Reumus:: getName(){
         return typeid(this).name();
 }
 
-Reumus::~Reumus(){
-    
-}
+Reumus::~Reumus(){}

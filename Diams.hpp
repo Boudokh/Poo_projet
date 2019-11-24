@@ -9,6 +9,7 @@ class Diams : public Fixed {
 
     public:
         Diams();
+        ~Diams();
 };
 
 #endif
