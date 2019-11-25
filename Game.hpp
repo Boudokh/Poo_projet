@@ -20,7 +20,7 @@ public:
     ~Game();
     void affiche();
     void to_txt();
-    void to_read();
+    void from_text();
 };
 
 #endif
