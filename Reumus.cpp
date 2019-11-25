@@ -2,6 +2,7 @@
 
 Reumus::Reumus(){
     this->symbol = 'X';
+
 }
 
 std::string Reumus:: getName(){
@@ -9,3 +10,4 @@ std::string Reumus:: getName(){
 }
 
 Reumus::~Reumus(){}
+
