@@ -12,5 +12,6 @@ int main(int argc, char *argv[])
     Game a(6, 12, 10, 6);
     //a.affiche();
     //a.to_txt();
+    a.from_text();
     return 0;
 }

@@ -11,6 +11,7 @@ protected:
 
 private:
 public:
+    virtual ~Object();
     virtual char getSymbol() const;
     virtual std::string  getName();
 };

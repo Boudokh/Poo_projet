@@ -1,7 +1,7 @@
 #include "Game.hpp"
 
 Game::~Game(){
-    for(std::vector<Board*>::iterator i = boards.begin(); i<boards.end();i++)
+    for(std::vector<Board*>::iterator i = levels.begin(); i<levels.end();i++)
     {
         delete *i;
     }
@@ -32,7 +32,6 @@ Game::Game()
 
 Game::Game(int _hau, int _lar, int nb_level, int nb_teupor) : hau(_hau), lar(_lar)
 {
-    std::cout << "constcting" << std::endl;
     for (int i = 0; i < nb_level; i++)
     {
         this->levels.push_back(new Board(hau, lar, nb_teupor));
@@ -60,4 +59,20 @@ void Game::to_txt()
         sortie << (*it)->display() << std::endl;
     }
     sortie.close();
+}
+
+void Game::from_text()
+{
+    std::ifstream readFile;
+    std::string STRING;
+    readFile.open("jeu.txt");
+    if(readFile.is_open())
+    {
+        while(!readFile.eof())
+        {
+            getline(readFile,STRING); // sauvegarder la ligne dans STRING
+            std::cout << STRING << std::endl; // affichage de STRING
+        }
+    }
+    readFile.close();
 }
