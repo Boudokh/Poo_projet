@@ -1,7 +1,7 @@
 CPP=g++ --std=c++11 -Wall
 all: Board
-Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Movable.o Streumons.o
-	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Movable.o Streumons.o -o Board
+Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Movable.o Streumons.o Diams.o
+	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Movable.o Streumons.o Diams.o -o Board
 
 board_gen.o: board_gen.cpp
 	$(CPP) -c board_gen.cpp
@@ -17,6 +17,9 @@ Object.o: Object.cpp Object.hpp
 
 Fixed.o: Fixed.cpp Fixed.hpp Object.o
 	$(CPP) -c Fixed.cpp
+
+Diams.o : Fixed.cpp Fixed.hpp Object.o Diams.cpp Diams.hpp
+	$(CPP) -c Diams.cpp
 
 Reumus.o: Reumus.cpp Reumus.hpp Fixed.o Object.o
 	$(CPP) -c Reumus.cpp

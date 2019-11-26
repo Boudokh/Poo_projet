@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     }
     */
 
+   // vertical
     int d = rand() % 6;
     std::cout << d << std::endl;
     for (int v = (reumus/lar)+2; v < ((reumus/lar)+2)+d; v++)
@@ -40,8 +41,19 @@ int main(int argc, char *argv[])
             Reumus *reumsIntSucc2 = new Reumus();
             test->coord[((reumus/lar)+2)+d][k] = reumsIntSucc2;
         }
+
+        // Horizontale
+        int l = rand ()%6;
+        for(int j = ((reumus/lar)+2); j <= (((reumus%lar)-1)+1)+l ; j++)
+        {
+            Reumus *reumsIntSuccCol = new Reumus();
+            test->coord[((reumus/lar)+2)+j][j] = reumsIntSuccCol;
+        }
     }
 
+
+
+    // double vertical
     for (int v = (reumus_1/lar)+2; v < ((reumus_1/lar)+2)+d; v++)
     {
         Reumus *reumsIntSucc3 = new Reumus();
@@ -65,6 +77,20 @@ int main(int argc, char *argv[])
     test->coord[(streum/lar)+2][(streum%lar)-1] = streumInt;
     
     */
+
+/*
+   // Diamants
+
+   int diams = rand() % ((lar-2)*(hau-2));
+   Diams *diamsInt = new Diams();
+   if(test->coord[(diams/lar)+2][((diams%lar)-1)+1] != NULL)
+   {
+       test->coord[(diams/lar)+2][((diams%lar)-1)+1] = diamsInt;
+   }
+   test->coord[(diams/lar)+2][((diams%lar)-1)+1] = diamsInt;
+
+*/
+
 
     std::cout << "/" << reumus/lar << " %" << reumus%lar << std::endl;
 
