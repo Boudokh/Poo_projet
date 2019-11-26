@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 
     
     int reumus = rand() % (((lar-2))*(hau-2));
+    int reumus_1 = rand() % (((lar-2)*(hau-2)));
+
     
     /*Reumus *reumsInt = new Reumus();
     test->coord[(reumus/lar)+2][(reumus%lar)-1] = reumsInt;
@@ -26,7 +28,7 @@ int main(int argc, char *argv[])
     }
     */
 
-    int d = rand() % (2*6) - 6;
+    int d = rand() % 6;
     std::cout << d << std::endl;
     for (int v = (reumus/lar)+2; v < ((reumus/lar)+2)+d; v++)
     {
@@ -38,9 +40,19 @@ int main(int argc, char *argv[])
             Reumus *reumsIntSucc2 = new Reumus();
             test->coord[((reumus/lar)+2)+d][k] = reumsIntSucc2;
         }
-
     }
-    
+
+    for (int v = (reumus_1/lar)+2; v < ((reumus_1/lar)+2)+d; v++)
+    {
+        Reumus *reumsIntSucc3 = new Reumus();
+        test->coord[v+1][(reumus_1%lar)-1] = reumsIntSucc3;
+
+        for (int k = ((reumus_1%lar)-1)+1 ; k <= 6 - ((reumus_1/lar)+2)+d; k++)
+        {
+            Reumus *reumsIntSucc4 = new Reumus();
+            test->coord[((reumus_1/lar)+2)+d][k] = reumsIntSucc4;
+        }
+    }
     /*
     // Stremons
 
