@@ -1,5 +1,15 @@
 #include "Board.hpp"
 
+Board::Board(std::string txt_board, int _hau, int _lar): hau(_hau), lar(_lar)
+{
+    std::vector<Object *> tmp_line;
+
+    for (int i = 0; i < txt_board.size(); i++)
+    {
+        //std::cout << txt_board.size() << std::endl;
+    }
+}
+
 Board::Board(int _hau, int _lar, int nb_teupor) : hau(_hau), lar(_lar)
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
@@ -84,13 +94,11 @@ std::string Board::display()
 
 Board::~Board()
 {
-    for(std::vector<std::vector<Object*>>::iterator i = coord.begin(); i<coord.end();i++)
+    for (std::vector<std::vector<Object *>>::iterator i = coord.begin(); i < coord.end(); i++)
     {
-        for(std::vector<Object *>::iterator j = (*i).begin(); j<(*i).end(); j++ )
+        for (std::vector<Object *>::iterator j = (*i).begin(); j < (*i).end(); j++)
         {
             delete *j;
         }
     }
 }
-
-
