@@ -6,8 +6,14 @@ Reumus::Reumus(){
 }
 
 std::string Reumus:: getName(){
-        return typeid(this).name();
+    return typeid(this).name();
 }
 
 Reumus::~Reumus(){}
+
+char Reumus::getSymbol() const{
+    return this->symbol;
+}
+
+
 
