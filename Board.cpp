@@ -1,13 +1,45 @@
 #include "Board.hpp"
 
-Board::Board(std::string txt_board, int _hau, int _lar): hau(_hau), lar(_lar)
+Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
 {
     std::vector<Object *> tmp_line;
+    Teupor *tmp_teupor;
+    Reumus *tmp_reumus;
 
-    for (int i = 0; i < txt_board.size(); i++)
+    for (int i = 0; i < hau; i++)
     {
-        //std::cout << txt_board.size() << std::endl;
+        for (int j = 0; j < lar; j++)
+        {
+            switch (txt_board[i * lar + j])
+            {
+            case 'X':
+                //std::cout <<txt_board[i * lar + j];
+                tmp_reumus = new Reumus();
+                tmp_line.push_back(tmp_reumus);
+                break;
+            case '-':
+                //std::cout << txt_board[i * lar + j];
+                tmp_teupor = new Teupor();
+                tmp_line.push_back(tmp_teupor);
+                break;
+            case '+':
+                //std::cout << txt_board[i * lar + j];
+                tmp_teupor = new Teupor();
+                tmp_teupor->openTeupor();
+                tmp_line.push_back(tmp_teupor);
+                break;
+            case ' ':
+                //std::cout << txt_board[i * lar + j];
+                tmp_line.push_back(NULL);
+                break;
+            }
+
+        }
+        //std::cout << std::endl << tmp_line.size() << std::endl;
+        coord.push_back(tmp_line);
+        tmp_line.clear();
     }
+    std::cout <<coord[0][0]->getSymbol() << std::endl;
 }
 
 Board::Board(int _hau, int _lar, int nb_teupor) : hau(_hau), lar(_lar)
@@ -19,7 +51,6 @@ Board::Board(int _hau, int _lar, int nb_teupor) : hau(_hau), lar(_lar)
     {
         for (int j = 0; j < lar; j++)
         {
-
             if (j == 0 || j == lar - 1 || i == 0 || i == hau - 1)
             {
                 Reumus *tmp_reumus = new Reumus();

@@ -7,6 +7,48 @@ Game::~Game()
         delete *i;
     }
 }
+Game::Game(std::string filename)
+{
+    std::ifstream readFile;
+    std::string tmp_str;
+    readFile.open(filename);
+    if (readFile.is_open())
+    {
+        getline(readFile, tmp_str);
+        std::istringstream ss(tmp_str);
+        std::string token;
+
+        getline(ss, token, '*');
+        this->hau = stoi(token);
+        getline(ss, token, '*');
+        this->lar = stoi(token);
+
+        getline(ss, token, '*');
+        int nb_level = stoi(token);
+
+        std::string level_string;
+        std::cout << hau << "-" << lar << "-" << nb_level << "-" << std::endl;
+
+        for (int k = 0; k < nb_level; k++)
+        {
+            std::cout << k << "/" << nb_level << std::endl;
+            if (!readFile.eof())
+            {
+                level_string = "";
+                getline(readFile, tmp_str);
+                while (tmp_str != "#" && tmp_str != "\n" && !readFile.eof())
+                {
+                    level_string += tmp_str;
+                    getline(readFile, tmp_str);
+                }
+
+                //std::cout << level_string << "eeeeeeee" << std::endl; // affichage de STRING
+                levels.push_back(new  Board(level_string, hau, lar));
+            }
+        }
+    }
+    readFile.close();
+}
 
 Game::Game()
 {
@@ -60,45 +102,4 @@ void Game::to_txt()
         sortie << (*it)->display() << '#' << std::endl;
     }
     sortie.close();
-}
-
-Game::Game(std::string filename)
-{
-    std::ifstream readFile;
-    std::string tmp_str;
-    readFile.open(filename);
-    if (readFile.is_open())
-    {
-        getline(readFile, tmp_str);
-        std::istringstream ss(tmp_str);
-        std::string token;
-
-        getline(ss, token, '*');
-        this->hau = stoi(token);
-        getline(ss, token, '*');
-        this->lar = stoi(token);
-        getline(ss, token, '*');
-        int nb_level = stoi(token);
-
-        std::string level_string;
-
-        for (int k = 0; k < nb_level; k++)
-        {
-            std::cout << k << "/" << nb_level << std::endl;
-            if (!readFile.eof())
-            {
-                level_string = "";
-                getline(readFile, tmp_str);
-                while (tmp_str != "#" && tmp_str != "\n" && !readFile.eof())
-                {
-                    level_string += tmp_str;
-                    getline(readFile, tmp_str);
-                }
-
-                std::cout << level_string << "eeeeeeee" << std::endl; // affichage de STRING
-                Board a(level_string, hau, lar);
-            }
-        }
-    }
-    readFile.close();
 }

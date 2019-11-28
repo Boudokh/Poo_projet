@@ -3,13 +3,17 @@
 
 #include "Reumus.hpp"
 #include "Object.hpp"
+#include "Diams.hpp"
+#include "Geurchars.hpp"
+#include "Teupor.hpp"
+
 #include <vector>
 #include <algorithm>
 #include <iostream>
 #include <random>
 #include <time.h>
 #include <string>
-#include "Teupor.hpp"
+
 
 class Board
 {
