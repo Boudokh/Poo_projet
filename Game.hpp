@@ -3,7 +3,7 @@
 
 #include "Board.hpp"
 #include <fstream>
-#include <string>
+#include <sstream>
 
 class Game
 {
@@ -20,7 +20,7 @@ public:
     ~Game();
     void affiche();
     void to_txt();
-    void from_text();
+    Game(std::string filename);
 };
 
 #endif

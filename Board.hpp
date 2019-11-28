@@ -4,14 +4,18 @@
 #include "Reumus.hpp"
 #include "Streumons.hpp"
 #include "Object.hpp"
+#include "Diams.hpp"
+#include "Geurchars.hpp"
+#include "Teupor.hpp"
+
 #include <vector>
 #include <algorithm>
 #include <iostream>
 #include <random>
 #include <time.h>
-#include "Teupor.hpp"
-#include "Diams.hpp"
-#include "Geurchars.hpp"
+
+#include <string>
+
 
 class Board
 {
@@ -22,6 +26,9 @@ private:
 public:
     std::vector<std::vector<Object *>> coord;
     Board(int _hau, int _lar, int nb_teupor = 1, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1); //generate random board
+
+    Board(std::string txt_board, int _hau, int _lar);
+
     std::string display();
 
     void reumus_vert(int size_max); // génération aléatoire de murs - vertical

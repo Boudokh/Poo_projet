@@ -1,6 +1,49 @@
 #include "Board.hpp"
 
+Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
+{
+    std::vector<Object *> tmp_line;
+    Teupor *tmp_teupor;
+    Reumus *tmp_reumus;
+
+    for (int i = 0; i < hau; i++)
+    {
+        for (int j = 0; j < lar; j++)
+        {
+            switch (txt_board[i * lar + j])
+            {
+            case 'X':
+                //std::cout <<txt_board[i * lar + j];
+                tmp_reumus = new Reumus();
+                tmp_line.push_back(tmp_reumus);
+                break;
+            case '-':
+                //std::cout << txt_board[i * lar + j];
+                tmp_teupor = new Teupor();
+                tmp_line.push_back(tmp_teupor);
+                break;
+            case '+':
+                //std::cout << txt_board[i * lar + j];
+                tmp_teupor = new Teupor();
+                tmp_teupor->openTeupor();
+                tmp_line.push_back(tmp_teupor);
+                break;
+            case ' ':
+                //std::cout << txt_board[i * lar + j];
+                tmp_line.push_back(NULL);
+                break;
+            }
+
+        }
+        //std::cout << std::endl << tmp_line.size() << std::endl;
+        coord.push_back(tmp_line);
+        tmp_line.clear();
+    }
+    std::cout <<coord[0][0]->getSymbol() << std::endl;
+}
+
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
+
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
     nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
@@ -12,7 +55,6 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
     {
         for (int j = 0; j < lar; j++)
         {
-
             if (j == 0 || j == lar - 1 || i == 0 || i == hau - 1)
             {
                 Reumus *tmp_reumus = new Reumus();
@@ -209,3 +251,4 @@ std::vector<int> Board::getRandomPoint()
     rd_point.push_back(point % (lar - 2) + 1);
     return rd_point;
 }
+
