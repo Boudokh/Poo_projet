@@ -5,6 +5,9 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
     std::vector<Object *> tmp_line;
     Teupor *tmp_teupor;
     Reumus *tmp_reumus;
+    Streumons *tmp_streumons;
+    Diams *tmp_diams;
+    Geurchars *tmp_geurchar;
 
     for (int i = 0; i < hau; i++)
     {
@@ -17,29 +20,46 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_reumus = new Reumus();
                 tmp_line.push_back(tmp_reumus);
                 break;
+
             case '-':
                 //std::cout << txt_board[i * lar + j];
                 tmp_teupor = new Teupor();
                 tmp_line.push_back(tmp_teupor);
                 break;
+
             case '+':
                 //std::cout << txt_board[i * lar + j];
                 tmp_teupor = new Teupor();
                 tmp_teupor->openTeupor();
                 tmp_line.push_back(tmp_teupor);
                 break;
+
+            case 's':
+                tmp_streumons = new Streumons();
+                tmp_line.push_back(tmp_streumons);
+                break;
+
+            case '*':
+                tmp_diams = new Diams();
+                tmp_line.push_back(tmp_diams);
+                break;
+            
+            case '$':
+                tmp_geurchar = new Geurchars();
+                tmp_line.push_back(tmp_geurchar);
+                break;
+
             case ' ':
                 //std::cout << txt_board[i * lar + j];
                 tmp_line.push_back(NULL);
                 break;
             }
-
         }
         //std::cout << std::endl << tmp_line.size() << std::endl;
         coord.push_back(tmp_line);
         tmp_line.clear();
     }
-    std::cout <<coord[0][0]->getSymbol() << std::endl;
+    std::cout << coord[0][0]->getSymbol() << std::endl;
 }
 
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
@@ -251,4 +271,3 @@ std::vector<int> Board::getRandomPoint()
     rd_point.push_back(point % (lar - 2) + 1);
     return rd_point;
 }
-
