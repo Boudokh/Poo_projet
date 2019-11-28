@@ -10,6 +10,7 @@ private:
 public:
     Reumus();
     virtual std::string  getName(); //à améliorer
+    virtual char getSymbol() const;
     ~Reumus();
 
 };
