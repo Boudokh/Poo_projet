@@ -10,6 +10,9 @@ class Diams : public Fixed {
     public:
         Diams();
         ~Diams();
+        char getSymbol() const;
+        virtual std::string  getName(); //à améliorer
+
 };
 
 #endif

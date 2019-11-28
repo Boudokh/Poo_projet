@@ -42,9 +42,13 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
     std::cout <<coord[0][0]->getSymbol() << std::endl;
 }
 
-Board::Board(int _hau, int _lar, int nb_teupor) : hau(_hau), lar(_lar)
+Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
+
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
+    nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
+    nb_streumons = std::min((lar - 2) * (hau - 2), nb_streumons);
+    nb_geurchars = std::min((lar - 2) * (hau - 2), nb_geurchars);
 
     std::vector<Object *> tmp_line;
     for (int i = 0; i < hau; i++)
@@ -97,6 +101,14 @@ Board::Board(int _hau, int _lar, int nb_teupor) : hau(_hau), lar(_lar)
             nb_teupor--;
         }
     }
+    int size_max = 6;
+    this->reumus_vert(size_max);
+    this->reumus_diag(size_max);
+    this->reumus_hor(size_max);
+
+    this->addDiams(nb_diams);
+    this->addGeurchars(nb_geurchars);
+    this->addStreumons(nb_streumons);
 
     //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
 }
@@ -133,3 +145,110 @@ Board::~Board()
         }
     }
 }
+
+void Board::reumus_vert(int size_max)
+{
+    int size = (rand() % size_max) + 2;
+    std::vector<int> rd_point = getRandomPoint();
+
+    for (int line = rd_point[0]; line < std::min(rd_point[0] + size, hau - 1); line++)
+    {
+        Reumus *tmp_str = new Reumus();
+        coord[line][rd_point[1]] = tmp_str;
+    }
+}
+
+void Board::reumus_hor(int size_max)
+{
+    int size = (rand() % size_max) + 2;
+    std::vector<int> rd_point = getRandomPoint();
+
+    for (int row = rd_point[1]; row < std::min(rd_point[1] + size, lar - 1); row++)
+    {
+        Reumus *tmp_str = new Reumus();
+        coord[rd_point[0]][row] = tmp_str;
+    }
+}
+
+void Board::reumus_diag(int size_max)
+{
+    int size = (rand() % size_max) + 2;
+    std::vector<int> rd_point = getRandomPoint();
+
+    for (int i = 0; i < size; i++)
+    {
+        if (rd_point[0] + i < hau - 1 && rd_point[1] + i < lar - 1)
+        {
+            Reumus *tmp_str = new Reumus();
+            coord[rd_point[0] + i][rd_point[1] + i] = tmp_str;
+        }
+    }
+}
+
+void Board::addDiams(int nb_diams)
+{
+
+    // Génération aléatoire diamants.
+
+    while (nb_diams > 0)
+    {
+        Diams *tmp_diams;
+        std::vector<int> rd_point = getRandomPoint();
+
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
+        {
+
+            tmp_diams = new Diams();
+            coord[rd_point[0]][rd_point[1]] = tmp_diams;
+            nb_diams--;
+        }
+    }
+}
+
+void Board::addGeurchars(int nb_geurchars)
+{
+    // Génération aléatoire geurchars.
+
+    while (nb_geurchars > 0)
+    {
+        Geurchars *tmp_geurchar;
+        std::vector<int> rd_point = getRandomPoint();
+
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
+        {
+            tmp_geurchar = new Geurchars();
+            coord[rd_point[0]][rd_point[1]] = tmp_geurchar;
+            nb_geurchars--;
+        }
+    }
+}
+
+void Board::addStreumons(int nb_streumons)
+{
+
+    // Génération aléatoire streumons.
+
+    Streumons *tmp_streums;
+    while (nb_streumons > 0)
+    {
+        std::vector<int> rd_point = getRandomPoint();
+
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
+        {
+
+            tmp_streums = new Streumons();
+            coord[rd_point[0]][rd_point[1]] = tmp_streums;
+            nb_streumons--;
+        }
+    }
+}
+
+std::vector<int> Board::getRandomPoint()
+{
+    int point = rand() % ((lar - 2) * (hau - 2));
+    std::vector<int> rd_point;
+    rd_point.push_back(point / (lar - 2) + 1);
+    rd_point.push_back(point % (lar - 2) + 1);
+    return rd_point;
+}
+
