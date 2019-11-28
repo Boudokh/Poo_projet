@@ -21,7 +21,7 @@ private:
 
 public:
     std::vector<std::vector<Object *>> coord;
-    Board(int x, int y, int nb_teupor = 1, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1); //generate random board
+    Board(int _hau, int _lar, int nb_teupor = 1, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1); //generate random board
     std::string display();
 
     void reumus_vert(int size_max); // génération aléatoire de murs - vertical
