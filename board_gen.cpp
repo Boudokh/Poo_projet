@@ -6,31 +6,16 @@ int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
-    int lar = 15;
-    int hau = 10;
+    int lar = 40;
+    int hau = 15;
     int nb_level = 1;
-    int teupor = 3;
+    int teupor = 10;
     int diam = 5;
     int streum = 6;
     int geurchar = 3;
     Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
     // Génération des murs intérieurs.
-
-  
-    int reumus = rand() % (((lar - 2)) * (hau - 2));
-    int size_max = 4;
-    int size = (rand() % size_max) + 2;
-    Reumus *tmp_str = new Reumus();
-    test->reumus_vert(lar, hau, size_max, reumus);
-    test->reumus_diag(lar, hau, size_max, reumus);
-    test->reumus_hor(lar, hau, size_max, reumus);
-
-    // Génération des diamants, geurchars et streumons à l'intérieur de notre plateau.
-
-    test->diams_interieur(lar, hau, diam);
-    test->geurchars_interieur(lar, hau, geurchar);
-    test->streums_interieur(lar, hau, streum);
 
     // Affichage du plateau de jeu
 
@@ -39,6 +24,5 @@ int main(int argc, char *argv[])
     Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
     //a.affiche();
     //a.to_txt();
-    a.from_text();
     return 0;
 }

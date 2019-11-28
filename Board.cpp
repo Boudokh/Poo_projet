@@ -3,9 +3,9 @@
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
-    nb_diams = std::min((lar-2)*(hau-2), nb_diams); 
-    nb_streumons = std::min((lar-2)*(hau-2), nb_streumons);
-    nb_geurchars = std::min((lar-2)*(hau-2), nb_geurchars);
+    nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
+    nb_streumons = std::min((lar - 2) * (hau - 2), nb_streumons);
+    nb_geurchars = std::min((lar - 2) * (hau - 2), nb_geurchars);
 
     std::vector<Object *> tmp_line;
     for (int i = 0; i < hau; i++)
@@ -27,7 +27,6 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
         coord.push_back(tmp_line);
         tmp_line.clear();
     }
-
 
     while (nb_teupor > 0)
     {
@@ -60,9 +59,16 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
             nb_teupor--;
         }
     }
+    int size_max = 6;
+    this->reumus_vert(size_max);
+    this->reumus_diag(size_max);
+    this->reumus_hor(size_max);
+
+    this->addDiams(nb_diams);
+    this->addGeurchars(nb_geurchars);
+    this->addStreumons(nb_streumons);
 
     //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
-    
 }
 
 std::string Board::display()
@@ -89,121 +95,117 @@ std::string Board::display()
 
 Board::~Board()
 {
-    for(std::vector<std::vector<Object*>>::iterator i = coord.begin(); i<coord.end();i++)
+    for (std::vector<std::vector<Object *>>::iterator i = coord.begin(); i < coord.end(); i++)
     {
-        for(std::vector<Object *>::iterator j = (*i).begin(); j<(*i).end(); j++ )
+        for (std::vector<Object *>::iterator j = (*i).begin(); j < (*i).end(); j++)
         {
             delete *j;
         }
     }
 }
 
-void Board::reumus_vert(int _lar, int _hau, int size_max, int reumus)
+void Board::reumus_vert(int size_max)
 {
     int size = (rand() % size_max) + 2;
-    int x_start = reumus/ (lar -2) +1;
-    int y_start = reumus % (lar - 2) +1;
-    for (int line = x_start; line < std::min(x_start + size, hau - 1); line++)
+    std::vector<int> rd_point = getRandomPoint();
+
+    for (int line = rd_point[0]; line < std::min(rd_point[0] + size, hau - 1); line++)
     {
         Reumus *tmp_str = new Reumus();
-        coord[line][y_start] = tmp_str;
+        coord[line][rd_point[1]] = tmp_str;
     }
 }
 
-void Board::reumus_hor(int _lar, int _hau, int size_max, int reumus)
+void Board::reumus_hor(int size_max)
 {
     int size = (rand() % size_max) + 2;
-    int x_start = reumus / lar + 1;
-    int y_start = reumus % lar + 1;
+    std::vector<int> rd_point = getRandomPoint();
 
-    for (int row = y_start; row < std::min(y_start + size, lar - 1); row++)
+    for (int row = rd_point[1]; row < std::min(rd_point[1] + size, lar - 1); row++)
     {
         Reumus *tmp_str = new Reumus();
-        coord[x_start][row] = tmp_str;
+        coord[rd_point[0]][row] = tmp_str;
     }
 }
 
-void Board::reumus_diag(int _lar, int _hau, int size_max, int reumus)
+void Board::reumus_diag(int size_max)
 {
     int size = (rand() % size_max) + 2;
-    int x_start = reumus / lar + 1;
-    int y_start = reumus % lar + 1;
+    std::vector<int> rd_point = getRandomPoint();
 
-     for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
-        if (x_start + i < hau - 1 && y_start + i< lar - 1)
+        if (rd_point[0] + i < hau - 1 && rd_point[1] + i < lar - 1)
         {
             Reumus *tmp_str = new Reumus();
-            coord[x_start + i][y_start + i] = tmp_str;
+            coord[rd_point[0] + i][rd_point[1] + i] = tmp_str;
         }
     }
-
 }
 
-void Board::diams_interieur(int _lar, int _hau, int nb_diams)
+void Board::addDiams(int nb_diams)
 {
 
     // Génération aléatoire diamants.
 
-    while(nb_diams>0)
+    while (nb_diams > 0)
     {
         Diams *tmp_diams;
-        int gen_diams = rand() % ((lar-2)*(hau-2));
-        int coord_i = gen_diams/(lar-2)+1;
-        int coord_j = gen_diams%(lar-2)+1;
+        std::vector<int> rd_point = getRandomPoint();
 
-        if (coord[coord_i][coord_j] == NULL)
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
         {
-            
+
             tmp_diams = new Diams();
-            coord[coord_i][coord_j] = tmp_diams;
+            coord[rd_point[0]][rd_point[1]] = tmp_diams;
             nb_diams--;
         }
     }
 }
 
-void Board::geurchars_interieur(int _lar, int _hau, int nb_geurchars)
+void Board::addGeurchars(int nb_geurchars)
 {
     // Génération aléatoire geurchars.
 
-    while(nb_geurchars>0)
+    while (nb_geurchars > 0)
     {
-        Geurchars *tmp_geurchar ;
-        int gen_geurchar = rand() % ((lar-2)*(hau-2));
-        int x_abs = gen_geurchar/(lar-2)+1;
-        int y_ord = gen_geurchar%(lar-2)+1;
+        Geurchars *tmp_geurchar;
+        std::vector<int> rd_point = getRandomPoint();
 
-        if(coord[x_abs][y_ord] == NULL)
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
         {
             tmp_geurchar = new Geurchars();
-            coord[x_abs][y_ord] = tmp_geurchar;
+            coord[rd_point[0]][rd_point[1]] = tmp_geurchar;
             nb_geurchars--;
         }
     }
-
 }
 
-void Board::streums_interieur(int _lar, int _hau, int nb_streumons)
+void Board::addStreumons(int nb_streumons)
 {
-      
 
     // Génération aléatoire streumons.
 
     Streumons *tmp_streums;
-    while(nb_streumons>0)
+    while (nb_streumons > 0)
     {
-        int gen_streums = rand() % ((lar-2)*(hau-2));
-        int abs_i = gen_streums/(lar-2)+1;
-        int abs_j = gen_streums%(lar-2)+1;
+        std::vector<int> rd_point = getRandomPoint();
 
-        if (coord[abs_i][abs_j] == NULL)
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
         {
-            
+
             tmp_streums = new Streumons();
-            coord[abs_i][abs_j] = tmp_streums;
+            coord[rd_point[0]][rd_point[1]] = tmp_streums;
             nb_streumons--;
         }
     }
 }
 
-
+std::vector<int> Board::getRandomPoint()
+{
+    int point = rand() % ((lar - 2) * (hau - 2));
+    std::vector<int> rd_point;
+    rd_point.push_back(point / (lar - 2) + 1);
+    rd_point.push_back(point % (lar - 2) + 1);
+    return rd_point;
+}
