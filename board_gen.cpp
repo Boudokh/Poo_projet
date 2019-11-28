@@ -11,10 +11,10 @@ int main(int argc, char *argv[])
     std::cout << test->display() << std::endl;
 
     Game a(4,5, 3, 6);
-    a.affiche();
-    a.to_txt();
+    //a.affiche();
+    //a.to_txt();
     std::string filename = "jeu.txt";
     Game b = Game(filename);
-    b.affiche();
-    b.to_txt();
+    //b.affiche();
+    //b.to_txt();
 }
