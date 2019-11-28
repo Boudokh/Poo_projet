@@ -22,9 +22,17 @@ int main(int argc, char *argv[])
     int size_max = 4;
     int size = (rand() % size_max) + 2;
     Reumus *tmp_str = new Reumus();
-    test->reumus_vert(lar, hau, size_max, reumus, tmp_str, test);
-    test->reumus_diag(lar, hau, size_max, reumus, tmp_str, test);
-    test->reumus_hor(lar, hau, size_max, reumus, tmp_str, test);
+    test->reumus_vert(lar, hau, size_max, reumus);
+    test->reumus_diag(lar, hau, size_max, reumus);
+    test->reumus_hor(lar, hau, size_max, reumus);
+
+    // Génération des diamants, geurchars et streumons à l'intérieur de notre plateau.
+
+    test->diams_interieur(lar, hau, diam);
+    test->geurchars_interieur(lar, hau, geurchar);
+    test->streums_interieur(lar, hau, streum);
+
+    // Affichage du plateau de jeu
 
     std::cout << test->display() << std::endl;
 

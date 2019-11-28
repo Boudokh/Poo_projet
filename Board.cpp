@@ -62,63 +62,7 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
     }
 
     //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
-
-    // Génération aléatoire diamants.
-
-    while(nb_diams>0)
-    {
-        int gen_diams = rand() % ((lar-2)*(hau-2));
-        int coord_i = gen_diams/(lar-2)+1;
-        int coord_j = gen_diams%(lar-2)+1;
-
-        if (coord[coord_i][coord_j] == NULL)
-        {
-            
-            Diams *tmp_diams = new Diams();
-            coord[coord_i][coord_j] = tmp_diams;
-            nb_diams--;
-        }
-    }
-
-    // Génération aléatoire streumons.
-
-    while(nb_streumons>0)
-    {
-        int gen_streums = rand() % ((lar-2)*(hau-2));
-        int abs_i = gen_streums/(lar-2)+1;
-        int abs_j = gen_streums%(lar-2)+1;
-
-        if (coord[abs_i][abs_j] == NULL)
-        {
-            
-            Streumons *tmp_streums = new Streumons();
-            coord[abs_i][abs_j] = tmp_streums;
-            nb_streumons--;
-        }
-    }
-
-    // Génération aléatoire geurchars.
-
-/*
-    while(nb_geurchars>0)
-    {
-        int gen_geurchar = rand() % ((lar-2)*(hau-2));
-        int x_abs = gen_geurchar/(lar-2)+1;
-        int y_ord = gen_geurchar%(lar-2)+1;
-
-        if(coord[x_abs][y_ord] == NULL)
-        {
-            Geurchars *tmp_geurchar = new Geurchars();
-            coord[x_abs][y_ord] = tmp_geurchar;
-            nb_geurchars--;
-        }
-    }
-*/
-
-
-
     
-
 }
 
 std::string Board::display()
@@ -154,19 +98,19 @@ Board::~Board()
     }
 }
 
-void Board::reumus_vert(int _lar, int _hau, int size_max, int reumus, Reumus *tmp_str, Board *test)
+void Board::reumus_vert(int _lar, int _hau, int size_max, int reumus)
 {
     int size = (rand() % size_max) + 2;
     int x_start = reumus/ (lar -2) +1;
     int y_start = reumus % (lar - 2) +1;
     for (int line = x_start; line < std::min(x_start + size, hau - 1); line++)
     {
-        tmp_str = new Reumus();
-        test->coord[line][y_start] = tmp_str;
+        Reumus *tmp_str = new Reumus();
+        coord[line][y_start] = tmp_str;
     }
 }
 
-void Board::reumus_hor(int _lar, int _hau, int size_max, int reumus, Reumus *tmp_str, Board *test)
+void Board::reumus_hor(int _lar, int _hau, int size_max, int reumus)
 {
     int size = (rand() % size_max) + 2;
     int x_start = reumus / lar + 1;
@@ -174,12 +118,12 @@ void Board::reumus_hor(int _lar, int _hau, int size_max, int reumus, Reumus *tmp
 
     for (int row = y_start; row < std::min(y_start + size, lar - 1); row++)
     {
-        tmp_str = new Reumus();
-        test->coord[x_start][row] = tmp_str;
+        Reumus *tmp_str = new Reumus();
+        coord[x_start][row] = tmp_str;
     }
 }
 
-void Board::reumus_diag(int _lar, int _hau, int size_max, int reumus, Reumus *tmp_str, Board *test)
+void Board::reumus_diag(int _lar, int _hau, int size_max, int reumus)
 {
     int size = (rand() % size_max) + 2;
     int x_start = reumus / lar + 1;
@@ -189,11 +133,77 @@ void Board::reumus_diag(int _lar, int _hau, int size_max, int reumus, Reumus *tm
     {
         if (x_start + i < hau - 1 && y_start + i< lar - 1)
         {
-            tmp_str = new Reumus();
-            test->coord[x_start + i][y_start + i] = tmp_str;
+            Reumus *tmp_str = new Reumus();
+            coord[x_start + i][y_start + i] = tmp_str;
         }
     }
 
+}
+
+void Board::diams_interieur(int _lar, int _hau, int nb_diams)
+{
+
+    // Génération aléatoire diamants.
+
+    while(nb_diams>0)
+    {
+        Diams *tmp_diams;
+        int gen_diams = rand() % ((lar-2)*(hau-2));
+        int coord_i = gen_diams/(lar-2)+1;
+        int coord_j = gen_diams%(lar-2)+1;
+
+        if (coord[coord_i][coord_j] == NULL)
+        {
+            
+            tmp_diams = new Diams();
+            coord[coord_i][coord_j] = tmp_diams;
+            nb_diams--;
+        }
+    }
+}
+
+void Board::geurchars_interieur(int _lar, int _hau, int nb_geurchars)
+{
+    // Génération aléatoire geurchars.
+
+    while(nb_geurchars>0)
+    {
+        Geurchars *tmp_geurchar ;
+        int gen_geurchar = rand() % ((lar-2)*(hau-2));
+        int x_abs = gen_geurchar/(lar-2)+1;
+        int y_ord = gen_geurchar%(lar-2)+1;
+
+        if(coord[x_abs][y_ord] == NULL)
+        {
+            tmp_geurchar = new Geurchars();
+            coord[x_abs][y_ord] = tmp_geurchar;
+            nb_geurchars--;
+        }
+    }
+
+}
+
+void Board::streums_interieur(int _lar, int _hau, int nb_streumons)
+{
+      
+
+    // Génération aléatoire streumons.
+
+    Streumons *tmp_streums;
+    while(nb_streumons>0)
+    {
+        int gen_streums = rand() % ((lar-2)*(hau-2));
+        int abs_i = gen_streums/(lar-2)+1;
+        int abs_j = gen_streums%(lar-2)+1;
+
+        if (coord[abs_i][abs_j] == NULL)
+        {
+            
+            tmp_streums = new Streumons();
+            coord[abs_i][abs_j] = tmp_streums;
+            nb_streumons--;
+        }
+    }
 }
 
 

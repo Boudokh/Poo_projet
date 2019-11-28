@@ -11,6 +11,7 @@ class Geurchars : public Fixed {
         Geurchars();
         //void setTeleport(int _nbr); // Quand le joueur prend un geuchar, teleportation infini
         ~Geurchars();
+        char getSymbol() const;
 
 };
 
