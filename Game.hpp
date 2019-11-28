@@ -15,7 +15,7 @@ private:
 
 public:
     Game();
-    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0);
+    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);
     void generateBoardList();
     ~Game();
     void affiche();

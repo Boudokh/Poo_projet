@@ -9,7 +9,7 @@ Game::~Game(){
 
 Game::Game()
 {
-    int nb_level, nb_teupor;
+    int nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars;
 
     std::cout << "nb de niveau?" << std::endl;
     std::cin >> nb_level;
@@ -19,22 +19,28 @@ Game::Game()
     std::cin >> this->lar;
     std::cout << "nombre de teupors?";
     std::cin >> nb_teupor;
+    std::cout << "nb de diams ?" << std::endl;
+    std::cin >> nb_diams;
+    std:: cout << "nb de streumons ?" << std::endl;
+    std::cin >> nb_streumons;
+    std::cout << "nb de geurchars ?" << std::endl;
+    std::cin >> nb_geurchars;
 
     Board *new_level = NULL;
 
     for (int i = 0; i < nb_level; i++)
     {
-        new_level = new Board(this->hau, this->lar, nb_teupor);
+        new_level = new Board(this->hau, this->lar, nb_teupor, nb_diams, nb_streumons);
         std::cout << new_level->display() << std::endl;
         this->levels.push_back(new_level);
     }
 }
 
-Game::Game(int _hau, int _lar, int nb_level, int nb_teupor) : hau(_hau), lar(_lar)
+Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     for (int i = 0; i < nb_level; i++)
     {
-        this->levels.push_back(new Board(hau, lar, nb_teupor));
+        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons));
     }
 }
 

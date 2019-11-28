@@ -9,7 +9,7 @@ class Geurchars : public Fixed {
         char symbol;
     public:
         Geurchars();
-        void setTeleport(int _nbr); // Quand le joueur prend un geuchar, teleportation infini
+        //void setTeleport(int _nbr); // Quand le joueur prend un geuchar, teleportation infini
         ~Geurchars();
 
 };

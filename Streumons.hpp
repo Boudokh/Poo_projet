@@ -10,6 +10,7 @@ class Streumons : public Movable {
     public:
         Streumons();
         ~Streumons();
+        char getSymbol() const;
 
 
 };

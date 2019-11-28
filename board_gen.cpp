@@ -6,100 +6,31 @@ int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
+    int lar = 15;
+    int hau = 10;
+    int nb_level = 1;
+    int teupor = 3;
+    int diam = 5;
+    int streum = 6;
+    int geurchar = 3;
+    Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
-    Board *test = new Board(30, 30, 200);
+    // Génération des murs intérieurs.
 
-    int lar = 30;
-    int hau = 30;
-
-    
-    int reumus = rand() % (((lar-2))*(hau-2));
-    int reumus_1 = rand() % (((lar-2)*(hau-2)));
-
-    
-    /*Reumus *reumsInt = new Reumus();
-    test->coord[(reumus/lar)+2][(reumus%lar)-1] = reumsInt;
-
-    
-    for (int k = (reumus/lar)+2; k < ((reumus/lar)+2)+6; k++)
-    {
-        Reumus *reumsIntSucc = new Reumus();
-        test->coord[k+1][(reumus%lar)-1] = reumsIntSucc;
-    }
-    */
-
-   // vertical
-    int d = rand() % 6;
-    std::cout << d << std::endl;
-    for (int v = (reumus/lar)+2; v < ((reumus/lar)+2)+d; v++)
-    {
-        Reumus *reumsIntSucc1 = new Reumus();
-        test->coord[v+1][(reumus%lar)-1] = reumsIntSucc1;
-
-        for (int k = ((reumus%lar)-1)+1 ; k <= 6 - ((reumus/lar)+2)+d; k++)
-        {
-            Reumus *reumsIntSucc2 = new Reumus();
-            test->coord[((reumus/lar)+2)+d][k] = reumsIntSucc2;
-        }
-
-        // Horizontale
-        int l = rand ()%6;
-        for(int j = ((reumus/lar)+2); j <= (((reumus%lar)-1)+1)+l ; j++)
-        {
-            Reumus *reumsIntSuccCol = new Reumus();
-            test->coord[((reumus/lar)+2)+j][j] = reumsIntSuccCol;
-        }
-    }
-
-
-
-    // double vertical
-    for (int v = (reumus_1/lar)+2; v < ((reumus_1/lar)+2)+d; v++)
-    {
-        Reumus *reumsIntSucc3 = new Reumus();
-        test->coord[v+1][(reumus_1%lar)-1] = reumsIntSucc3;
-
-        for (int k = ((reumus_1%lar)-1)+1 ; k <= 6 - ((reumus_1/lar)+2)+d; k++)
-        {
-            Reumus *reumsIntSucc4 = new Reumus();
-            test->coord[((reumus_1/lar)+2)+d][k] = reumsIntSucc4;
-        }
-    }
-    /*
-    // Stremons
-
-    int streum = rand() % ((lar-2)*(hau-2));
-    Streumons *streumInt = new Streumons();
-    if(test->coord[(streum/lar)+2][(streum%lar)-1]!=NULL)
-    {
-        test->coord[(streum/lar)+2][((streum%lar)-1)+1] = streumInt;
-    }
-    test->coord[(streum/lar)+2][(streum%lar)-1] = streumInt;
-    
-    */
-
-/*
-   // Diamants
-
-   int diams = rand() % ((lar-2)*(hau-2));
-   Diams *diamsInt = new Diams();
-   if(test->coord[(diams/lar)+2][((diams%lar)-1)+1] != NULL)
-   {
-       test->coord[(diams/lar)+2][((diams%lar)-1)+1] = diamsInt;
-   }
-   test->coord[(diams/lar)+2][((diams%lar)-1)+1] = diamsInt;
-
-*/
-
-
-    std::cout << "/" << reumus/lar << " %" << reumus%lar << std::endl;
+  
+    int reumus = rand() % (((lar - 2)) * (hau - 2));
+    int size_max = 4;
+    int size = (rand() % size_max) + 2;
+    Reumus *tmp_str = new Reumus();
+    test->reumus_vert(lar, hau, size_max, reumus, tmp_str, test);
+    test->reumus_diag(lar, hau, size_max, reumus, tmp_str, test);
+    test->reumus_hor(lar, hau, size_max, reumus, tmp_str, test);
 
     std::cout << test->display() << std::endl;
 
-    Game a(30, 30, 10, 6);
+    Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
     //a.affiche();
     //a.to_txt();
     a.from_text();
     return 0;
-
- }
+}
