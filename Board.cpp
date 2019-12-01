@@ -16,19 +16,16 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
             switch (txt_board[i * lar + j])
             {
             case 'X':
-                //std::cout <<txt_board[i * lar + j];
                 tmp_reumus = new Reumus();
                 tmp_line.push_back(tmp_reumus);
                 break;
 
             case '-':
-                //std::cout << txt_board[i * lar + j];
                 tmp_teupor = new Teupor();
                 tmp_line.push_back(tmp_teupor);
                 break;
 
             case '+':
-                //std::cout << txt_board[i * lar + j];
                 tmp_teupor = new Teupor();
                 tmp_teupor->openTeupor();
                 tmp_line.push_back(tmp_teupor);
@@ -39,27 +36,24 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_line.push_back(tmp_streumons);
                 break;
 
-            case '*':
+            case '$':
                 tmp_diams = new Diams();
                 tmp_line.push_back(tmp_diams);
                 break;
-            
-            case '$':
+
+            case '*':
                 tmp_geurchar = new Geurchars();
                 tmp_line.push_back(tmp_geurchar);
                 break;
 
             case ' ':
-                //std::cout << txt_board[i * lar + j];
                 tmp_line.push_back(NULL);
                 break;
             }
         }
-        //std::cout << std::endl << tmp_line.size() << std::endl;
         coord.push_back(tmp_line);
         tmp_line.clear();
     }
-    std::cout << coord[0][0]->getSymbol() << std::endl;
 }
 
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
