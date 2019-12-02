@@ -271,3 +271,25 @@ std::vector<int> Board::getRandomPoint()
     rd_point.push_back(point % (lar - 2) + 1);
     return rd_point;
 }
+
+bool Board::isValid(int _row, int _col)
+{
+    return (_row >= 0) && (_row < hau) && (_col >= 0) && (_col < lar);
+}
+
+bool Board::isDest(int _row, int _col , int _x, int _y)
+{
+    /*
+        _x et _y correspondent aux coordonnées du joueur 
+    */
+   
+    if(_row == _x && _col == _y) 
+        return true;
+    else
+        return false;
+}
+
+double Board::heuristicH(int _row, int _col, int _x, int _y)
+{
+    return ((double)sqrt ((_row - _x)*(_row - _x) + (_col - _y)*(_col - _y)));
+}
