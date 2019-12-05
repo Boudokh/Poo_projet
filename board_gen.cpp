@@ -7,8 +7,8 @@ int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
-    int lar = 40;
-    int hau = 15;
+    int lar = 20;
+    int hau = 20;
     int nb_level = 2;
     int teupor = 10;
     int diam = 5;
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
 
     a.affiche();
     a.to_txt();
+    a.play();
     std::string filename = "jeu.txt";
     Game b(filename);
     //b.to_txt();

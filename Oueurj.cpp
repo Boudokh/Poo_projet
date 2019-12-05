@@ -11,13 +11,16 @@ Oueurj::Oueurj() : state(0), nb_diams(0), nb_teleport(0)
     this->symbol = 'J';
 }
 
-std::vector<int> Oueurj::getPos() const{
+std::vector<int> Oueurj::getPos() const
+{
     return this->pos;
 }
 
-void Oueurj::setPos(const std::vector<int> new_pos){
+void Oueurj::setPos(const std::vector<int> new_pos)
+{
     this->pos = new_pos;
 }
 
+int Oueurj::getCurrentlevel() const { return this->pos[0]; }
 
 Oueurj::~Oueurj() {}

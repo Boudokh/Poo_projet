@@ -4,7 +4,10 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/elems/**"
+                "${workspaceFolder}/elems/**",
+                "/mnt/e/libmesh/with_vtk/include/**",
+                "/usr/include/**",
+                "/home/shwang/deal.ii-candi/petsc-3.7.6/include/**"
             ],
             "defines": [
                 "_DEBUG",

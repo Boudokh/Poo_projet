@@ -109,6 +109,11 @@ void Game::affiche()
     }
 }
 
+void Game::dispCurrLevel() const
+{
+    std::cout << this->levels[plyr->getCurrentlevel()]->display() << std::endl;
+}
+
 void Game::to_txt()
 {
     std::ofstream sortie;
@@ -120,4 +125,88 @@ void Game::to_txt()
         sortie << (*it)->display() << '#' << std::endl;
     }
     sortie.close();
+}
+
+void Game::play()
+{
+    char nxt_move;
+    dispCurrLevel();
+    do
+    {
+        nxt_move = getMove();
+        moveOueurj(nxt_move);
+        dispCurrLevel();
+    } while (nxt_move != 's');
+}
+
+void Game::moveOueurj(char move)
+{
+    std::vector<int> old_pos = plyr->getPos();
+    std::vector<int> new_pos = old_pos;
+    switch (move)
+    {
+    case 'a':
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'q':
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'z':
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        break;
+    case 'd':
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    case 'x':
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        break;
+    case 'c':
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    case 'w':
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'e':
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    }
+    Board &tmp_board = *levels[old_pos[0]];
+
+    if (tmp_board[new_pos[1]][new_pos[2]])
+    {
+        if (tmp_board[new_pos[1]][new_pos[2]]->getSymbol() == 'X' || tmp_board[new_pos[1]][new_pos[2]]->getSymbol() == '-')
+        {
+            std::cout << "impossible" << std::endl;
+        }
+        else
+        {
+            plyr->setPos(new_pos);
+            std::cout << old_pos[0] << " " << old_pos[1] << " " << old_pos[2] << std::endl;
+            std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
+            this->levels[old_pos[0]]->placerOueurj(plyr);
+        }
+    }
+    else
+    {
+        plyr->setPos(new_pos);
+        std::cout << old_pos[0] << " " << old_pos[1] << " " << old_pos[2] << std::endl;
+        std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
+        this->levels[old_pos[0]]->placerOueurj(plyr);
+    }
+}
+
+char Game::getMove()
+{
+    char nxt_move;
+    std::string legal_moves = "azeqsdwxc";
+    do
+    {
+        nxt_move = std::cin.get();
+    } while (legal_moves.find(nxt_move) == std::string::npos);
+
+    return nxt_move;
 }
