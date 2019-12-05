@@ -43,7 +43,7 @@ Game::Game(std::string filename)
                 }
 
                 //std::cout << level_string << "eeeeeeee" << std::endl; // affichage de STRING
-                levels.push_back(new  Board(level_string, hau, lar));
+                levels.push_back(new Board(level_string, hau, lar));
             }
         }
     }
@@ -74,7 +74,7 @@ Game::Game()
     for (int i = 0; i < nb_level; i++)
     {
         new_level = new Board(this->hau, this->lar, nb_teupor, nb_diams, nb_streumons);
-        std::cout << new_level->display() << std::endl;
+        //std::cout << new_level->display() << std::endl;
         this->levels.push_back(new_level);
     }
 }
@@ -85,12 +85,24 @@ Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb
     {
         this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons));
     }
+
+    std::vector<int> init_pos;
+    std::vector<int> rd_point;
+    init_pos.assign(3, 0);
+
+    Board &tmp_board = *levels[0];
+
+    while (tmp_board[init_pos[1]][init_pos[2]])
+    {
+        rd_point = this->levels[0]->getRandomPoint();
+        init_pos[1] = rd_point[0], init_pos[2] = rd_point[1];
+    }
+    plyr = new Oueurj(init_pos);
+    this->levels[0]->placerOueurj(plyr);
 }
 
 void Game::affiche()
 {
-    std::cout << this->levels.at(1)->display() << std::endl;
-
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
         std::cout << (*it)->display() << std::endl;

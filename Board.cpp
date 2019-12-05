@@ -257,6 +257,12 @@ void Board::addStreumons(int nb_streumons)
     }
 }
 
+void Board::placerOueurj(Oueurj *oueurj)
+{
+    std::vector<int> pos = oueurj->getPos();
+    this->coord[pos[1]][pos[2]] = oueurj;
+}
+
 std::vector<int> Board::getRandomPoint()
 {
     int point = rand() % ((lar - 2) * (hau - 2));

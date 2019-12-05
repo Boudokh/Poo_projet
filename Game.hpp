@@ -1,6 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+
 #include "Board.hpp"
 #include <fstream>
 #include <sstream>
@@ -8,6 +9,7 @@
 class Game
 {
 private:
+    Oueurj* plyr;
     int current_level;
     int hau;
     int lar;
@@ -21,6 +23,7 @@ public:
     void affiche();
     void to_txt();
     Game(std::string filename);
+    friend std::vector<int> Board::getRandomPoint();
 };
 
 #endif
