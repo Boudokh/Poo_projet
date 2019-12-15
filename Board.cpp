@@ -293,3 +293,9 @@ double Board::heuristicH(int _row, int _col, int _x, int _y)
 {
     return ((double)sqrt ((_row - _x)*(_row - _x) + (_col - _y)*(_col - _y)));
 }
+
+double Board::heuristicManh(int _row, int _col, int _x, int _y)
+{
+    return ((double)abs (_row - _x) + (_col - _y));
+}
+
