@@ -55,6 +55,8 @@ public:
     void placerOueurj(Oueurj *Oueurj);
     void enleverOuerj(Oueurj *oueurj);
 
+    void openTeupors();
+
     ~Board();
 };
 

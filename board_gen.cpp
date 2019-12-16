@@ -7,9 +7,9 @@ int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
-    int lar = 20;
-    int hau = 20;
-    int nb_level = 2;
+    int lar = 30;
+    int hau = 15;
+    int nb_level = 3;
     int teupor = 10;
     int diam = 5;
     int streum = 6;

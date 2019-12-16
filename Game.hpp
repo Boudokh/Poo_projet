@@ -33,7 +33,7 @@ public:
     void left();
     void right();
 
-    void moveOueurj(char move);
+    bool moveOueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
 };
 

@@ -12,8 +12,7 @@ Oueurj::Oueurj() : state(0), nb_diams(0), nb_teleport(0)
 }
 
 void Oueurj::levelUp(){
-    this->pos[2]++;
-    
+    this->pos[0]++;
 }
 
 std::vector<int> Oueurj::getPos() const
