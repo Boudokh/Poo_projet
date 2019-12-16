@@ -13,4 +13,3 @@ char Streumons::getSymbol() const {
     return this->symbol;
 }
 
-//Streumons::Streumons(){}

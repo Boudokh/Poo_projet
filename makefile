@@ -1,11 +1,11 @@
-CPP=g++ --std=c++11 -Wall
+CPP=g++ --std=c++11 -Wall 
 all: Board
 
-Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o
-	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o -o Board
+Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
+	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o Board
 
 board_gen.o: board_gen.cpp
-	$(CPP) -c board_gen.cpp
+	$(CPP) -c board_gen.cpp 
 
 Game.o: Game.cpp Game.hpp
 	$(CPP) -c Game.cpp
@@ -31,11 +31,14 @@ Teupor.o: Teupor.cpp Teupor.hpp Fixed.o Object.o
 Movable.o : Movable.cpp Movable.hpp Object.o
 	$(CPP) -c Movable.cpp
 
-Streumons.o : Streumons.cpp Streumons.hpp Movable.o Object.o
-	$(CPP) -c Streumons.cpp
-
 Geurchars.o : Geurchars.cpp Geurchars.hpp Fixed.o Object.o
 	$(CPP) -c Geurchars.cpp
 
+Streumons.o : Streumons.cpp Streumons.hpp Movable.o Object.o
+	$(CPP) -c Streumons.cpp
+
+Oueurj.o : Oueurj.cpp Oueurj.hpp Movable.o Object.o
+	$(CPP) -c Oueurj.cpp
+
 clean:
-	del *.o *.exe
+	rm *.o *.exe

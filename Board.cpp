@@ -257,6 +257,18 @@ void Board::addStreumons(int nb_streumons)
     }
 }
 
+void Board::placerOueurj(Oueurj *oueurj)
+{
+    std::vector<int> pos = oueurj->getPos();
+    this->coord[pos[1]][pos[2]] = oueurj;
+}
+
+void Board::enleverOuerj(Oueurj *oueurj)
+{
+    std::vector<int> pos = oueurj->getPos();
+    this->coord[pos[1]][pos[2]] = NULL;
+}
+
 std::vector<int> Board::getRandomPoint()
 {
     int point = rand() % ((lar - 2) * (hau - 2));
@@ -264,4 +276,23 @@ std::vector<int> Board::getRandomPoint()
     rd_point.push_back(point / (lar - 2) + 1);
     rd_point.push_back(point % (lar - 2) + 1);
     return rd_point;
+}
+
+void Board::openTeupors()
+{
+
+    for (int i = 0; i < hau; i++)
+    {
+        for (int j = 0; j < lar; j++)
+        {
+            if (j == 0 || j == lar - 1 || i == 0 || i == hau - 1)
+            {
+
+                if (coord[i][j]->getSymbol() == '-')
+                {
+                    dynamic_cast<Teupor *>(coord[i][j])->openTeupor();
+                }
+            }
+        }
+    }
 }
