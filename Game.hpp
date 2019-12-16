@@ -23,6 +23,7 @@ public:
 
     void affiche();
     void to_txt();
+    void placerOueurjRandom();
     void dispCurrLevel() const;
     void play();
     char getMove();
@@ -31,7 +32,7 @@ public:
     void down();
     void left();
     void right();
-    
+
     void moveOueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
 };

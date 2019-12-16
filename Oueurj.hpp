@@ -15,6 +15,7 @@ private:
 public:
     Oueurj(std::vector<int> _pos, int _state = 0, int _nb_diams = 0, int _nb_teleport = 0);
     Oueurj();
+    void levelUp();
     void setPos(const std::vector<int> new_pos);
     std::vector<int> getPos() const;
     int getCurrentlevel() const;

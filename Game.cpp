@@ -87,18 +87,26 @@ Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb
     }
 
     std::vector<int> init_pos;
-    std::vector<int> rd_point;
     init_pos.assign(3, 0);
+    plyr = new Oueurj(init_pos);
+    placerOueurjRandom();
 
-    Board &tmp_board = *levels[0];
+}
 
-    while (tmp_board[init_pos[1]][init_pos[2]])
+void Game::placerOueurjRandom(){
+
+    std::vector<int> rd_point;
+    std::vector<int> new_pos =plyr->getPos();
+    std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
+    Board &tmp_board = *levels[new_pos[0]];
+
+    while (tmp_board[new_pos[1]][new_pos[2]])
     {
         rd_point = this->levels[0]->getRandomPoint();
-        init_pos[1] = rd_point[0], init_pos[2] = rd_point[1];
+        new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
     }
-    plyr = new Oueurj(init_pos);
-    this->levels[0]->placerOueurj(plyr);
+    plyr->setPos(new_pos);
+    this->levels[new_pos[0]]->placerOueurj(plyr);
 }
 
 void Game::affiche()
@@ -178,12 +186,26 @@ void Game::moveOueurj(char move)
 
     if (tmp_board[new_pos[1]][new_pos[2]])
     {
-        if (tmp_board[new_pos[1]][new_pos[2]]->getSymbol() == 'X' || tmp_board[new_pos[1]][new_pos[2]]->getSymbol() == '-')
+        char tmp_sym = tmp_board[new_pos[1]][new_pos[2]]->getSymbol();
+        if (tmp_sym == 'X' || tmp_sym == '-')
         {
             std::cout << "impossible" << std::endl;
         }
         else
         {
+            if (tmp_sym == '+')
+            {
+                this->levels[old_pos[0]]->enleverOuerj(plyr);
+                if (old_pos[0] < (int)levels.size()){
+                    plyr->levelUp();
+                    placerOueurjRandom();
+
+                }
+                else{
+                    std::cout << "gagné"<< std::endl;
+                }
+            }
+            this->levels[old_pos[0]]->enleverOuerj(plyr);
             plyr->setPos(new_pos);
             std::cout << old_pos[0] << " " << old_pos[1] << " " << old_pos[2] << std::endl;
             std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
@@ -192,6 +214,7 @@ void Game::moveOueurj(char move)
     }
     else
     {
+        this->levels[old_pos[0]]->enleverOuerj(plyr);
         plyr->setPos(new_pos);
         std::cout << old_pos[0] << " " << old_pos[1] << " " << old_pos[2] << std::endl;
         std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;

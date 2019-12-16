@@ -53,6 +53,8 @@ public:
 
     std::vector<int> getRandomPoint();
     void placerOueurj(Oueurj *Oueurj);
+    void enleverOuerj(Oueurj *oueurj);
+
     ~Board();
 };
 

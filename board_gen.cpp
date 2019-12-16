@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
 
 
-    a.affiche();
+    //a.affiche();
     a.to_txt();
     a.play();
     std::string filename = "jeu.txt";
