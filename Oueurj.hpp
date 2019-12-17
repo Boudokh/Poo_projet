@@ -16,14 +16,18 @@ private:
 public:
     Oueurj(std::vector<int> _pos, int _state = 0, int _nb_diams = 0, int _nb_teleport = 0, bool _inf_telep = false);
     Oueurj();
+
     void levelUp();
+
     void setPos(const std::vector<int> new_pos);
     std::vector<int> getPos() const;
     int getCurrentlevel() const;
     bool teleport();
     void switch_teleport();
+
     void die();
     void win();
+
     std::string getScores() const;
     void eatDiams();
     ~Oueurj();
