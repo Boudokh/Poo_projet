@@ -94,7 +94,6 @@ Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb
 
 void Game::placerOueurjRandom()
 {
-
     std::vector<int> rd_point;
     std::vector<int> new_pos = plyr->getPos();
     std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
@@ -195,7 +194,7 @@ bool Game::moveOueurj(char move)
         else if (tmp_sym == '+')
         {
             this->levels[old_pos[0]]->enleverOuerj(plyr);
-            if (old_pos[0] < (int)levels.size()-1)
+            if (old_pos[0] < (int)levels.size() - 1)
             {
                 plyr->levelUp();
                 std::cout << "teleport" << plyr->getPos()[0] << " " << plyr->getPos()[1] << " " << plyr->getPos()[2] << std::endl;
@@ -212,6 +211,10 @@ bool Game::moveOueurj(char move)
             if (tmp_sym == '$')
             {
                 levels[old_pos[0]]->openTeupors();
+            }
+
+            if(tmp_sym == 's'){
+                plyr->switch_teleport();
             }
 
             this->levels[old_pos[0]]->enleverOuerj(plyr);
