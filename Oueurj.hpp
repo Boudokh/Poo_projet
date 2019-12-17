@@ -20,9 +20,12 @@ public:
     void setPos(const std::vector<int> new_pos);
     std::vector<int> getPos() const;
     int getCurrentlevel() const;
+    bool teleport();
     void switch_teleport();
     void die();
     void win();
+    std::string getScores() const;
+    void eatDiams();
     ~Oueurj();
 };
 
