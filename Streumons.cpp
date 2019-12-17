@@ -32,5 +32,3 @@ void Streumons::setPosiY(const int _y)
 }
 
 //Streumons::Streumons(){}
-
-// Moha Moha Moha c'est la merde, git nous casse les couilles
