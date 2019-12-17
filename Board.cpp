@@ -16,19 +16,16 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
             switch (txt_board[i * lar + j])
             {
             case 'X':
-                //std::cout <<txt_board[i * lar + j];
                 tmp_reumus = new Reumus();
                 tmp_line.push_back(tmp_reumus);
                 break;
 
             case '-':
-                //std::cout << txt_board[i * lar + j];
                 tmp_teupor = new Teupor();
                 tmp_line.push_back(tmp_teupor);
                 break;
 
             case '+':
-                //std::cout << txt_board[i * lar + j];
                 tmp_teupor = new Teupor();
                 tmp_teupor->openTeupor();
                 tmp_line.push_back(tmp_teupor);
@@ -39,27 +36,24 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_line.push_back(tmp_streumons);
                 break;
 
-            case '*':
+            case '$':
                 tmp_diams = new Diams();
                 tmp_line.push_back(tmp_diams);
                 break;
-            
-            case '$':
+
+            case '*':
                 tmp_geurchar = new Geurchars();
                 tmp_line.push_back(tmp_geurchar);
                 break;
 
             case ' ':
-                //std::cout << txt_board[i * lar + j];
                 tmp_line.push_back(NULL);
                 break;
             }
         }
-        //std::cout << std::endl << tmp_line.size() << std::endl;
         coord.push_back(tmp_line);
         tmp_line.clear();
     }
-    std::cout << coord[0][0]->getSymbol() << std::endl;
 }
 
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
@@ -263,6 +257,18 @@ void Board::addStreumons(int nb_streumons)
     }
 }
 
+void Board::placerOueurj(Oueurj *oueurj)
+{
+    std::vector<int> pos = oueurj->getPos();
+    this->coord[pos[1]][pos[2]] = oueurj;
+}
+
+void Board::enleverOuerj(Oueurj *oueurj)
+{
+    std::vector<int> pos = oueurj->getPos();
+    this->coord[pos[1]][pos[2]] = NULL;
+}
+
 std::vector<int> Board::getRandomPoint()
 {
     int point = rand() % ((lar - 2) * (hau - 2));
@@ -299,3 +305,21 @@ double Board::heuristicManh(int _row, int _col, int _x, int _y)
     return ((double)abs (_row - _x) + (_col - _y));
 }
 
+void Board::openTeupors()
+{
+
+    for (int i = 0; i < hau; i++)
+    {
+        for (int j = 0; j < lar; j++)
+        {
+            if (j == 0 || j == lar - 1 || i == 0 || i == hau - 1)
+            {
+
+                if (coord[i][j]->getSymbol() == '-')
+                {
+                    dynamic_cast<Teupor *>(coord[i][j])->openTeupor();
+                }
+            }
+        }
+    }
+}

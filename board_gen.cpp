@@ -6,10 +6,10 @@
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
-  
-    int lar = 40;
+
+    int lar = 30;
     int hau = 15;
-    int nb_level = 5;
+    int nb_level = 3;
     int teupor = 10;
     int diam = 5;
     int streum = 6;
@@ -27,11 +27,15 @@ int main(int argc, char *argv[])
     */
 
 
-    std::cout << test->display() << std::endl;
+    //Board* test = new Board(hau, lar, teupor, diam, streum, geurchar);
+
+    //std::cout << *test->[0][0]->getSymbol() << std::endl;
 
     Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
+
     //a.affiche();
     a.to_txt();
+    a.play();
     std::string filename = "jeu.txt";
     Game b(filename);
 
@@ -44,5 +48,5 @@ int main(int argc, char *argv[])
 
     int move = (rand()%8)+1;
     b.affiche();
-}
 
+}

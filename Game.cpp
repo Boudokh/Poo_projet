@@ -43,7 +43,7 @@ Game::Game(std::string filename)
                 }
 
                 //std::cout << level_string << "eeeeeeee" << std::endl; // affichage de STRING
-                levels.push_back(new  Board(level_string, hau, lar));
+                levels.push_back(new Board(level_string, hau, lar));
             }
         }
     }
@@ -74,7 +74,7 @@ Game::Game()
     for (int i = 0; i < nb_level; i++)
     {
         new_level = new Board(this->hau, this->lar, nb_teupor, nb_diams, nb_streumons);
-        std::cout << new_level->display() << std::endl;
+        //std::cout << new_level->display() << std::endl;
         this->levels.push_back(new_level);
     }
 }
@@ -85,16 +85,40 @@ Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb
     {
         this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons));
     }
+
+    std::vector<int> init_pos;
+    init_pos.assign(3, 0);
+    plyr = new Oueurj(init_pos);
+    placerOueurjRandom();
+}
+
+void Game::placerOueurjRandom()
+{
+    std::vector<int> rd_point;
+    std::vector<int> new_pos = plyr->getPos();
+    std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
+    Board &tmp_board = *levels[new_pos[0]];
+
+    while (tmp_board[new_pos[1]][new_pos[2]])
+    {
+        rd_point = this->levels[0]->getRandomPoint();
+        new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
+    }
+    plyr->setPos(new_pos);
+    this->levels[new_pos[0]]->placerOueurj(plyr);
 }
 
 void Game::affiche()
 {
-    std::cout << this->levels.at(1)->display() << std::endl;
-
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
         std::cout << (*it)->display() << std::endl;
     }
+}
+
+void Game::dispCurrLevel() const
+{
+    std::cout << this->levels[plyr->getCurrentlevel()]->display() << std::endl;
 }
 
 void Game::to_txt()
@@ -108,4 +132,117 @@ void Game::to_txt()
         sortie << (*it)->display() << '#' << std::endl;
     }
     sortie.close();
+}
+
+void Game::play()
+{
+    char nxt_move;
+    dispCurrLevel();
+    bool endGame = false;
+    do
+    {
+        nxt_move = getMove();
+        endGame = moveOueurj(nxt_move);
+        dispCurrLevel();
+    } while (nxt_move != 's' && !endGame);
+}
+
+bool Game::moveOueurj(char move)
+{
+    std::vector<int> old_pos = plyr->getPos();
+    std::vector<int> new_pos = old_pos;
+    switch (move)
+    {
+    case 'a':
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'q':
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'z':
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        break;
+    case 'd':
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    case 'x':
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        break;
+    case 'c':
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    case 'w':
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'e':
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    }
+    Board &tmp_board = *levels[old_pos[0]];
+
+    if (tmp_board[new_pos[1]][new_pos[2]])
+    {
+        char tmp_sym = tmp_board[new_pos[1]][new_pos[2]]->getSymbol();
+        if (tmp_sym == 'X' || tmp_sym == '-')
+        {
+            std::cout << "impossible" << std::endl;
+        }
+        else if (tmp_sym == '+')
+        {
+            this->levels[old_pos[0]]->enleverOuerj(plyr);
+            if (old_pos[0] < (int)levels.size() - 1)
+            {
+                plyr->levelUp();
+                std::cout << "teleport" << plyr->getPos()[0] << " " << plyr->getPos()[1] << " " << plyr->getPos()[2] << std::endl;
+                placerOueurjRandom();
+            }
+            else
+            {
+                std::cout << "gagné" << std::endl;
+                return true;
+            }
+        }
+        else
+        {
+            if (tmp_sym == '$')
+            {
+                levels[old_pos[0]]->openTeupors();
+            }
+
+            if(tmp_sym == 's'){
+                plyr->switch_teleport();
+            }
+
+            this->levels[old_pos[0]]->enleverOuerj(plyr);
+            plyr->setPos(new_pos);
+            std::cout << old_pos[0] << " " << old_pos[1] << " " << old_pos[2] << std::endl;
+            std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
+            this->levels[old_pos[0]]->placerOueurj(plyr);
+        }
+    }
+    else
+    {
+        this->levels[old_pos[0]]->enleverOuerj(plyr);
+        plyr->setPos(new_pos);
+        std::cout << old_pos[0] << " " << old_pos[1] << " " << old_pos[2] << std::endl;
+        std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
+        this->levels[old_pos[0]]->placerOueurj(plyr);
+    }
+    return false;
+}
+
+char Game::getMove()
+{
+    char nxt_move;
+    std::string legal_moves = "azeqsdwxc";
+    do
+    {
+        nxt_move = std::cin.get();
+    } while (legal_moves.find(nxt_move) == std::string::npos);
+
+    return nxt_move;
 }

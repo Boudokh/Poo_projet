@@ -2,6 +2,7 @@
 #define OBJECT_HPP
 #include <typeinfo>
 #include <string>
+#include <vector>
 
 class Object
 {
