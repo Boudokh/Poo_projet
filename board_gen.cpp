@@ -15,22 +15,7 @@ int main(int argc, char *argv[])
     int streum = 6;
     int geurchar = 3;
     Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
-
-    /* Test Uniforme - Random generator
-
-    std::default_random_engine generator;
-    std::uniform_int_distribution<int> distribution(1,6);
-    int dice_roll = distribution(generator); // generate number in range 1 to 6
-
-    auto dice = std::bind(distribution, generator);
-    int wisdom = dice()+dice()+dice();
-    */
-
-
-    //Board* test = new Board(hau, lar, teupor, diam, streum, geurchar);
-
-    //std::cout << *test->[0][0]->getSymbol() << std::endl;
-
+    
     Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
 
     //a.affiche();

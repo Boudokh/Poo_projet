@@ -56,13 +56,16 @@ public:
     double heuristicH(int row, int col, int x, int y); // Fonction heuristique H % à la position du joueur - A modifié quand class oueurj implémentée - distance euclidienne.
     double heuristicManh(int row, int col, int x, int y); // Fonction heuristique calculant la distance de Manhattan
 
-
-    
     std::vector<int> getRandomPoint();
+
     void placerOueurj(Oueurj *Oueurj);
     void enleverOuerj(Oueurj *oueurj);
 
     void openTeupors();
+    void clusteringStreumons();
+
+
+
 
     ~Board();
 };

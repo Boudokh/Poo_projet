@@ -283,13 +283,13 @@ bool Board::isValid(int _row, int _col)
     return (_row >= 0) && (_row < hau) && (_col >= 0) && (_col < lar);
 }
 
-bool Board::isDest(int _row, int _col , int _x, int _y)
+bool Board::isDest(int _row, int _col, int _x, int _y)
 {
     /*
         _x et _y correspondent aux coordonnées du joueur 
     */
-   
-    if(_row == _x && _col == _y) 
+
+    if (_row == _x && _col == _y)
         return true;
     else
         return false;
@@ -297,12 +297,12 @@ bool Board::isDest(int _row, int _col , int _x, int _y)
 
 double Board::heuristicH(int _row, int _col, int _x, int _y)
 {
-    return ((double)sqrt ((_row - _x)*(_row - _x) + (_col - _y)*(_col - _y)));
+    return ((double)sqrt((_row - _x) * (_row - _x) + (_col - _y) * (_col - _y)));
 }
 
 double Board::heuristicManh(int _row, int _col, int _x, int _y)
 {
-    return ((double)abs (_row - _x) + (_col - _y));
+    return ((double)abs(_row - _x) + (_col - _y));
 }
 
 void Board::openTeupors()
@@ -318,6 +318,33 @@ void Board::openTeupors()
                 if (coord[i][j]->getSymbol() == '-')
                 {
                     dynamic_cast<Teupor *>(coord[i][j])->openTeupor();
+                }
+            }
+        }
+    }
+}
+
+void Board::clusteringStreumons()
+{
+    for (int i = 1; i < hau; i++)
+    {
+        for (int j = 1; j < lar; j++)
+        {
+            if (coord[i][j]->getSymbol() == 's')
+            {
+
+                switch (dynamic_cast<Streumons *>(coord[i][j])->getID())
+                {
+                case '0': // mode poursuite joueur
+                    /* lancement de A* */
+                    std::cout << "0" << std::endl;
+                    break;
+                case '1':
+                    std::cout << "1" << std::endl;
+                    break;
+                case '2':
+                    std::cout << "2" << std::endl;
+                    break;
                 }
             }
         }

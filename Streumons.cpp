@@ -6,6 +6,7 @@ Streumons::~Streumons(){
 Streumons::Streumons()
 {
     this->symbol = 's';
+    this->setID(rand()%3);
 
 }
 
@@ -21,6 +22,7 @@ int Streumons::getPosiY() const{
     return this->posi_y;
 }
 
+
 void Streumons::setPosiX(const int _x)
 {
     this->posi_x = _x;
@@ -31,5 +33,13 @@ void Streumons::setPosiY(const int _y)
     this->posi_y = _y;
 }
 
-//Streumons::Streumons(){}
+void Streumons::setID(const int _id)
+{
+    this->id = _id;
+}
+
+int Streumons::getID() const {
+    return this->id;
+}
+
 
