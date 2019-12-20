@@ -16,22 +16,23 @@ int main(int argc, char *argv[])
     int geurchar = 3;
     Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
     
-    Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
+    Game *a= new Game(hau, lar, nb_level, teupor, diam, streum, geurchar);
+
+    test->moveStreumons();
+
 
     //a.affiche();
-    a.to_txt();
-    a.play();
+    a->to_txt();
+    a->play();
     std::string filename = "jeu.txt";
     Game b(filename);
 
-    std::cout << "Validité (i,j) : " << test->isValid(3,5) << std::endl;
-    std::cout << "Destination : " << test->isDest(3,5,4,5) << std::endl;
-    std::cout << "Heuristique h : " << test->heuristicH(3,5,10,10) << std::endl;
-    std::cout << "Heuristique Manhattan : " << test->heuristicManh(3,5,10,10) << std::endl;
+    std::cout << "Validité (i,j) : " << a->isValid(3,5) << std::endl;
+    std::cout << "Destination : " << a->isDest(3,5) << std::endl;
+    std::cout << "Heuristique h : " << a->heuristicH(3,5) << std::endl;
+    //std::cout << "Blocked or not ? : " << a->isNotBlocked(0,1) << std::endl;
+
 
     /* Test déplacement des streumons */
-
-    int move = (rand()%8)+1;
-    b.affiche();
 
 }

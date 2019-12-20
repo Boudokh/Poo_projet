@@ -7,7 +7,8 @@
                 "${workspaceFolder}/elems/**",
                 "/mnt/e/libmesh/with_vtk/include/**",
                 "/usr/include/**",
-                "/home/shwang/deal.ii-candi/petsc-3.7.6/include/**"
+                "/home/shwang/deal.ii-candi/petsc-3.7.6/include/**",
+                "./*"
             ],
             "defines": [
                 "_DEBUG",

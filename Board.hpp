@@ -51,22 +51,15 @@ public:
     void addGeurchars(int nb_geurchars); // génération aléatoire de geurchars - au sein du plateau - sans les bords.
     void addStreumons(int nb_streumons); // génération aléatoire de streumons - au sein du plateau - sans les bords.
 
-    bool isValid(int row, int col); // Fonction permettant de vérifier si la celulle(row,col) est disponible ou non - déplacement des streumons.
-    bool isDest(int row, int col, int x, int y); // Fonction permettant de vérifiant si on arrive à la cellule finale - Position du oueurj (x,y) - A modifié quand class oueurj implémentée.
-    double heuristicH(int row, int col, int x, int y); // Fonction heuristique H % à la position du joueur - A modifié quand class oueurj implémentée - distance euclidienne.
-    double heuristicManh(int row, int col, int x, int y); // Fonction heuristique calculant la distance de Manhattan
-
     std::vector<int> getRandomPoint();
+
 
     void placerOueurj(Oueurj *Oueurj);
     void enleverOuerj(Oueurj *oueurj);
 
     void openTeupors();
-    void clusteringStreumons();
-
-
-
-
+    void moveStreumons();
+    
     ~Board();
 };
 

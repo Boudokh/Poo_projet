@@ -246,3 +246,36 @@ char Game::getMove()
 
     return nxt_move;
 }
+
+double Game::heuristicH(int _row, int _col)
+{
+    std::vector<int> tmp_pos = plyr->getPos();
+    return ((double)sqrt((_row - tmp_pos[1]) * (_row - tmp_pos[1]) + (_col - tmp_pos[2]) * (_col - tmp_pos[2])));
+}
+
+bool Game::isValid(int _row, int _col)
+{
+    return (_row >= 0) && (_row < hau) && (_col >= 0) && (_col < lar);
+}
+
+bool Game::isDest(int _row, int _col)
+{
+    std::vector<int> tmp_pos = plyr->getPos();
+    if (_row == tmp_pos[1] && _col == tmp_pos[2])
+        return true;
+    else
+        return false;
+}
+
+bool Game::isNotBlocked(int row, int col)
+{
+    std::vector<int> old_pos = plyr->getPos();
+    std::vector<int> new_pos = old_pos;
+
+    Board &tmp_board = *levels[old_pos[0]];
+    if(tmp_board[new_pos[1]][new_pos[2]] == NULL)
+        return (true);
+    else
+        return (false);
+    
+}

@@ -278,33 +278,6 @@ std::vector<int> Board::getRandomPoint()
     return rd_point;
 }
 
-bool Board::isValid(int _row, int _col)
-{
-    return (_row >= 0) && (_row < hau) && (_col >= 0) && (_col < lar);
-}
-
-bool Board::isDest(int _row, int _col, int _x, int _y)
-{
-    /*
-        _x et _y correspondent aux coordonnées du joueur 
-    */
-
-    if (_row == _x && _col == _y)
-        return true;
-    else
-        return false;
-}
-
-double Board::heuristicH(int _row, int _col, int _x, int _y)
-{
-    return ((double)sqrt((_row - _x) * (_row - _x) + (_col - _y) * (_col - _y)));
-}
-
-double Board::heuristicManh(int _row, int _col, int _x, int _y)
-{
-    return ((double)abs(_row - _x) + (_col - _y));
-}
-
 void Board::openTeupors()
 {
 
@@ -324,29 +297,71 @@ void Board::openTeupors()
     }
 }
 
-void Board::clusteringStreumons()
-{
-    for (int i = 1; i < hau; i++)
-    {
-        for (int j = 1; j < lar; j++)
-        {
-            if (coord[i][j]->getSymbol() == 's')
-            {
 
-                switch (dynamic_cast<Streumons *>(coord[i][j])->getID())
+void Board::moveStreumons()
+{
+    for(int i = 1; i < hau ; i++)
+    {
+        for(int j = 1; j < lar; j++)
+        {
+            if(coord[i][j]->getSymbol()=='s')
+            {
+                int abs = dynamic_cast<Streumons *>(coord[i][j])->getPosiX();
+                int ord = dynamic_cast<Streumons *>(coord[i][j])->getPosiY();
+                int move = rand() % 8; // faire une fnc random
+                std::cout << "Move" << move << std::endl;
+                switch (move)
                 {
-                case '0': // mode poursuite joueur
-                    /* lancement de A* */
-                    std::cout << "0" << std::endl;
+                case '0': // haut
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiX(std::max(0, abs - 1));
                     break;
-                case '1':
-                    std::cout << "1" << std::endl;
+                case '1' : // diag gauche
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiX(std::max(0, abs - 1));
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiY(std::max(0, ord - 1));
                     break;
-                case '2':
-                    std::cout << "2" << std::endl;
+                case '2' : // diag droite
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiX(std::max(0, abs - 1));
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiY(std::min(lar - 1, ord + 1));
                     break;
+                case '3' : // bas
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiX(std::min(hau - 1, abs + 1));
+                    break;
+                case '4' : // bas diag gauche
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiX(std::min(hau - 1 , abs + 1));
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiY(std::max(0, ord - 1));
+                    break;
+                case '5': // bas diag droite
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiX(std::min(hau - 1, abs + 1));
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiY(std::min(lar - 1, ord + 1));
+                    break;
+                case '6': // gauche
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiY(std::max(0, ord - 1));
+                    break;
+                case '7': // droite
+                    dynamic_cast<Streumons *>(coord[i][j])->setPosiY(std::min(lar - 1, ord + 1));
+                    break;
+                }
+                int new_abs = dynamic_cast<Streumons *>(coord[i][j])->getPosiX();
+                int new_ord = dynamic_cast<Streumons *>(coord[i][j])->getPosiY();
+                
+                if(coord[new_abs][new_ord])
+                {
+                    Streumons *tmp_streums;
+
+                    char tmp_symbol = coord[new_abs][new_ord]->getSymbol();
+                    if(tmp_symbol == 'X' || tmp_symbol == '$' || tmp_symbol == '*'|| tmp_symbol == '+' || tmp_symbol == '-' || tmp_symbol == 'J') // ignore le joueur pour le moment
+                    {
+                        std::cout << "Ignore" << std::endl;
+                    }
+                    if (coord[new_abs][new_ord] == NULL)
+                    {
+                        tmp_streums = new Streumons();
+                        coord[new_abs][new_ord] = tmp_streums;
+                    }
                 }
             }
         }
     }
 }
+
+
