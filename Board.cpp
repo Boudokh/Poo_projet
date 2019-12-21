@@ -304,5 +304,10 @@ void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p){
 
 }
 
+double Board::heuristicH(int _row, int _col, int row_j, int col_j)
+{
+    return ((double)sqrt((_row - row_j) * (_row - row_j) + (_col - col_j) * (_col - col_j)));
+}
+
 
 

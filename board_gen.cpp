@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
     int diam = 2;
     int streum = 8;
     int geurchar = 3;
+   
     Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
     Game *a = new Game(hau, lar, nb_level, teupor, diam, streum, geurchar);
@@ -29,7 +30,6 @@ int main(int argc, char *argv[])
 
     std::cout << "Validité (i,j) : " << a->isValid(3, 5) << std::endl;
     std::cout << "Destination : " << a->isDest(3, 5) << std::endl;
-    std::cout << "Heuristique h : " << a->heuristicH(3, 5) << std::endl;
 
     /* Test déplacement des streumons */
 }

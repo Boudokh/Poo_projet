@@ -4,6 +4,8 @@
 #include "Board.hpp"
 #include <fstream>
 #include <sstream>
+#include <limits>
+
 
 class Game
 {
@@ -12,6 +14,8 @@ private:
     int hau;
     int lar;
     std::vector<Board *> levels;
+    int compteurMove = 0; // Compteur aStar pour streumons.
+
 
 public:
     Game();
@@ -36,13 +40,15 @@ public:
     bool moveOueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
 
-    bool isValid(int row, int col); // Fonction permettant de vérifier si la celulle(row,col) est disponible ou non. 
-    bool isDest(int row, int col); // Fonction permettant de vérifiant si on arrive à la cellule finale.
-    double heuristicH(int row, int col); // Fonction heuristique H % à la position du joueur - distance euclidienne. 
-
     void playStreumons();
     void moveStreumons(int move, int i , int j);
     void randMoves(int i, int j);
+    std::vector<std::vector<int>> legalMoves(int i, int j);
+    void aStar(std::vector<std::vector<int>>, int , int);
+
+
+    bool isValid(int row, int col); // Fonction permettant de vérifier si la celulle(row,col) est disponible ou non. 
+    bool isDest(int row, int col); // Fonction permettant de vérifiant si on arrive à la cellule finale.
 
 
 

@@ -7,7 +7,6 @@ class Streumons : public Movable {
 
     private:
         char symbol;
-        int compteurMove; // Compteur permettant de calculer le coût du déplacement.
     public:
         Streumons();
         ~Streumons();
