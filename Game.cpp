@@ -283,6 +283,7 @@ void Game::playStreumons()
             {
                 int move = rand() % 8;
                 dynamic_cast<Game *>(tmp_board[i][j])->moveStreumons(move,i,j);
+                // problème segmentation fault !
             }
         }
     }
