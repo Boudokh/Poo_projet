@@ -53,14 +53,12 @@ public:
 
     std::vector<int> getRandomPoint();
 
-
     void placerOueurj(Oueurj *Oueurj);
     void enleverOuerj(Oueurj *oueurj);
 
-    void openTeupors();
-    void moveStreumons();
-    
+    void openTeupors();    
     ~Board();
+
 };
 
 #endif

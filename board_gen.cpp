@@ -18,10 +18,8 @@ int main(int argc, char *argv[])
     
     Game *a= new Game(hau, lar, nb_level, teupor, diam, streum, geurchar);
 
-    test->moveStreumons();
-
-
     //a.affiche();
+    a->playStreumons();
     a->to_txt();
     a->play();
     std::string filename = "jeu.txt";
@@ -30,7 +28,6 @@ int main(int argc, char *argv[])
     std::cout << "Validité (i,j) : " << a->isValid(3,5) << std::endl;
     std::cout << "Destination : " << a->isDest(3,5) << std::endl;
     std::cout << "Heuristique h : " << a->heuristicH(3,5) << std::endl;
-    //std::cout << "Blocked or not ? : " << a->isNotBlocked(0,1) << std::endl;
 
 
     /* Test déplacement des streumons */

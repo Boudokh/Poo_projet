@@ -38,9 +38,13 @@ public:
 
     bool isValid(int row, int col); // Fonction permettant de vérifier si la celulle(row,col) est disponible ou non. 
     bool isDest(int row, int col); // Fonction permettant de vérifiant si on arrive à la cellule finale.
-    double heuristicH(int row, int col); // Fonction heuristique H % à la position du joueur - distance euclidienne.
-    bool isNotBlocked(int row, int col); // Fonction vérifiant si une case est bloquée ou non.
-    
+    double heuristicH(int row, int col); // Fonction heuristique H % à la position du joueur - distance euclidienne. 
+
+    void playStreumons();
+    void moveStreumons(int move, int i , int j);
+
+
+
 };
 
 #endif

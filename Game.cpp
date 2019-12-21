@@ -255,7 +255,9 @@ double Game::heuristicH(int _row, int _col)
 
 bool Game::isValid(int _row, int _col)
 {
-    return (_row >= 0) && (_row < hau) && (_col >= 0) && (_col < lar);
+    std::vector<int> old_pos = plyr->getPos();
+    Board &tmp_board = *levels[old_pos[0]];
+    return (_row >= 1) && (_row < hau) && (_col >= 1) && (_col < lar) && (tmp_board[_row][_col]->getSymbol()==NULL);
 }
 
 bool Game::isDest(int _row, int _col)
@@ -267,15 +269,97 @@ bool Game::isDest(int _row, int _col)
         return false;
 }
 
-bool Game::isNotBlocked(int row, int col)
+void Game::playStreumons()
 {
     std::vector<int> old_pos = plyr->getPos();
-    std::vector<int> new_pos = old_pos;
-
     Board &tmp_board = *levels[old_pos[0]];
-    if(tmp_board[new_pos[1]][new_pos[2]] == NULL)
-        return (true);
-    else
-        return (false);
-    
+
+
+    for(int i = 1; i < hau; i++)
+    {
+        for(int j = 1; j < lar; j++)
+        {
+            if(tmp_board[i][j]->getSymbol()=='s')
+            {
+                int move = rand() % 8;
+                dynamic_cast<Game *>(tmp_board[i][j])->moveStreumons(move,i,j);
+            }
+        }
+    }
+}
+
+void Game::moveStreumons(int move, int i , int j)
+{
+    std::vector<int> old_pos = plyr->getPos();
+    Board &tmp_board = *levels[old_pos[0]];
+    switch (move)
+    {
+    case '0': // haut diag gauche
+        if(isValid(std::max(0,i-1),std::max(0,j-1)))
+        {
+            Streumons *tmp_board[std::max(0,i-1)][std::max(0,j-1)] ;
+            tmp_board[std::max(0,i-1)][std::max(0,j-1)] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '1': // haut
+        if(isValid(std::max(0,i-1),j))
+        {
+            Streumons *tmp_board[std::max(0,i-1)][j];
+            tmp_board[std::max(0,i-1)][j] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '2': // haut diag droite
+        if(isValid(std::max(0,i-1),std::min(lar-1,j+1)))
+        {
+            Streumons *tmp_board[std::max(0,i-1)][std::min(lar-1,j+1)];
+            tmp_board[std::max(0,i-1)][std::min(lar-1,j+1)] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '3': // gauche
+        if(isValid(i,std::max(0,j-1)))
+        {
+            Streumons *tmp_board[i][std::max(0,j-1)];
+            tmp_board[i][std::max(0,j-1)] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '4' : // droite
+        if(isValid(i,std::min(lar-1,j+1)))
+        {
+            Streumons *tmp_board[i][std::min(lar-1,j+1)];
+            tmp_board[i][std::min(lar-1,j+1)] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '5' : // bas
+        if(isValid(std::min(hau-1,i+1),j))
+        {
+            Streumons *tmp_board[std::min(hau-1,i+1)][j];
+            tmp_board[std::min(hau-1,i+1)][j] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '6' : // bas diag gauche
+        if(isValid(std::min(hau-1,i+1),std::max(0,j-1)))
+        {
+            Streumons *tmp_board[std::min(hau-1,i+1)][std::max(0,j-1)];
+            tmp_board[std::min(hau-1,i+1)][std::max(0,j-1)] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    case '7' : // bas diag droite
+        if(isValid(std::min(hau-1,i+1),std::min(lar-1,j+1)))
+        {
+            Streumons *tmp_board[std::min(hau-1,i+1)][std::min(lar-1,j+1)];
+            tmp_board[std::min(hau-1,i+1)][std::min(lar-1,j+1)] = new Streumons();
+            tmp_board[i][j] = NULL;
+        }
+        break;
+    default:
+        std::cout << "impossible" << std::endl;
+        break;
+    }
 }
