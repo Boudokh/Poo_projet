@@ -103,9 +103,10 @@ void Game::placerOueurjRandom()
     {
         rd_point = this->levels[new_pos[0]]->getRandomPoint();
         std::cout << "rnd X " << rd_point[0] << " " << rd_point[1] << std::endl;
+
+        new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
         if (tmp_board[new_pos[1]][new_pos[2]] == NULL)
             keep_search = false;
-        new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
     }
 
     plyr->setPos(new_pos);
