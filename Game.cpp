@@ -269,65 +269,96 @@ bool Game::isDest(int _row, int _col)
 
 void Game::playStreumons()
 {
-    std::vector<int> old_pos = plyr->getPos();
-    Board &tmp_board = *levels[old_pos[0]];
+    std::vector<int> plyr_p = plyr->getPos();
+    Board &tmp_board = *levels[plyr_p[0]];
 
-    for (int i = 1; i < hau-1; i++)
+    for (int i = 1; i < hau - 1; i++)
     {
-        for (int j = 1; j < lar-1; j++)
+        for (int j = 1; j < lar - 1; j++)
         {
             if (tmp_board[i][j])
             {
                 if (tmp_board[i][j]->getSymbol() == 's')
                 {
-                    int move = rand() % 8;
-                    moveStreumons(move, i, j);
+                    //int move = rand() % 8;
+                    //moveStreumons(move, i, j);
+                    randMoves(i, j);
                 }
             }
         }
     }
 }
 
+void Game::randMoves(int i, int j)
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> old_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    std::vector<std::vector<int>> legal_moves;
+    std::vector<int> tmp_move;
+
+    for (int x = std::max(1, i - 1); x <= std::min(hau - 1, i + 1); x++)
+    {
+        for (int y = std::max(1, j - 1); y <= std::min(lar - 1, j + 1); y++)
+        {
+            if (tmp_board[x][y] == NULL && (x != i || y != j))
+            {
+                tmp_move.clear();
+                tmp_move.push_back(x);
+                tmp_move.push_back(y);
+                legal_moves.push_back(tmp_move);
+            }
+        }
+    }
+
+    levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
+}
+
 void Game::moveStreumons(int move, int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
-
     std::vector<int> old_pos, new_pos;
     old_pos.push_back(i);
     old_pos.push_back(j);
+
+    std::cout << move << " -1-" << old_pos[0] << " " << old_pos[1] << std::endl;
 
     switch (move)
     {
 
     case 0: // haut diag gauche
-        if (isValid(std::max(0, i - 1), std::max(0, j - 1)))
+        if (isValid(std::max(1, i - 1), std::max(1, j - 1)))
         {
-            new_pos.push_back(std::max(0, i - 1));
-            new_pos.push_back(std::max(0, j - 1));
+            new_pos.push_back(std::max(1, i - 1));
+            new_pos.push_back(std::max(1, j - 1));
             levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
     case 1: // haut
-        if (isValid(std::max(0, i - 1), j))
+        if (isValid(std::max(1, i - 1), j))
         {
-            new_pos.push_back(std::max(0, i - 1));
+            new_pos.push_back(std::max(1, i - 1));
             new_pos.push_back(j);
             levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
     case 2: // haut diag droite
-        if (isValid(std::max(0, i - 1), std::min(lar - 1, j + 1)))
+        if (isValid(std::max(1, i - 1), std::min(lar - 1, j + 1)))
         {
-            new_pos.push_back(std::max(0, i - 1));
+            new_pos.push_back(std::max(1, i - 1));
             new_pos.push_back(std::min(lar - 1, j + 1));
             levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
     case 3: // gauche
-        if (isValid(i, std::max(0, j - 1)))
+        if (isValid(i, std::max(1, j - 1)))
         {
             new_pos.push_back(i);
-            new_pos.push_back(std::max(0, j - 1));
+            new_pos.push_back(std::max(1, j - 1));
             levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
@@ -335,7 +366,7 @@ void Game::moveStreumons(int move, int i, int j)
         if (isValid(i, std::min(lar - 1, j + 1)))
         {
             new_pos.push_back(i);
-            new_pos.push_back(std::max(0, j - 1));
+            new_pos.push_back(std::max(1, j - 1));
             levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
@@ -348,10 +379,10 @@ void Game::moveStreumons(int move, int i, int j)
         }
         break;
     case 6: // bas diag gauche
-        if (isValid(std::min(hau - 1, i + 1), std::max(0, j - 1)))
+        if (isValid(std::min(hau - 1, i + 1), std::max(1, j - 1)))
         {
             new_pos.push_back(std::min(hau - 1, i + 1));
-            new_pos.push_back(std::max(0, j - 1));
+            new_pos.push_back(std::max(1, j - 1));
             levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
@@ -367,5 +398,5 @@ void Game::moveStreumons(int move, int i, int j)
         std::cout << "impossible" << std::endl;
         break;
     }
-    std::cout << move << " " <<old_pos[0] << " " <<old_pos[1] << " " << new_pos[0] << " " << new_pos[1] << std::endl;
+    std::cout << move << " -2-" << new_pos[0] << " " << new_pos[1] << std::endl;
 }

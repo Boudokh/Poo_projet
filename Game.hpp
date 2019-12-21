@@ -42,6 +42,7 @@ public:
 
     void playStreumons();
     void moveStreumons(int move, int i , int j);
+    void randMoves(int i, int j);
 
 
 
