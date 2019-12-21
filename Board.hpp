@@ -56,7 +56,8 @@ public:
     void placerOueurj(Oueurj *Oueurj);
     void enleverOuerj(Oueurj *oueurj);
 
-    void openTeupors();    
+    void openTeupors();
+    void moveStrm(std::vector<int> old_p, std::vector<int> new_p);
     ~Board();
 
 };

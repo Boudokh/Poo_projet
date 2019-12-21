@@ -41,8 +41,6 @@ Game::Game(std::string filename)
                     level_string += tmp_str;
                     getline(readFile, tmp_str);
                 }
-
-                //std::cout << level_string << "eeeeeeee" << std::endl; // affichage de STRING
                 levels.push_back(new Board(level_string, hau, lar));
             }
         }
@@ -74,7 +72,6 @@ Game::Game()
     for (int i = 0; i < nb_level; i++)
     {
         new_level = new Board(this->hau, this->lar, nb_teupor, nb_diams, nb_streumons);
-        //std::cout << new_level->display() << std::endl;
         this->levels.push_back(new_level);
     }
 }
@@ -96,7 +93,6 @@ void Game::placerOueurjRandom()
 {
     std::vector<int> rd_point;
     std::vector<int> new_pos = plyr->getPos();
-    std::cout << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
     Board &tmp_board = *levels[new_pos[0]];
 
     while (tmp_board[new_pos[1]][new_pos[2]])
@@ -104,6 +100,7 @@ void Game::placerOueurjRandom()
         rd_point = this->levels[0]->getRandomPoint();
         new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
     }
+
     plyr->setPos(new_pos);
     this->levels[new_pos[0]]->placerOueurj(plyr);
 }
@@ -213,7 +210,8 @@ bool Game::moveOueurj(char move)
                 levels[old_pos[0]]->openTeupors();
             }
 
-            if(tmp_sym == 's'){
+            if (tmp_sym == 's')
+            {
                 plyr->switch_teleport();
             }
 
@@ -257,7 +255,7 @@ bool Game::isValid(int _row, int _col)
 {
     std::vector<int> old_pos = plyr->getPos();
     Board &tmp_board = *levels[old_pos[0]];
-    return (_row >= 1) && (_row < hau) && (_col >= 1) && (_col < lar) && (tmp_board[_row][_col]->getSymbol()==NULL);
+    return (_row >= 1) && (_row < hau) && (_col >= 1) && (_col < lar) && (tmp_board[_row][_col] == NULL);
 }
 
 bool Game::isDest(int _row, int _col)
@@ -274,93 +272,100 @@ void Game::playStreumons()
     std::vector<int> old_pos = plyr->getPos();
     Board &tmp_board = *levels[old_pos[0]];
 
-
-    for(int i = 1; i < hau; i++)
+    for (int i = 1; i < hau-1; i++)
     {
-        for(int j = 1; j < lar; j++)
+        for (int j = 1; j < lar-1; j++)
         {
-            if(tmp_board[i][j]->getSymbol()=='s')
+            if (tmp_board[i][j])
             {
-                int move = rand() % 8;
-                dynamic_cast<Game *>(tmp_board[i][j])->moveStreumons(move,i,j);
-                // problème segmentation fault !
+                if (tmp_board[i][j]->getSymbol() == 's')
+                {
+                    int move = rand() % 8;
+                    moveStreumons(move, i, j);
+                }
             }
         }
     }
 }
 
-void Game::moveStreumons(int move, int i , int j)
+void Game::moveStreumons(int move, int i, int j)
 {
-    std::vector<int> old_pos = plyr->getPos();
-    Board &tmp_board = *levels[old_pos[0]];
+    std::vector<int> plyr_p = plyr->getPos();
+
+    std::vector<int> old_pos, new_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
     switch (move)
     {
-    case '0': // haut diag gauche
-        if(isValid(std::max(0,i-1),std::max(0,j-1)))
+
+    case 0: // haut diag gauche
+        if (isValid(std::max(0, i - 1), std::max(0, j - 1)))
         {
-            Streumons *tmp_board[std::max(0,i-1)][std::max(0,j-1)] ;
-            tmp_board[std::max(0,i-1)][std::max(0,j-1)] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(std::max(0, i - 1));
+            new_pos.push_back(std::max(0, j - 1));
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '1': // haut
-        if(isValid(std::max(0,i-1),j))
+    case 1: // haut
+        if (isValid(std::max(0, i - 1), j))
         {
-            Streumons *tmp_board[std::max(0,i-1)][j];
-            tmp_board[std::max(0,i-1)][j] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(std::max(0, i - 1));
+            new_pos.push_back(j);
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '2': // haut diag droite
-        if(isValid(std::max(0,i-1),std::min(lar-1,j+1)))
+    case 2: // haut diag droite
+        if (isValid(std::max(0, i - 1), std::min(lar - 1, j + 1)))
         {
-            Streumons *tmp_board[std::max(0,i-1)][std::min(lar-1,j+1)];
-            tmp_board[std::max(0,i-1)][std::min(lar-1,j+1)] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(std::max(0, i - 1));
+            new_pos.push_back(std::min(lar - 1, j + 1));
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '3': // gauche
-        if(isValid(i,std::max(0,j-1)))
+    case 3: // gauche
+        if (isValid(i, std::max(0, j - 1)))
         {
-            Streumons *tmp_board[i][std::max(0,j-1)];
-            tmp_board[i][std::max(0,j-1)] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(i);
+            new_pos.push_back(std::max(0, j - 1));
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '4' : // droite
-        if(isValid(i,std::min(lar-1,j+1)))
+    case 4: // droite
+        if (isValid(i, std::min(lar - 1, j + 1)))
         {
-            Streumons *tmp_board[i][std::min(lar-1,j+1)];
-            tmp_board[i][std::min(lar-1,j+1)] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(i);
+            new_pos.push_back(std::max(0, j - 1));
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '5' : // bas
-        if(isValid(std::min(hau-1,i+1),j))
+    case 5: // bas
+        if (isValid(std::min(hau - 1, i + 1), j))
         {
-            Streumons *tmp_board[std::min(hau-1,i+1)][j];
-            tmp_board[std::min(hau-1,i+1)][j] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(std::min(hau - 1, i + 1));
+            new_pos.push_back(j);
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '6' : // bas diag gauche
-        if(isValid(std::min(hau-1,i+1),std::max(0,j-1)))
+    case 6: // bas diag gauche
+        if (isValid(std::min(hau - 1, i + 1), std::max(0, j - 1)))
         {
-            Streumons *tmp_board[std::min(hau-1,i+1)][std::max(0,j-1)];
-            tmp_board[std::min(hau-1,i+1)][std::max(0,j-1)] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(std::min(hau - 1, i + 1));
+            new_pos.push_back(std::max(0, j - 1));
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
-    case '7' : // bas diag droite
-        if(isValid(std::min(hau-1,i+1),std::min(lar-1,j+1)))
+    case 7: // bas diag droite
+        if (isValid(std::min(hau - 1, i + 1), std::min(lar - 1, j + 1)))
         {
-            Streumons *tmp_board[std::min(hau-1,i+1)][std::min(lar-1,j+1)];
-            tmp_board[std::min(hau-1,i+1)][std::min(lar-1,j+1)] = new Streumons();
-            tmp_board[i][j] = NULL;
+            new_pos.push_back(std::min(hau - 1, i + 1));
+            new_pos.push_back(std::min(lar - 1, j + 1));
+            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
         }
         break;
     default:
         std::cout << "impossible" << std::endl;
         break;
     }
+    std::cout << move << " " <<old_pos[0] << " " <<old_pos[1] << " " << new_pos[0] << " " << new_pos[1] << std::endl;
 }

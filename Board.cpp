@@ -297,6 +297,12 @@ void Board::openTeupors()
     }
 }
 
+void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p){
+
+    coord[new_p[0]][new_p[1]] = coord[old_p[0]][old_p[1]];
+    coord[old_p[0]][old_p[1]] = NULL;
+
+}
 
 
 
