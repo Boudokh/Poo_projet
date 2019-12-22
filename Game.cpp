@@ -41,8 +41,6 @@ Game::Game(std::string filename)
                     level_string += tmp_str;
                     getline(readFile, tmp_str);
                 }
-
-                //std::cout << level_string << "eeeeeeee" << std::endl; // affichage de STRING
                 levels.push_back(new Board(level_string, hau, lar));
             }
         }
@@ -74,7 +72,6 @@ Game::Game()
     for (int i = 0; i < nb_level; i++)
     {
         new_level = new Board(this->hau, this->lar, nb_teupor, nb_diams, nb_streumons);
-        //std::cout << new_level->display() << std::endl;
         this->levels.push_back(new_level);
     }
 }
@@ -152,6 +149,8 @@ void Game::play()
     {
         nxt_move = getMove();
         endGame = moveOueurj(nxt_move);
+
+        playStreumons();
         dispCurrLevel();
     } while (nxt_move != 's' && !endGame);
 }
@@ -264,4 +263,108 @@ char Game::getMove()
     } while (legal_moves.find(nxt_move) == std::string::npos);
 
     return nxt_move;
+}
+
+
+void Game::playStreumons()
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    for (int i = 1; i < hau - 1; i++)
+    {
+        for (int j = 1; j < lar - 1; j++)
+        {
+            if (tmp_board[i][j])
+            {
+                if (tmp_board[i][j]->getSymbol() == 's')
+                {
+                    //int move = rand() % 8;
+                    //moveStreumons(move, i, j);
+                    //randMoves(i, j);
+                    aStar(i, j);
+                }
+            }
+        }
+    }
+}
+
+void Game::randMoves(int i, int j)
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> old_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    std::vector<std::vector<int>> legal_moves = legalMoves(i, j);
+
+    levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
+}
+
+std::vector<std::vector<int>> Game::legalMoves(int i, int j)
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> old_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    std::vector<std::vector<int>> legal_moves;
+    std::vector<int> tmp_move;
+
+    for (int x = std::max(1, i - 1); x <= std::min(hau - 1, i + 1); x++)
+    {
+        for (int y = std::max(1, j - 1); y <= std::min(lar - 1, j + 1); y++)
+        {
+            if (tmp_board[x][y] == NULL && (x != i || y != j))
+            {
+                tmp_move.clear();
+                tmp_move.push_back(x);
+                tmp_move.push_back(y);
+                legal_moves.push_back(tmp_move);
+            }
+        }
+    }
+
+    return legal_moves;
+}
+
+void Game::aStar(int i, int j)
+{
+    std::vector<std::vector<int>> moves =legalMoves(i, j);
+    std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> new_pos;
+    std::vector<int> old_pos;
+
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    double minHeuristic = std::numeric_limits<double>::infinity();
+    double score;
+
+    for (unsigned int i = 0; i < moves.size(); i++)
+    {
+        score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], plyr_p[1], plyr_p[2]);
+        tmp_score.push_back(score);
+    }
+
+    // Rechercher l'heuristique minimale
+    int index = 0;
+    for (unsigned int i = 0; i < tmp_score.size(); i++)
+    {
+        if (tmp_score[i] < minHeuristic)
+        {
+            minHeuristic = tmp_score[i];
+            index = i; // récupération de indice minimale
+        }
+    }
+    new_pos.push_back(moves[index][0]);
+    new_pos.push_back(moves[index][1]);
+
+    tmp_board.moveStrm(old_pos, new_pos);
+    compteurMove++;
 }

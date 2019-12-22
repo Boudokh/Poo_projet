@@ -11,8 +11,7 @@ class Streumons : public Movable {
         Streumons();
         ~Streumons();
         char getSymbol() const;
-
-
+        
 };
 
 #endif

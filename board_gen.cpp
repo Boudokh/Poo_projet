@@ -7,22 +7,26 @@ int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
-    int lar = 30;
+    int lar = 40;
     int hau = 15;
-    int nb_level = 3;
+    int nb_level = 1;
     int teupor = 10;
+
     int diam = 5;
     int streum = 6;
     int geurchar = 5;
     //Board* test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
-    //std::cout << *test->[0][0]->getSymbol() << std::endl;
+    Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
-    Game a(hau, lar, nb_level, teupor, diam, streum, geurchar);
+    Game *a = new Game(hau, lar, nb_level, teupor, diam, streum, geurchar);
 
     //a.affiche();
-    a.to_txt();
-    a.play();
+    a->affiche();
+    //a->playStreumons();
+    a->affiche();
+    //a->to_txt();
+    a->play();
     std::string filename = "jeu.txt";
     Game b(filename);
 

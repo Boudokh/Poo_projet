@@ -1,11 +1,11 @@
-CPP=g++ --std=c++11 -Wall 
+CPP=g++ --std=c++11 -Wall
 all: Board
 
 Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
 	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o Board
 
 board_gen.o: board_gen.cpp
-	$(CPP) -c board_gen.cpp 
+	$(CPP) -c board_gen.cpp
 
 Game.o: Game.cpp Game.hpp
 	$(CPP) -c Game.cpp
@@ -41,4 +41,4 @@ Oueurj.o : Oueurj.cpp Oueurj.hpp Movable.o Object.o
 	$(CPP) -c Oueurj.cpp
 
 clean:
-	rm *.o *.exe
+	rm *.o

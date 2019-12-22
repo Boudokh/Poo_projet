@@ -295,8 +295,24 @@ void Board::openTeupors()
                 found = true;
             }
         }
+    }
+}
+
         dep++;
         dep = dep % (hau * lar);
 
     }while (!found);
+}
+
+
+void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p){
+
+    coord[new_p[0]][new_p[1]] = coord[old_p[0]][old_p[1]];
+    coord[old_p[0]][old_p[1]] = NULL;
+
+}
+
+double Board::heuristicH(int _row, int _col, int row_j, int col_j)
+{
+    return ((double)sqrt((_row - row_j) * (_row - row_j) + (_col - col_j) * (_col - col_j)));
 }
