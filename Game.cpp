@@ -140,6 +140,7 @@ void Game::play()
     {
         nxt_move = getMove();
         endGame = moveOueurj(nxt_move);
+        playStreumons();
         dispCurrLevel();
     } while (nxt_move != 's' && !endGame);
 }
@@ -210,7 +211,7 @@ bool Game::moveOueurj(char move)
                 levels[old_pos[0]]->openTeupors();
             }
 
-            if (tmp_sym == 's')
+            if (tmp_sym == '*')
             {
                 plyr->switch_teleport();
             }
@@ -245,7 +246,6 @@ char Game::getMove()
     return nxt_move;
 }
 
-
 bool Game::isValid(int _row, int _col)
 {
     std::vector<int> old_pos = plyr->getPos();
@@ -278,7 +278,7 @@ void Game::playStreumons()
                     //int move = rand() % 8;
                     //moveStreumons(move, i, j);
                     //randMoves(i, j);
-                    aStar(legalMoves(i,j),i,j);
+                    aStar(legalMoves(i, j), i, j);
                 }
             }
         }
@@ -326,11 +326,11 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     std::vector<std::vector<int>> legal_moves;
     std::vector<int> tmp_move;
 
-    for(int x = std::max(1, i - 1); x <= std::min(hau - 1, i + 1); x++)
+    for (int x = std::max(1, i - 1); x <= std::min(hau - 1, i + 1); x++)
     {
-        for(int y = std::max(1, j - 1); y <= std::min(lar - 1, j + 1); y++)
+        for (int y = std::max(1, j - 1); y <= std::min(lar - 1, j + 1); y++)
         {
-            if(tmp_board[x][y] == NULL && (x != i || y != j))
+            if (tmp_board[x][y] == NULL && (x != i || y != j))
             {
                 tmp_move.clear();
                 tmp_move.push_back(x);
@@ -343,7 +343,7 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     return legal_moves;
 }
 
-void Game::aStar(std::vector<std::vector<int>> moves, int i , int j)
+void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
 {
     std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
     std::vector<int> plyr_p = plyr->getPos();
@@ -358,35 +358,31 @@ void Game::aStar(std::vector<std::vector<int>> moves, int i , int j)
     double minHeuristic = std::numeric_limits<double>::infinity();
     double score;
 
-    do
+    for (int i = 0; i < moves.size(); i++)
     {
-        for(int i = 0; i < moves.size(); i++)
+        score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], plyr_p[1], plyr_p[2]);
+        tmp_score.clear();
+        tmp_score.push_back(score);
+    }
+
+    // Rechercher l'heuristique minimale
+    int index = 0;
+    for (int i = 0; i < tmp_score.size(); i++)
+    {
+        if (tmp_score[i] < minHeuristic)
         {
-            score = compteurMove + tmp_board.heuristicH(moves[i][0],moves[i][1],plyr_p[1],plyr_p[2]);
-            tmp_score.clear();
-            tmp_score.push_back(score);
+            minHeuristic = tmp_score[i];
+            index = i; // récupération de indice minimale
         }
+    }
+    new_pos.push_back(moves[index][0]);
+    new_pos.push_back(moves[index][1]);
 
-        // Rechercher l'heuristique minimale
-        int index = 0;
-        for(int i =0; i < tmp_score.size(); i ++)
-        {
-            if(tmp_score[i]<minHeuristic)
-            {
-                minHeuristic = tmp_score[i];
-                index = i; // récupération de indice minimale
-            }
-        }
-        new_pos.push_back(moves[index][0]);
-        new_pos.push_back(moves[index][1]);
+    tmp_board.moveStrm(old_pos, new_pos);
+    compteurMove++;
 
-        tmp_board.moveStrm(old_pos,new_pos);
-        compteurMove++;
-
-    }while(!(new_pos[0]==plyr_p[0] and new_pos[1]==plyr_p[1]));
-
-    std::cout << "old_pos[0]" <<  old_pos[0] << "old_pos[1]" << old_pos[1] << std::endl;
-    std:: cout << "new_pos[0]"<< new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
+    std::cout << "old_pos[0]" << old_pos[0] << "old_pos[1]" << old_pos[1] << std::endl;
+    std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
 }
 
 void Game::moveStreumons(int move, int i, int j)

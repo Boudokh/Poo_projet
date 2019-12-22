@@ -13,3 +13,5 @@
 jeu.txt
 Board
 .vscode/*
+.vscode
+.vscode/c_cpp_properties.json

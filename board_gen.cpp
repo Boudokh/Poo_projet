@@ -14,17 +14,17 @@ int main(int argc, char *argv[])
     int diam = 2;
     int streum = 8;
     int geurchar = 3;
-   
+
     Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
     Game *a = new Game(hau, lar, nb_level, teupor, diam, streum, geurchar);
 
     //a.affiche();
     a->affiche();
-    a->playStreumons();
+    //a->playStreumons();
     a->affiche();
     //a->to_txt();
-    //a->play();
+    a->play();
     std::string filename = "jeu.txt";
     Game b(filename);
 
