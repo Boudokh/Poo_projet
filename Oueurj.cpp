@@ -36,7 +36,44 @@ void Oueurj::win()
     this->state = 1;
 }
 
-void Oueurj::switch_teleport(){
+void Oueurj::eatDiams(){
+    this->nb_diams++;
+}
+
+bool Oueurj::teleport()
+{
+    if (this->inf_telep)
+    {
+        return true;
+    }
+
+    if (this->nb_teleport > 0)
+    {
+        this->nb_teleport--;
+        return true;
+    }
+
+    return false;
+}
+
+std::string Oueurj::getScores() const
+{
+
+    std::string tlp = "";
+    if (this->inf_telep)
+    {
+        tlp = "inf";
+    }
+    else
+    {
+        tlp = std::to_string(this->nb_teleport);
+    }
+
+    return "D: " + std::to_string(this->nb_diams) + " T: " + tlp;
+}
+
+void Oueurj::switch_teleport()
+{
     this->inf_telep = true;
 }
 

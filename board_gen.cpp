@@ -11,9 +11,11 @@ int main(int argc, char *argv[])
     int hau = 15;
     int nb_level = 1;
     int teupor = 10;
-    int diam = 2;
-    int streum = 8;
-    int geurchar = 3;
+
+    int diam = 5;
+    int streum = 6;
+    int geurchar = 5;
+    //Board* test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
     Board *test = new Board(hau, lar, teupor, diam, streum, geurchar);
 
@@ -28,4 +30,6 @@ int main(int argc, char *argv[])
     std::string filename = "jeu.txt";
     Game b(filename);
 
+    //b.to_txt();
+    //std::cout << test->display() << std::endl;
 }
