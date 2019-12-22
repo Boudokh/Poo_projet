@@ -247,21 +247,6 @@ char Game::getMove()
     return nxt_move;
 }
 
-bool Game::isValid(int _row, int _col)
-{
-    std::vector<int> old_pos = plyr->getPos();
-    Board &tmp_board = *levels[old_pos[0]];
-    return (_row >= 1) && (_row < hau) && (_col >= 1) && (_col < lar) && (tmp_board[_row][_col] == NULL);
-}
-
-bool Game::isDest(int _row, int _col)
-{
-    std::vector<int> tmp_pos = plyr->getPos();
-    if (_row == tmp_pos[1] && _col == tmp_pos[2])
-        return true;
-    else
-        return false;
-}
 
 void Game::playStreumons()
 {
@@ -279,11 +264,94 @@ void Game::playStreumons()
                     //int move = rand() % 8;
                     //moveStreumons(move, i, j);
                     //randMoves(i, j);
-                    aStar(legalMoves(i, j), i, j);
+                    //aStar(legalMoves(i, j), i, j);
+                    defendDiams(i,j);
                 }
             }
         }
     }
+}
+
+void Game::defendDiams(int i, int j)
+{
+    std::vector<std::vector<int>> defend = legalDefend(i,j); // position (x,y) des diams.
+    std::vector<std::vector<int>> moves = legalMoves(i,j);
+
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> new_pos;
+    std::vector<int> old_pos;
+
+    std::vector<int> tmp_score;
+
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    // Déplacement vers le diamant le plus proche
+
+    double minDistance = std::numeric_limits<double>::infinity();
+    double score;
+
+    for (unsigned int i = 0; i < moves.size(); i++)
+    {
+        for(unsigned int j = 0; j < defend.size(); j++)
+        {
+            score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], defend[j][0], defend[j][1]);
+            tmp_score.push_back(score);
+        }
+    }
+    // Recherche score minimal
+    int index = 0;
+    for (int i = 0; i < tmp_score.size(); i++)
+    {
+        if (tmp_score[i] < minDistance)
+        {
+            minDistance = tmp_score[i];
+            index = i; // récupération de indice minimale
+        }
+    }
+    new_pos.push_back(moves[index][0]);
+    new_pos.push_back(moves[index][1]);
+
+    tmp_board.moveStrm(old_pos, new_pos);
+    compteurMove++;
+
+
+}
+
+std::vector<std::vector<int>> Game::legalDefend(int i, int j)
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> old_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    Diams *tmp_diam;
+
+    std::vector<std::vector<int>> legal_defend; 
+    std::vector<int> tmp_defend;
+
+    for (int x = std::max(1, i - 1); x <= std::min(hau - 1, i + 1); x++)
+    {
+        for (int y = std::max(1, j - 1); y <= std::min(lar - 1, j + 1); y++)
+        {
+            if(tmp_board[x][y])
+            {
+                if (tmp_board[x][y] == tmp_diam && (x != i || y != j))
+                {
+                    tmp_defend.clear();
+                    tmp_defend.push_back(x);
+                    tmp_defend.push_back(y);
+                    legal_defend.push_back(tmp_defend);
+                }
+            }
+        }
+    }
+
+    return legal_defend;
 }
 
 void Game::randMoves(int i, int j)
@@ -385,6 +453,7 @@ void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
     std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
 }
 
+/*
 void Game::moveStreumons(int move, int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
@@ -467,3 +536,4 @@ void Game::moveStreumons(int move, int i, int j)
     }
     std::cout << move << " -2-" << new_pos[0] << " " << new_pos[1] << std::endl;
 }
+*/

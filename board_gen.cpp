@@ -21,15 +21,11 @@ int main(int argc, char *argv[])
 
     //a.affiche();
     a->affiche();
-    //a->playStreumons();
+    a->playStreumons();
     a->affiche();
     //a->to_txt();
     a->play();
     std::string filename = "jeu.txt";
     Game b(filename);
 
-    std::cout << "Validité (i,j) : " << a->isValid(3, 5) << std::endl;
-    std::cout << "Destination : " << a->isDest(3, 5) << std::endl;
-
-    /* Test déplacement des streumons */
 }

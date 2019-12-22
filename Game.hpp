@@ -46,10 +46,8 @@ public:
     std::vector<std::vector<int>> legalMoves(int i, int j);
     void aStar(std::vector<std::vector<int>>, int , int);
 
-
-    bool isValid(int row, int col); // Fonction permettant de vérifier si la celulle(row,col) est disponible ou non. 
-    bool isDest(int row, int col); // Fonction permettant de vérifiant si on arrive à la cellule finale.
-
+    void defendDiams(int,int);
+    std::vector<std::vector<int>> legalDefend(int i, int j);
 
 
 };
