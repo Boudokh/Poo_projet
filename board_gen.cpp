@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     int lar = 40;
     int hau = 15;
-    int nb_level = 1;
+    int nb_level = 10;
     int teupor = 10;
     int diam = 2;
     int streum = 8;

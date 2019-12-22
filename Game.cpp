@@ -270,6 +270,7 @@ void Game::playStreumons()
                         aStar(legalMoves(i,j), i, j);
                     break;
                     case 2:
+                        std::cout << "test reussi" << std::endl;
                         aStarProba(legalMoves(i,j),i,j);
                         break;
                     default:
@@ -484,7 +485,6 @@ void Game::aStarProba(std::vector<std::vector<int>> moves, int i, int j)
             randomStreums--;
         }
     }
-    std::cout << "Niveau 0, mode soft ... " << std::endl;
 }
 
 
