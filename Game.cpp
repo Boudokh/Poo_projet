@@ -140,6 +140,7 @@ void Game::play()
     {
         nxt_move = getMove();
         endGame = moveOueurj(nxt_move);
+
         playStreumons();
         dispCurrLevel();
     } while (nxt_move != 's' && !endGame);
@@ -361,7 +362,6 @@ void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
     for (int i = 0; i < moves.size(); i++)
     {
         score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], plyr_p[1], plyr_p[2]);
-        tmp_score.clear();
         tmp_score.push_back(score);
     }
 
