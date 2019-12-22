@@ -280,7 +280,6 @@ std::vector<int> Board::getRandomPoint()
 
 void Board::openTeupors()
 {
-    std::cout << "tttttt";
     int dep = rand() % (lar * hau);
     bool found = false;
     int i, j;
@@ -295,12 +294,11 @@ void Board::openTeupors()
                 dynamic_cast<Teupor *>(coord[i][j])->openTeupor();
                 found = true;
             }
-
-            dep++;
-            dep = dep % (hau * lar);
         }
+        dep++;
+        dep = dep % (hau * lar);
 
-    } while (!found);
+    }while (!found);
 }
 
 void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
