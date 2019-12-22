@@ -19,7 +19,7 @@ private:
 
 public:
     Game();
-    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);
+    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int streumons_type = 0, int nb_geurchars = 1);
     Game(std::string filename);
 
     void generateBoardList();
@@ -44,7 +44,7 @@ public:
     void moveStreumons(int move, int i , int j);
     void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
-    void aStar(std::vector<std::vector<int>>, int , int);
+    void aStar(int , int);
 
     void defendDiams(int,int);
     std::vector<std::vector<int>> legalDefend(int i, int j);

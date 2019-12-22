@@ -56,8 +56,7 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
     }
 }
 
-Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
-
+Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int streumons_type, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
     nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
@@ -122,7 +121,7 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
 
     this->addDiams(nb_diams);
     this->addGeurchars(nb_geurchars);
-    this->addStreumons(nb_streumons);
+    this->addStreumons(nb_streumons, streumons_type);
 
     //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
 }
@@ -237,7 +236,7 @@ void Board::addGeurchars(int nb_geurchars)
     }
 }
 
-void Board::addStreumons(int nb_streumons)
+void Board::addStreumons(int nb_streumons, int streumons_type)
 {
 
     // Génération aléatoire streumons.
@@ -252,6 +251,7 @@ void Board::addStreumons(int nb_streumons)
 
             tmp_streums = new Streumons();
             coord[rd_point[0]][rd_point[1]] = tmp_streums;
+            dynamic_cast<Streumons *>(coord[rd_point[0]][rd_point[1]])->setType(streumons_type);
             nb_streumons--;
         }
     }

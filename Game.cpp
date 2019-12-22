@@ -76,11 +76,11 @@ Game::Game()
     }
 }
 
-Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
+Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int streumons_type, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     for (int i = 0; i < nb_level; i++)
     {
-        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons));
+        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons,streumons_type,nb_geurchars));
     }
 
     std::vector<int> init_pos;
@@ -261,11 +261,17 @@ void Game::playStreumons()
             {
                 if (tmp_board[i][j]->getSymbol() == 's')
                 {
-                    //int move = rand() % 8;
-                    //moveStreumons(move, i, j);
-                    //randMoves(i, j);
-                    //aStar(legalMoves(i, j), i, j);
-                    defendDiams(i,j);
+                    switch (dynamic_cast<Streumons *>(tmp_board[i][j])->getType())
+                    {
+                    case '0':
+                        randMoves(i, j);
+                    break;
+                    case '1':
+                        aStar(i, j);
+                    break;
+                    default:
+                        break;
+                    }
                 }
             }
         }
@@ -316,8 +322,6 @@ void Game::defendDiams(int i, int j)
 
     tmp_board.moveStrm(old_pos, new_pos);
     compteurMove++;
-
-
 }
 
 std::vector<std::vector<int>> Game::legalDefend(int i, int j)
@@ -412,12 +416,14 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     return legal_moves;
 }
 
-void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
+void Game::aStar(int i, int j)
 {
     std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> new_pos;
     std::vector<int> old_pos;
+
+    std::vector<std::vector<int>> moves;
 
     old_pos.push_back(i);
     old_pos.push_back(j);
