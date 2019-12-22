@@ -265,7 +265,6 @@ char Game::getMove()
     return nxt_move;
 }
 
-
 void Game::playStreumons()
 {
     std::vector<int> plyr_p = plyr->getPos();
@@ -332,7 +331,7 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
 
 void Game::aStar(int i, int j)
 {
-    std::vector<std::vector<int>> moves =legalMoves(i, j);
+    std::vector<std::vector<int>> moves = legalMoves(i, j);
     std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> new_pos;
