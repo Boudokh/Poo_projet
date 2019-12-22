@@ -14,12 +14,11 @@ int main(int argc, char *argv[])
     int diam = 2;
     int streum = 8;
     int geurchar = 3;
-    int streum_type = rand() % 2;
 
 
-    Board *test = new Board(hau, lar, teupor, diam, streum, streum_type, geurchar);
+    Board *test = new Board(hau, lar, teupor, diam, streum,geurchar);
 
-    Game *a = new Game(hau, lar, nb_level, teupor, diam, streum, streum_type, geurchar);
+    Game *a = new Game(hau, lar, nb_level, teupor, diam, streum,geurchar);
 
     //a.affiche();
     a->affiche();

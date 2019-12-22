@@ -12,7 +12,6 @@ class Streumons : public Movable {
         Streumons();
         ~Streumons();
         char getSymbol() const;
-        void setType(const int);
         int getType() const;
         
 };

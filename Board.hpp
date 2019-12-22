@@ -37,7 +37,7 @@ private:
 public:
     Row operator[](size_t i) { return coord[i]; }
     std::vector<std::vector<Object *>> coord;
-    Board(int _hau, int _lar, int nb_teupor = 1, int nb_diams = 1, int nb_streumons = 1, int streumons_type = 0, int nb_geurchars = 1); //generate random board
+    Board(int _hau, int _lar, int nb_teupor = 1, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1); //generate random board
 
     Board(std::string txt_board, int _hau, int _lar);
 
@@ -49,7 +49,7 @@ public:
 
     void addDiams(int nb_diams);         // génération aléatoire de diams - au sein du plateau - sans les bords.
     void addGeurchars(int nb_geurchars); // génération aléatoire de geurchars - au sein du plateau - sans les bords.
-    void addStreumons(int nb_streumons, int streumons_type); // génération aléatoire de streumons - au sein du plateau - sans les bords.
+    void addStreumons(int nb_streumons); // génération aléatoire de streumons - au sein du plateau - sans les bords.
 
     std::vector<int> getRandomPoint();
 

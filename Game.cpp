@@ -76,11 +76,11 @@ Game::Game()
     }
 }
 
-Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int streumons_type, int nb_geurchars) : hau(_hau), lar(_lar)
+Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons,int nb_geurchars) : hau(_hau), lar(_lar)
 {
     for (int i = 0; i < nb_level; i++)
     {
-        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons,streumons_type,nb_geurchars));
+        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons,nb_geurchars));
     }
 
     std::vector<int> init_pos;
@@ -263,12 +263,15 @@ void Game::playStreumons()
                 {
                     switch (dynamic_cast<Streumons *>(tmp_board[i][j])->getType())
                     {
-                    case '0':
+                    case 0:
                         randMoves(i, j);
                     break;
-                    case '1':
-                        aStar(i, j);
+                    case 1:
+                        aStar(legalMoves(i,j), i, j);
                     break;
+                    case 2:
+                        aStarProba(legalMoves(i,j),i,j);
+                        break;
                     default:
                         break;
                     }
@@ -416,14 +419,12 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     return legal_moves;
 }
 
-void Game::aStar(int i, int j)
+void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
 {
     std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> new_pos;
     std::vector<int> old_pos;
-
-    std::vector<std::vector<int>> moves;
 
     old_pos.push_back(i);
     old_pos.push_back(j);
@@ -455,9 +456,37 @@ void Game::aStar(int i, int j)
     tmp_board.moveStrm(old_pos, new_pos);
     compteurMove++;
 
-    std::cout << "old_pos[0]" << old_pos[0] << "old_pos[1]" << old_pos[1] << std::endl;
-    std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
+    //std::cout << "old_pos[0]" << old_pos[0] << "old_pos[1]" << old_pos[1] << std::endl;
+    //std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
 }
+
+
+void Game::aStarProba(std::vector<std::vector<int>> moves, int i, int j)
+{
+    std::cout << "aStarProbabilistic mode ; Current level : " << plyr->getCurrentlevel() << std::endl;
+    int aStarProba = plyr->getCurrentlevel()/levels.size();
+    int aStarStreums = floor(numberOfStreums()*aStarProba); // nombre de streums en mode A* % au niveau actuel.
+    int randomStreums = numberOfStreums() - aStarStreums;
+
+    if(aStarStreums>0)
+    {
+        while(aStarStreums>0)
+        {
+            aStar(moves,i,j);
+            aStarStreums--;
+        }
+    }
+    else if(randomStreums>0)
+    {
+        while(randomStreums>0)
+        {
+            randMoves(i,j);
+            randomStreums--;
+        }
+    }
+    std::cout << "Niveau 0, mode soft ... " << std::endl;
+}
+
 
 /*
 void Game::moveStreumons(int move, int i, int j)
@@ -543,3 +572,24 @@ void Game::moveStreumons(int move, int i, int j)
     std::cout << move << " -2-" << new_pos[0] << " " << new_pos[1] << std::endl;
 }
 */
+
+int Game::numberOfStreums()
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    Board &tmp_board = *levels[plyr_p[0]];
+    int nbrStreums;
+    for (int i = 1; i < hau - 1; i++)
+    {
+        for (int j = 1; j < lar - 1; j++)
+        {
+            if (tmp_board[i][j])
+            {
+                if (tmp_board[i][j]->getSymbol() == 's')
+                {
+                   nbrStreums++;
+                }
+            }
+        }
+    }
+    return nbrStreums;
+}
