@@ -5,6 +5,7 @@
 #include <fstream>
 #include <limits>
 #include <math.h>
+#include <chrono>
 
 class Game
 {
@@ -17,7 +18,7 @@ private:
 
 public:
     Game();
-    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1,int nb_geurchars = 1);
+    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);
     Game(std::string filename);
 
     void generateBoardList();
@@ -41,8 +42,8 @@ public:
     void playStreumons();
     void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
-    void aStar(int , int);
-    void aStarProba(int,int);
+    void aStar(int i, int j);
+    void aStarProba(int i, int j, int current_level);
     int numberOfStreums();
 };
 

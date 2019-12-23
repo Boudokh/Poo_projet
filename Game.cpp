@@ -138,7 +138,7 @@ void Game::dispCurrLevel() const
 
     std::string tmp_str;
 
-    for (int i = 0; i < hau ; i++)
+    for (int i = 0; i < hau; i++)
     {
         getline(level_strm, tmp_str);
         std::cout << tmp_str;
@@ -302,6 +302,7 @@ char Game::getMove()
 
 void Game::playStreumons()
 {
+    auto start = std::chrono::high_resolution_clock::now();
     std::vector<int> plyr_p = plyr->getPos();
     Board &tmp_board = *levels[plyr_p[0]];
 
@@ -322,7 +323,7 @@ void Game::playStreumons()
                         aStar(i, j);
                         break;
                     case 2:
-                        aStarProba(i, j);
+                        aStarProba(i, j, plyr_p[0]);
                         break;
                     default:
                         break;
@@ -331,6 +332,9 @@ void Game::playStreumons()
             }
         }
     }
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
 
 void Game::randMoves(int i, int j)
@@ -416,47 +420,16 @@ void Game::aStar(int i, int j)
     //std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
 }
 
-void Game::aStarProba(int i, int j)
+void Game::aStarProba(int i, int j, int current_level)
 {
-    int aStarProba = plyr->getCurrentlevel() / levels.size();
-    int aStarStreums = floor(numberOfStreums() * aStarProba); // nombre de streums en mode A* % au niveau actuel.
-    int randomStreums = numberOfStreums() - aStarStreums;
+    int proba = rand() % (levels.size());
 
-    if (aStarStreums > 0)
+    if (proba < current_level)
     {
-        while (aStarStreums > 0)
-        {
-            aStar(i, j);
-            aStarStreums--;
-        }
+        aStar(i, j);
     }
-    else if (randomStreums > 0)
+    else
     {
-        while (randomStreums > 0)
-        {
-            randMoves(i, j);
-            randomStreums--;
-        }
+        randMoves(i, j);
     }
-}
-
-int Game::numberOfStreums()
-{
-    std::vector<int> plyr_p = plyr->getPos();
-    Board &tmp_board = *levels[plyr_p[0]];
-    int nbrStreums;
-    for (int i = 1; i < hau - 1; i++)
-    {
-        for (int j = 1; j < lar - 1; j++)
-        {
-            if (tmp_board[i][j])
-            {
-                if (tmp_board[i][j]->getSymbol() == 's')
-                {
-                    nbrStreums++;
-                }
-            }
-        }
-    }
-    return nbrStreums;
 }
