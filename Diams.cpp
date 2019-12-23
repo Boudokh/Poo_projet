@@ -9,6 +9,6 @@ char Diams::getSymbol() const {
     return this->symbol;
 }
 
-std::string Diams:: getName(){
+std::string Diams:: getName() const{
     return typeid(this).name();
 }

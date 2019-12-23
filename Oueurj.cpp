@@ -26,12 +26,12 @@ void Oueurj::setPos(const std::vector<int> new_pos)
     this->pos = new_pos;
 }
 
-void Oueurj::die()
+const void Oueurj::die()
 {
     this->state = -1;
 }
 
-void Oueurj::win()
+const void Oueurj::win()
 {
     this->state = 1;
 }
@@ -72,7 +72,7 @@ std::string Oueurj::getScores() const
     return "D: " + std::to_string(this->nb_diams) + " T: " + tlp;
 }
 
-void Oueurj::switch_teleport()
+const void Oueurj::switch_teleport()
 {
     this->inf_telep = true;
 }

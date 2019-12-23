@@ -269,7 +269,7 @@ void Board::enleverOuerj(Oueurj *oueurj)
     this->coord[pos[1]][pos[2]] = NULL;
 }
 
-std::vector<int> Board::getRandomPoint()
+const std::vector<int> Board::getRandomPoint()
 {
     int point = rand() % ((lar - 2) * (hau - 2));
     std::vector<int> rd_point;
@@ -308,7 +308,7 @@ void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
     coord[old_p[0]][old_p[1]] = NULL;
 }
 
-double Board::heuristicH(int _row, int _col, int row_j, int col_j)
+const double Board::heuristicH(int _row, int _col, int row_j, int col_j)
 {
     return ((double)sqrt((_row - row_j) * (_row - row_j) + (_col - col_j) * (_col - col_j)));
 }

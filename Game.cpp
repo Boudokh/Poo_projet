@@ -253,7 +253,7 @@ bool Game::moveOueurj(char move)
     return false;
 }
 
-char Game::getMove()
+const char Game::getMove()
 {
     char nxt_move;
     std::string legal_moves = "azeqsdwxct";
@@ -300,7 +300,7 @@ void Game::randMoves(int i, int j)
     levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
 }
 
-std::vector<std::vector<int>> Game::legalMoves(int i, int j)
+const std::vector<std::vector<int>> Game::legalMoves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> old_pos;

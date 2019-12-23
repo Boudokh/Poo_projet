@@ -23,10 +23,10 @@ public:
     std::vector<int> getPos() const;
     int getCurrentlevel() const;
     bool teleport();
-    void switch_teleport();
+    const void switch_teleport();
 
-    void die();
-    void win();
+    const void die();
+    const void win();
 
     std::string getScores() const;
     void eatDiams();

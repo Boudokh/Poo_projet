@@ -51,7 +51,7 @@ public:
     void addGeurchars(int nb_geurchars); // génération aléatoire de geurchars - au sein du plateau - sans les bords.
     void addStreumons(int nb_streumons); // génération aléatoire de streumons - au sein du plateau - sans les bords.
 
-    std::vector<int> getRandomPoint();
+    const std::vector<int> getRandomPoint();
 
     void placerOueurj(Oueurj *Oueurj);
     void enleverOuerj(Oueurj *oueurj);
@@ -60,7 +60,7 @@ public:
     void moveStrm(std::vector<int> old_p, std::vector<int> new_p);
     ~Board();
 
-    double heuristicH(int row, int col, int row_j, int col_j); // Fonction heuristique H % à la position du joueur - distance euclidienne. 
+    const double heuristicH(int row, int col, int row_j, int col_j); // Fonction heuristique H % à la position du joueur - distance euclidienne. 
 
 
 };

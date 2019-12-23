@@ -5,7 +5,8 @@ Reumus::Reumus(){
 
 }
 
-std::string Reumus:: getName(){
+std::string Reumus:: getName() const
+{
     return typeid(this).name();
 }
 

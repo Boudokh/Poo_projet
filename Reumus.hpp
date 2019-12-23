@@ -9,7 +9,7 @@ class Reumus : public Fixed
 private:
 public:
     Reumus();
-    virtual std::string  getName(); //à améliorer
+    virtual std::string getName() const;
     virtual char getSymbol() const;
     ~Reumus();
 

@@ -14,7 +14,7 @@ private:
 public:
     virtual ~Object();
     virtual char getSymbol() const;
-    virtual std::string  getName();
+    virtual std::string  getName() const;
 };
 
 #endif

@@ -30,7 +30,7 @@ public:
     void placerOueurjRandom();
     void dispCurrLevel() const;
     void play();
-    char getMove();
+    const char getMove();
 
     void up();
     void down();
@@ -38,11 +38,11 @@ public:
     void right();
 
     bool moveOueurj(char move);
-    friend std::vector<int> Board::getRandomPoint();
+    friend const std::vector<int> Board::getRandomPoint();
 
     void playStreumons();
     void randMoves(int i, int j);
-    std::vector<std::vector<int>> legalMoves(int i, int j);
+    const std::vector<std::vector<int>> legalMoves(int i, int j);
     void aStar(int i, int j);
 
 };

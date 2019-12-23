@@ -11,7 +11,7 @@ class Diams : public Fixed {
         Diams();
         ~Diams();
         char getSymbol() const;
-        virtual std::string  getName(); //à améliorer
+        virtual std::string  getName() const;
 
 };
 
