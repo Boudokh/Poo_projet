@@ -304,30 +304,29 @@ void Game::playStreumons()
 {
     auto start = std::chrono::high_resolution_clock::now();
     std::vector<int> plyr_p = plyr->getPos();
-    Board &tmp_board = *levels[plyr_p[0]];
+    Board &curr_board = *levels[plyr_p[0]];
 
-    for (int i = 1; i < hau - 1; i++)
+    std::string symb_list = curr_board.toString();
+
+    for (int i = 0; i < hau; i++)
     {
-        for (int j = 1; j < lar - 1; j++)
+        for (int j = 0; j < lar; j++)
         {
-            if (tmp_board[i][j])
+            if (symb_list[i * (lar + 1) + j] == 's')
             {
-                if (tmp_board[i][j]->getSymbol() == 's')
+                switch (dynamic_cast<Streumons *>(curr_board[i][j])->getType())
                 {
-                    switch (dynamic_cast<Streumons *>(tmp_board[i][j])->getType())
-                    {
-                    case 0:
-                        randMoves(i, j);
-                        break;
-                    case 1:
-                        aStar(i, j);
-                        break;
-                    case 2:
-                        aStarProba(i, j, plyr_p[0]);
-                        break;
-                    default:
-                        break;
-                    }
+                case 0:
+                    randMoves(i, j);
+                    break;
+                case 1:
+                    aStar(i, j);
+                    break;
+                case 2:
+                    aStarProba(i, j, plyr_p[0]);
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -410,14 +409,10 @@ void Game::aStar(int i, int j)
             index = i; // récupération de indice minimale
         }
     }
-    new_pos.push_back(moves[index][0]);
-    new_pos.push_back(moves[index][1]);
+    new_pos = moves[index];
 
     tmp_board.moveStrm(old_pos, new_pos);
     compteurMove++;
-
-    //std::cout << "old_pos[0]" << old_pos[0] << "old_pos[1]" << old_pos[1] << std::endl;
-    //std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
 }
 
 void Game::aStarProba(int i, int j, int current_level)
