@@ -41,4 +41,4 @@ Oueurj.o : Oueurj.cpp Oueurj.hpp Movable.o Object.o
 	$(CPP) -c Oueurj.cpp
 
 clean:
-	rm *.o *.exe
+	rm *.o

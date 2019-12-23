@@ -3,10 +3,8 @@
 
 #include "Board.hpp"
 #include <fstream>
-#include <sstream>
 #include <limits>
 #include <math.h>
-
 
 class Game
 {
@@ -15,8 +13,7 @@ private:
     int hau;
     int lar;
     std::vector<Board *> levels;
-    int compteurMove = 0; // Compteur aStar pour streumons.
-
+    int compteurMove; // Compteur aStar pour streumons.
 
 public:
     Game();
@@ -27,7 +24,7 @@ public:
     ~Game();
 
     void affiche();
-    void to_txt();
+    void to_txt(std::string filename = "jeu");
     void placerOueurjRandom();
     void dispCurrLevel() const;
     void play();
@@ -42,13 +39,11 @@ public:
     friend std::vector<int> Board::getRandomPoint();
 
     void playStreumons();
-    void moveStreumons(int move, int i , int j);
     void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
     void aStar(int , int);
     void aStarProba(int,int);
     int numberOfStreums();
-
 };
 
 #endif

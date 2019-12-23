@@ -11,22 +11,22 @@ int main(int argc, char *argv[])
     int hau = 15;
     int nb_level = 10;
     int teupor = 10;
-    int diam = 2;
-    int streum = 8;
-    int geurchar = 3;
-
-
-    Board *test = new Board(hau, lar, teupor, diam, streum,geurchar);
+    int diam =5;
+    int streum =3;
+    int geurchar =5;
 
     Game *a = new Game(hau, lar, nb_level, teupor, diam, streum,geurchar);
 
     //a.affiche();
-    a->affiche();
-    a->playStreumons();
-    a->affiche();
-    //a->to_txt();
+    //a->playStreumons();
+    //a->affiche();
     a->play();
-    std::string filename = "jeu.txt";
-    Game b(filename);
+    //a->to_txt();
 
+    std::string filename = "jeu4.txt";
+    Game* b= new Game(filename);
+    b->to_txt();
+    b->play();
+
+    //b.to_txt();
 }
