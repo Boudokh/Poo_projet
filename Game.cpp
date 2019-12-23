@@ -395,7 +395,7 @@ void Game::aStar(int i, int j)
 
     for (unsigned int i = 0; i < moves.size(); i++)
     {
-        score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], plyr_p[1], plyr_p[2]);
+        score = compteurMove + tmp_board.heuristicH(moves[i], plyr_p);
         tmp_score.push_back(score);
     }
 
