@@ -41,11 +41,8 @@ Game::Game(std::string filename)
         std::string level_string;
         level_string.reserve(this->hau * this->lar);
 
-        std::cout << hau << "-" << lar << "-" << nb_level << "-" << std::endl;
-
         for (int k = 0; k < nb_level; k++)
         {
-            std::cout << k << "/" << nb_level - 1 << std::endl;
             if (!readFile.eof())
             {
                 level_string = "";
@@ -136,9 +133,24 @@ void Game::affiche()
 
 void Game::dispCurrLevel() const
 {
-    std::cout << this->levels[plyr->getCurrentlevel()]->toString() << std::endl;
+    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream();
+    std::stringstream plyr_info = plyr->toStream();
 
-    std::cout << plyr->getScores() << std::endl;
+    std::string tmp_str;
+
+    for (int i = 0; i < hau ; i++)
+    {
+        getline(level_strm, tmp_str);
+        std::cout << tmp_str;
+        tmp_str.clear();
+        getline(plyr_info, tmp_str);
+        std::cout << tmp_str;
+        if (i == 2)
+        {
+            std::cout << "/" << this->levels.size();
+        }
+        std::cout << std::endl;
+    }
 }
 
 void Game::to_txt(std::string filename)

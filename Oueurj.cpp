@@ -57,10 +57,10 @@ bool Oueurj::teleport()
     return false;
 }
 
-std::string Oueurj::getScores() const
+std::string Oueurj::getTelep() const
 {
 
-    std::string tlp = "";
+    std::string tlp;
     if (this->inf_telep)
     {
         tlp = "inf";
@@ -70,14 +70,16 @@ std::string Oueurj::getScores() const
         tlp = std::to_string(this->nb_teleport);
     }
 
-    return "D: " + std::to_string(this->nb_diams) + " T: " + tlp;
+    return tlp;
 }
 
-std::string Oueurj::to_string() const
+std::stringstream Oueurj::toStream() const
 {
-    std::string line = "";
-
-    return line;
+    std::stringstream score_line;
+    score_line.str("    Téléports: " + getTelep() + "\n" +
+                   "    Diams:     " + std::to_string(this->nb_diams) + "\n" +
+                   "    Niveau:    " + std::to_string(this->pos[0] + 1));
+    return score_line;
 }
 
 void Oueurj::switch_teleport()

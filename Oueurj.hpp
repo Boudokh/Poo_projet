@@ -1,9 +1,10 @@
 #ifndef OUEURJ_HPP
 #define OUEURJ_HPP
 
-#include "Object.hpp"
+#include "Movable.hpp"
+#include <sstream>
 
-class Oueurj : public Object
+class Oueurj : public Movable
 {
 
 private:
@@ -28,8 +29,8 @@ public:
     void die();
     void win();
 
-    std::string getScores() const;
-    std::string to_string() const;
+    std::string getTelep() const;
+    std::stringstream toStream() const;
     void eatDiams();
     ~Oueurj();
 };

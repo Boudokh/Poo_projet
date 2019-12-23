@@ -3,7 +3,6 @@
 
 #include "Board.hpp"
 #include <fstream>
-#include <sstream>
 #include <limits>
 
 class Game

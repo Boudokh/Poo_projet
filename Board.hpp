@@ -12,6 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <random>
 #include <time.h>
 #include <string>
@@ -42,6 +43,7 @@ public:
     Board(std::string txt_board, int _hau, int _lar);
 
     std::string toString();
+    std::stringstream toStream();
 
     void reumus_vert(int size_max); // génération aléatoire de murs - vertical
     void reumus_hor(int size_max);  // génération aléatoire de murs - horizontal
