@@ -41,7 +41,7 @@ public:
 
     Board(std::string txt_board, int _hau, int _lar);
 
-    std::string display();
+    std::string toString();
 
     void reumus_vert(int size_max); // génération aléatoire de murs - vertical
     void reumus_hor(int size_max);  // génération aléatoire de murs - horizontal
@@ -60,9 +60,7 @@ public:
     void moveStrm(std::vector<int> old_p, std::vector<int> new_p);
     ~Board();
 
-    double heuristicH(int row, int col, int row_j, int col_j); // Fonction heuristique H % à la position du joueur - distance euclidienne. 
-
-
+    double heuristicH(int row, int col, int row_j, int col_j); // Fonction heuristique H % à la position du joueur - distance euclidienne.
 };
 
 #endif

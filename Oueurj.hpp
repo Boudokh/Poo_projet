@@ -8,13 +8,13 @@ class Oueurj : public Object
 
 private:
     std::vector<int> pos;
-    int state; // 0 en jeu, -1 mort, 1 gagné
     unsigned int nb_diams;
     unsigned int nb_teleport;
     bool inf_telep;
+    int state; // 0 en jeu, -1 mort, 1 gagné
 
 public:
-    Oueurj(std::vector<int> _pos, int _state = 0, int _nb_diams = 0, int _nb_teleport = 0, bool _inf_telep = false);
+    Oueurj(std::vector<int> _pos, int _nb_diams = 0, int _nb_teleport = 0, bool _inf_telep = false, int _state = 0);
     Oueurj();
 
     void levelUp();
@@ -29,6 +29,7 @@ public:
     void win();
 
     std::string getScores() const;
+    std::string to_string() const;
     void eatDiams();
     ~Oueurj();
 };
