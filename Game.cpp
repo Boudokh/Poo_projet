@@ -76,11 +76,11 @@ Game::Game()
     }
 }
 
-Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons,int nb_geurchars) : hau(_hau), lar(_lar)
+Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     for (int i = 0; i < nb_level; i++)
     {
-        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons,nb_geurchars));
+        this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons, nb_geurchars));
     }
 
     std::vector<int> init_pos;
@@ -247,7 +247,6 @@ char Game::getMove()
     return nxt_move;
 }
 
-
 void Game::playStreumons()
 {
     std::vector<int> plyr_p = plyr->getPos();
@@ -265,13 +264,12 @@ void Game::playStreumons()
                     {
                     case 0:
                         randMoves(i, j);
-                    break;
+                        break;
                     case 1:
                         aStar(i, j);
-                    break;
+                        break;
                     case 2:
-                        std::cout << "test reussi" << std::endl;
-                        aStarProba(i,j);
+                        aStarProba(i, j);
                         break;
                     default:
                         break;
@@ -347,7 +345,7 @@ void Game::aStar(int i, int j)
     std::vector<int> new_pos;
     std::vector<int> old_pos;
 
-    std::vector<std::vector<int>> moves = legalMoves(i,j);
+    std::vector<std::vector<int>> moves = legalMoves(i, j);
 
     old_pos.push_back(i);
     old_pos.push_back(j);
@@ -357,7 +355,7 @@ void Game::aStar(int i, int j)
     double minHeuristic = std::numeric_limits<double>::infinity();
     double score;
 
-    for (int i = 0; i < moves.size(); i++)
+    for (unsigned int i = 0; i < moves.size(); i++)
     {
         score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], plyr_p[1], plyr_p[2]);
         tmp_score.push_back(score);
@@ -365,7 +363,7 @@ void Game::aStar(int i, int j)
 
     // Rechercher l'heuristique minimale
     int index = 0;
-    for (int i = 0; i < tmp_score.size(); i++)
+    for (unsigned int i = 0; i < tmp_score.size(); i++)
     {
         if (tmp_score[i] < minHeuristic)
         {
@@ -383,27 +381,25 @@ void Game::aStar(int i, int j)
     //std::cout << "new_pos[0]" << new_pos[0] << "new_pos[1]" << new_pos[2] << std::endl;
 }
 
-
 void Game::aStarProba(int i, int j)
 {
-    std::cout << "aStarProbabilistic mode ; Current level : " << plyr->getCurrentlevel() << std::endl;
-    int aStarProba = plyr->getCurrentlevel()/levels.size();
-    int aStarStreums = floor(numberOfStreums()*aStarProba); // nombre de streums en mode A* % au niveau actuel.
+    int aStarProba = plyr->getCurrentlevel() / levels.size();
+    int aStarStreums = floor(numberOfStreums() * aStarProba); // nombre de streums en mode A* % au niveau actuel.
     int randomStreums = numberOfStreums() - aStarStreums;
 
-    if(aStarStreums>0)
+    if (aStarStreums > 0)
     {
-        while(aStarStreums>0)
+        while (aStarStreums > 0)
         {
-            aStar(i,j);
+            aStar(i, j);
             aStarStreums--;
         }
     }
-    else if(randomStreums>0)
+    else if (randomStreums > 0)
     {
-        while(randomStreums>0)
+        while (randomStreums > 0)
         {
-            randMoves(i,j);
+            randMoves(i, j);
             randomStreums--;
         }
     }
@@ -422,7 +418,7 @@ int Game::numberOfStreums()
             {
                 if (tmp_board[i][j]->getSymbol() == 's')
                 {
-                   nbrStreums++;
+                    nbrStreums++;
                 }
             }
         }
