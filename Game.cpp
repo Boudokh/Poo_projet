@@ -138,7 +138,7 @@ void Game::dispCurrLevel() const
 
     std::string tmp_str;
 
-    for (int i = 0; i < hau ; i++)
+    for (int i = 0; i < hau; i++)
     {
         getline(level_strm, tmp_str);
         std::cout << tmp_str;
@@ -302,25 +302,38 @@ char Game::getMove()
 
 void Game::playStreumons()
 {
+    auto start = std::chrono::high_resolution_clock::now();
     std::vector<int> plyr_p = plyr->getPos();
-    Board &tmp_board = *levels[plyr_p[0]];
+    Board &curr_board = *levels[plyr_p[0]];
 
-    for (int i = 1; i < hau - 1; i++)
+    std::string symb_list = curr_board.toString();
+
+    for (int i = 0; i < hau; i++)
     {
-        for (int j = 1; j < lar - 1; j++)
+        for (int j = 0; j < lar; j++)
         {
-            if (tmp_board[i][j])
+            if (symb_list[i * (lar + 1) + j] == 's')
             {
-                if (tmp_board[i][j]->getSymbol() == 's')
+                switch (dynamic_cast<Streumons *>(curr_board[i][j])->getType())
                 {
-                    //int move = rand() % 8;
-                    //moveStreumons(move, i, j);
-                    //randMoves(i, j);
+                case 0:
+                    randMoves(i, j);
+                    break;
+                case 1:
                     aStar(i, j);
+                    break;
+                case 2:
+                    aStarProba(i, j, plyr_p[0]);
+                    break;
+                default:
+                    break;
                 }
             }
         }
     }
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
 
 void Game::randMoves(int i, int j)
@@ -382,7 +395,7 @@ void Game::aStar(int i, int j)
 
     for (unsigned int i = 0; i < moves.size(); i++)
     {
-        score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], plyr_p[1], plyr_p[2]);
+        score = compteurMove + tmp_board.heuristicH(moves[i], plyr_p);
         tmp_score.push_back(score);
     }
 
@@ -396,9 +409,22 @@ void Game::aStar(int i, int j)
             index = i; // récupération de indice minimale
         }
     }
-    new_pos.push_back(moves[index][0]);
-    new_pos.push_back(moves[index][1]);
+    new_pos = moves[index];
 
     tmp_board.moveStrm(old_pos, new_pos);
     compteurMove++;
+}
+
+void Game::aStarProba(int i, int j, int current_level)
+{
+    int proba = rand() % (levels.size());
+
+    if (proba < current_level)
+    {
+        aStar(i, j);
+    }
+    else
+    {
+        randMoves(i, j);
+    }
 }

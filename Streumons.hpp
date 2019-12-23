@@ -7,10 +7,12 @@ class Streumons : public Movable {
 
     private:
         char symbol;
+        int type; // type statégie stremons : 0 (random) , 1 (A*)
     public:
         Streumons();
         ~Streumons();
         char getSymbol() const;
+        int getType() const;
         
 };
 

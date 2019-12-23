@@ -9,8 +9,8 @@ class Oueurj : public Movable
 
 private:
     std::vector<int> pos;
-    unsigned int nb_diams;
-    unsigned int nb_teleport;
+    int nb_diams;
+    int nb_teleport;
     bool inf_telep;
     int state; // 0 en jeu, -1 mort, 1 gagné
 

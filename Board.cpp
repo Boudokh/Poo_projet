@@ -67,7 +67,6 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
 }
 
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
-
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
     nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
@@ -324,7 +323,7 @@ void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
     coord[old_p[0]][old_p[1]] = NULL;
 }
 
-double Board::heuristicH(int _row, int _col, int row_j, int col_j)
+double Board::heuristicH(std::vector<int> curr, std::vector<int> dest)
 {
-    return ((double)sqrt((_row - row_j) * (_row - row_j) + (_col - col_j) * (_col - col_j)));
+    return ((double)sqrt((curr[0] - dest[1]) * (curr[0] - dest[1]) + (curr[1] - dest[2]) * (curr[1] - dest[2])));
 }
