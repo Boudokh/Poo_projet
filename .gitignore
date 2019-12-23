@@ -9,6 +9,8 @@
 *.out
 *.app
 
+*.board
+*.game
 
 jeu.txt
 Board
