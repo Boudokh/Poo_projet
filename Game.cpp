@@ -267,11 +267,11 @@ void Game::playStreumons()
                         randMoves(i, j);
                     break;
                     case 1:
-                        aStar(legalMoves(i,j), i, j);
+                        aStar(i, j);
                     break;
                     case 2:
                         std::cout << "test reussi" << std::endl;
-                        aStarProba(legalMoves(i,j),i,j);
+                        aStarProba(i,j);
                         break;
                     default:
                         break;
@@ -280,86 +280,6 @@ void Game::playStreumons()
             }
         }
     }
-}
-
-void Game::defendDiams(int i, int j)
-{
-    std::vector<std::vector<int>> defend = legalDefend(i,j); // position (x,y) des diams.
-    std::vector<std::vector<int>> moves = legalMoves(i,j);
-
-    std::vector<int> plyr_p = plyr->getPos();
-    std::vector<int> new_pos;
-    std::vector<int> old_pos;
-
-    std::vector<int> tmp_score;
-
-    old_pos.push_back(i);
-    old_pos.push_back(j);
-
-    Board &tmp_board = *levels[plyr_p[0]];
-
-    // Déplacement vers le diamant le plus proche
-
-    double minDistance = std::numeric_limits<double>::infinity();
-    double score;
-
-    for (unsigned int i = 0; i < moves.size(); i++)
-    {
-        for(unsigned int j = 0; j < defend.size(); j++)
-        {
-            score = compteurMove + tmp_board.heuristicH(moves[i][0], moves[i][1], defend[j][0], defend[j][1]);
-            tmp_score.push_back(score);
-        }
-    }
-    // Recherche score minimal
-    int index = 0;
-    for (int i = 0; i < tmp_score.size(); i++)
-    {
-        if (tmp_score[i] < minDistance)
-        {
-            minDistance = tmp_score[i];
-            index = i; // récupération de indice minimale
-        }
-    }
-    new_pos.push_back(moves[index][0]);
-    new_pos.push_back(moves[index][1]);
-
-    tmp_board.moveStrm(old_pos, new_pos);
-    compteurMove++;
-}
-
-std::vector<std::vector<int>> Game::legalDefend(int i, int j)
-{
-    std::vector<int> plyr_p = plyr->getPos();
-    std::vector<int> old_pos;
-    old_pos.push_back(i);
-    old_pos.push_back(j);
-
-    Board &tmp_board = *levels[plyr_p[0]];
-
-    Diams *tmp_diam;
-
-    std::vector<std::vector<int>> legal_defend; 
-    std::vector<int> tmp_defend;
-
-    for (int x = std::max(1, i - 1); x <= std::min(hau - 1, i + 1); x++)
-    {
-        for (int y = std::max(1, j - 1); y <= std::min(lar - 1, j + 1); y++)
-        {
-            if(tmp_board[x][y])
-            {
-                if (tmp_board[x][y] == tmp_diam && (x != i || y != j))
-                {
-                    tmp_defend.clear();
-                    tmp_defend.push_back(x);
-                    tmp_defend.push_back(y);
-                    legal_defend.push_back(tmp_defend);
-                }
-            }
-        }
-    }
-
-    return legal_defend;
 }
 
 void Game::randMoves(int i, int j)
@@ -420,12 +340,14 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     return legal_moves;
 }
 
-void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
+void Game::aStar(int i, int j)
 {
     std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> new_pos;
     std::vector<int> old_pos;
+
+    std::vector<std::vector<int>> moves = legalMoves(i,j);
 
     old_pos.push_back(i);
     old_pos.push_back(j);
@@ -462,7 +384,7 @@ void Game::aStar(std::vector<std::vector<int>> moves, int i, int j)
 }
 
 
-void Game::aStarProba(std::vector<std::vector<int>> moves, int i, int j)
+void Game::aStarProba(int i, int j)
 {
     std::cout << "aStarProbabilistic mode ; Current level : " << plyr->getCurrentlevel() << std::endl;
     int aStarProba = plyr->getCurrentlevel()/levels.size();
@@ -473,7 +395,7 @@ void Game::aStarProba(std::vector<std::vector<int>> moves, int i, int j)
     {
         while(aStarStreums>0)
         {
-            aStar(moves,i,j);
+            aStar(i,j);
             aStarStreums--;
         }
     }
@@ -486,92 +408,6 @@ void Game::aStarProba(std::vector<std::vector<int>> moves, int i, int j)
         }
     }
 }
-
-
-/*
-void Game::moveStreumons(int move, int i, int j)
-{
-    std::vector<int> plyr_p = plyr->getPos();
-    std::vector<int> old_pos, new_pos;
-    old_pos.push_back(i);
-    old_pos.push_back(j);
-
-    std::cout << move << " -1-" << old_pos[0] << " " << old_pos[1] << std::endl;
-
-    switch (move)
-    {
-
-    case 0: // haut diag gauche
-        if (isValid(std::max(1, i - 1), std::max(1, j - 1)))
-        {
-            new_pos.push_back(std::max(1, i - 1));
-            new_pos.push_back(std::max(1, j - 1));
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 1: // haut
-        if (isValid(std::max(1, i - 1), j))
-        {
-            new_pos.push_back(std::max(1, i - 1));
-            new_pos.push_back(j);
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 2: // haut diag droite
-        if (isValid(std::max(1, i - 1), std::min(lar - 1, j + 1)))
-        {
-            new_pos.push_back(std::max(1, i - 1));
-            new_pos.push_back(std::min(lar - 1, j + 1));
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 3: // gauche
-        if (isValid(i, std::max(1, j - 1)))
-        {
-            new_pos.push_back(i);
-            new_pos.push_back(std::max(1, j - 1));
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 4: // droite
-        if (isValid(i, std::min(lar - 1, j + 1)))
-        {
-            new_pos.push_back(i);
-            new_pos.push_back(std::max(1, j - 1));
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 5: // bas
-        if (isValid(std::min(hau - 1, i + 1), j))
-        {
-            new_pos.push_back(std::min(hau - 1, i + 1));
-            new_pos.push_back(j);
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 6: // bas diag gauche
-        if (isValid(std::min(hau - 1, i + 1), std::max(1, j - 1)))
-        {
-            new_pos.push_back(std::min(hau - 1, i + 1));
-            new_pos.push_back(std::max(1, j - 1));
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    case 7: // bas diag droite
-        if (isValid(std::min(hau - 1, i + 1), std::min(lar - 1, j + 1)))
-        {
-            new_pos.push_back(std::min(hau - 1, i + 1));
-            new_pos.push_back(std::min(lar - 1, j + 1));
-            levels[plyr_p[0]]->moveStrm(old_pos, new_pos);
-        }
-        break;
-    default:
-        std::cout << "impossible" << std::endl;
-        break;
-    }
-    std::cout << move << " -2-" << new_pos[0] << " " << new_pos[1] << std::endl;
-}
-*/
 
 int Game::numberOfStreums()
 {

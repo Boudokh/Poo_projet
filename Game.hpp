@@ -45,14 +45,9 @@ public:
     void moveStreumons(int move, int i , int j);
     void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
-    void aStar(std::vector<std::vector<int>>, int , int);
-    void aStarProba(std::vector<std::vector<int>>,int,int);
-
-    void defendDiams(int,int);
-    std::vector<std::vector<int>> legalDefend(int i, int j);
-
+    void aStar(int , int);
+    void aStarProba(int,int);
     int numberOfStreums();
-
 
 };
 
