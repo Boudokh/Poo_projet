@@ -166,6 +166,7 @@ std::stringstream Board::toStream()
 
 Board::~Board()
 {
+
     for (std::vector<std::vector<Object *>>::iterator i = coord.begin(); i < coord.end(); i++)
     {
         for (std::vector<Object *>::iterator j = (*i).begin(); j < (*i).end(); j++)
@@ -321,6 +322,15 @@ void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
 
     coord[new_p[0]][new_p[1]] = coord[old_p[0]][old_p[1]];
     coord[old_p[0]][old_p[1]] = NULL;
+}
+
+void Board::elimination(std::vector<int> pos_1, std::vector<int> pos_2)
+{
+
+    delete coord[pos_1[0]][pos_1[1]];
+    //coord[pos_1[0]][pos_1[1]] = NULL;
+    delete coord[pos_2[0]][pos_2[1]];
+    //coord[pos_2[0]][pos_2[1]] = NULL;
 }
 
 double Board::heuristicH(std::vector<int> curr, std::vector<int> dest)

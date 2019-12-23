@@ -9,4 +9,6 @@ std::string Object::getName()
     return typeid(this).name();
 }
 
-Object::~Object(){}
+Object::~Object(){
+    delete &symbol;
+}

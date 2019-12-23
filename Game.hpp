@@ -38,13 +38,19 @@ public:
 
     bool moveOueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
-
+    
     void playStreumons();
     void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
     void aStar(int i, int j);
     void aStarProba(int i, int j, int current_level);
-    int numberOfStreums();
+
+    std::vector<int> aStarConflict(int i, int j);
+    std::vector<int> aStarProbaConflict(int i, int j, int current_level);
+    std::vector<int> randMovesConflict(int i, int j);
+
+    std::vector<int> oldPosition(int i, int j);
+
 };
 
 #endif

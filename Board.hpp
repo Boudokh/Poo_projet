@@ -60,7 +60,10 @@ public:
 
     void openTeupors();
     void moveStrm(std::vector<int> old_p, std::vector<int> new_p);
-    ~Board();
+
+    void elimination(std::vector<int> pos_1, std::vector<int> pos_2);
+    
+    virtual ~Board();
 
     double heuristicH(std::vector<int> curr, std::vector<int> dest); // Fonction heuristique H % à la position du joueur - distance euclidienne.
 };

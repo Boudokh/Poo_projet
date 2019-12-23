@@ -9,7 +9,6 @@ class Object
 
 protected:
     char symbol;
-
 private:
 public:
     virtual ~Object();

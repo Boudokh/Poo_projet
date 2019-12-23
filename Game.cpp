@@ -302,38 +302,51 @@ char Game::getMove()
 
 void Game::playStreumons()
 {
-    auto start = std::chrono::high_resolution_clock::now();
     std::vector<int> plyr_p = plyr->getPos();
-    Board &curr_board = *levels[plyr_p[0]];
+    Board &tmp_board = *levels[plyr_p[0]];
 
-    std::string symb_list = curr_board.toString();
+    std::vector<int> current_pos;
+    std::vector<int> new_pos;
 
-    for (int i = 0; i < hau; i++)
+    std::string symb_list = tmp_board.toString();
+
+    for(int i = 0; i < hau; i++)
     {
-        for (int j = 0; j < lar; j++)
+        for(int j = 0; j < lar; j++)
         {
-            if (symb_list[i * (lar + 1) + j] == 's')
+
+            if(symb_list[i * (lar + 1) + j])
             {
-                switch (dynamic_cast<Streumons *>(curr_board[i][j])->getType())
+                if(symb_list[i * (lar + 1) + j] == 's')
                 {
-                case 0:
-                    randMoves(i, j);
-                    break;
-                case 1:
-                    aStar(i, j);
-                    break;
-                case 2:
-                    aStarProba(i, j, plyr_p[0]);
-                    break;
-                default:
-                    break;
+                    switch (dynamic_cast<Streumons *>(tmp_board[i][j])->getType())
+                    {
+                    case 0:
+                        randMoves(i,j);
+                        new_pos = randMovesConflict(i,j);
+                        break;
+                    case 1:
+                        aStar(i,j);
+                        new_pos = aStarConflict(i,j);
+                        break;
+                    case 2:
+                        aStarProba(i,j,plyr_p[0]);
+                        new_pos = aStarConflict(i,j);
+                        break;
+                    default:
+                        break;
+                    }
                 }
             }
+            current_pos.push_back(i);
+            current_pos.push_back(j);
         }
     }
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
+    if(symb_list[new_pos[0]*(lar + 1) + new_pos[1]] == 's')
+    {
+        std::cout << "elimination en cours" << std::endl;
+        levels[plyr_p[0]]->elimination(new_pos,current_pos);
+    }
 }
 
 void Game::randMoves(int i, int j)
@@ -348,6 +361,14 @@ void Game::randMoves(int i, int j)
     levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
 }
 
+std::vector<int> Game::oldPosition(int i, int j)
+{
+    std::vector<int> old_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    return old_pos;
+}
 std::vector<std::vector<int>> Game::legalMoves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
@@ -427,4 +448,72 @@ void Game::aStarProba(int i, int j, int current_level)
     {
         randMoves(i, j);
     }
+}
+
+// Elimination de streumons.
+
+std::vector<int> Game::aStarConflict(int i, int j)
+{
+    std::vector<std::vector<int>> moves = legalMoves(i, j);
+    std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> new_pos;
+    std::vector<int> old_pos;
+
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    Board &tmp_board = *levels[plyr_p[0]];
+
+    double minHeuristic = std::numeric_limits<double>::infinity();
+    double score;
+
+    for (unsigned int i = 0; i < moves.size(); i++)
+    {
+        score = compteurMove + tmp_board.heuristicH(moves[i], plyr_p);
+        tmp_score.push_back(score);
+    }
+
+    // Rechercher l'heuristique minimale
+    int index = 0;
+    for (unsigned int i = 0; i < tmp_score.size(); i++)
+    {
+        if (tmp_score[i] < minHeuristic)
+        {
+            minHeuristic = tmp_score[i];
+            index = i; // récupération de indice minimale
+        }
+    }
+    new_pos = moves[index];
+
+    compteurMove++;
+
+    return new_pos;
+
+}
+
+std::vector<int> Game::aStarProbaConflict(int i, int j, int current_level)
+{
+    int proba = rand() % (levels.size());
+
+    if (proba < current_level)
+    {
+        aStarConflict(i, j);
+    }
+    else
+    {
+        randMoves(i, j);
+    }
+}
+
+std::vector<int> Game::randMovesConflict(int i, int j)
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> old_pos;
+    old_pos.push_back(i);
+    old_pos.push_back(j);
+
+    std::vector<std::vector<int>> legal_moves = legalMoves(i, j);
+
+    return legal_moves[rand() % legal_moves.size()];
 }

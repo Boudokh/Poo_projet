@@ -10,7 +10,7 @@ class Streumons : public Movable {
         int type; // type statégie stremons : 0 (random) , 1 (A*)
     public:
         Streumons();
-        ~Streumons();
+        virtual ~Streumons();
         char getSymbol() const;
         int getType() const;
         
