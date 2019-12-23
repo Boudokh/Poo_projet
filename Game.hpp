@@ -3,9 +3,7 @@
 
 #include "Board.hpp"
 #include <fstream>
-#include <sstream>
 #include <limits>
-
 
 class Game
 {
@@ -14,8 +12,7 @@ private:
     int hau;
     int lar;
     std::vector<Board *> levels;
-    int compteurMove = 0; // Compteur aStar pour streumons.
-
+    int compteurMove; // Compteur aStar pour streumons.
 
 public:
     Game();
@@ -26,7 +23,7 @@ public:
     ~Game();
 
     void affiche();
-    void to_txt();
+    void to_txt(std::string filename = "jeu");
     void placerOueurjRandom();
     void dispCurrLevel() const;
     void play();
@@ -44,7 +41,6 @@ public:
     void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
     void aStar(int i, int j);
-
 };
 
 #endif

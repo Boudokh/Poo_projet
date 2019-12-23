@@ -1,11 +1,11 @@
 #include "Oueurj.hpp"
 
-Oueurj::Oueurj(std::vector<int> _pos, int _state, int _nb_diams, int _nb_teleport, bool _inf_telep) : pos(_pos), state(_state), nb_diams(_nb_diams), nb_teleport(_nb_teleport), inf_telep(_inf_telep)
+Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, int _nb_teleport, bool _inf_telep, int _state) : pos(_pos), nb_diams(_nb_diams), nb_teleport(_nb_teleport), inf_telep(_inf_telep), state(_state)
 {
     this->symbol = 'J';
 }
 
-Oueurj::Oueurj() : state(0), nb_diams(0), nb_teleport(0)
+Oueurj::Oueurj() : nb_diams(0), nb_teleport(0), state(0)
 {
     this->pos.assign(3, 0);
     this->symbol = 'J';
@@ -36,7 +36,8 @@ void Oueurj::win()
     this->state = 1;
 }
 
-void Oueurj::eatDiams(){
+void Oueurj::eatDiams()
+{
     this->nb_diams++;
 }
 
@@ -56,10 +57,10 @@ bool Oueurj::teleport()
     return false;
 }
 
-std::string Oueurj::getScores() const
+std::string Oueurj::getTelep() const
 {
 
-    std::string tlp = "";
+    std::string tlp;
     if (this->inf_telep)
     {
         tlp = "inf";
@@ -69,7 +70,16 @@ std::string Oueurj::getScores() const
         tlp = std::to_string(this->nb_teleport);
     }
 
-    return "D: " + std::to_string(this->nb_diams) + " T: " + tlp;
+    return tlp;
+}
+
+std::stringstream Oueurj::toStream() const
+{
+    std::stringstream score_line;
+    score_line.str("    Téléports: " + getTelep() + "\n" +
+                   "    Diams:     " + std::to_string(this->nb_diams) + "\n" +
+                   "    Niveau:    " + std::to_string(this->pos[0] + 1));
+    return score_line;
 }
 
 void Oueurj::switch_teleport()

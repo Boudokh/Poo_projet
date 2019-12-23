@@ -11,6 +11,10 @@ Game::Game(std::string filename)
 {
     std::ifstream readFile;
     std::string tmp_str;
+    std::vector<int> init_pos;
+
+    this->compteurMove = 0;
+
     readFile.open(filename);
     if (readFile.is_open())
     {
@@ -26,12 +30,19 @@ Game::Game(std::string filename)
         getline(ss, token, '*');
         int nb_level = stoi(token);
 
+        for (int i = 0; i < 3; i++)
+        {
+            getline(ss, token, '*');
+            init_pos.push_back(stoi(token));
+        }
+
+        plyr = new Oueurj(init_pos);
+
         std::string level_string;
-        std::cout << hau << "-" << lar << "-" << nb_level << "-" << std::endl;
+        level_string.reserve(this->hau * this->lar);
 
         for (int k = 0; k < nb_level; k++)
         {
-            std::cout << k << "/" << nb_level << std::endl;
             if (!readFile.eof())
             {
                 level_string = "";
@@ -41,6 +52,7 @@ Game::Game(std::string filename)
                     level_string += tmp_str;
                     getline(readFile, tmp_str);
                 }
+
                 levels.push_back(new Board(level_string, hau, lar));
             }
         }
@@ -51,6 +63,7 @@ Game::Game(std::string filename)
 Game::Game()
 {
     int nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars;
+    this->compteurMove = 0;
 
     std::cout << "nb de niveau?" << std::endl;
     std::cin >> nb_level;
@@ -78,6 +91,8 @@ Game::Game()
 
 Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
+    this->compteurMove = 0;
+
     for (int i = 0; i < nb_level; i++)
     {
         this->levels.push_back(new Board(hau, lar, nb_teupor, nb_diams, nb_streumons, nb_geurchars));
@@ -99,16 +114,12 @@ void Game::placerOueurjRandom()
     while (keep_search)
     {
         rd_point = this->levels[new_pos[0]]->getRandomPoint();
-        std::cout << "rnd X " << rd_point[0] << " " << rd_point[1] << std::endl;
-
         new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
         if (tmp_board[new_pos[1]][new_pos[2]] == NULL)
             keep_search = false;
     }
 
     plyr->setPos(new_pos);
-    std::cout << "rnd " << new_pos[0] << " " << new_pos[1] << " " << new_pos[2] << std::endl;
-
     this->levels[new_pos[0]]->placerOueurj(plyr);
 }
 
@@ -116,26 +127,50 @@ void Game::affiche()
 {
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        std::cout << (*it)->display() << std::endl;
+        std::cout << (*it)->toString() << std::endl;
     }
 }
 
 void Game::dispCurrLevel() const
 {
-    std::cout << this->levels[plyr->getCurrentlevel()]->display() << std::endl;
+    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream();
+    std::stringstream plyr_info = plyr->toStream();
 
-    std::cout << plyr->getScores() << std::endl;
+    std::string tmp_str;
+
+    for (int i = 0; i < hau ; i++)
+    {
+        getline(level_strm, tmp_str);
+        std::cout << tmp_str;
+        tmp_str.clear();
+        getline(plyr_info, tmp_str);
+        std::cout << tmp_str;
+        if (i == 2)
+        {
+            std::cout << "/" << this->levels.size();
+        }
+        std::cout << std::endl;
+    }
 }
 
-void Game::to_txt()
+void Game::to_txt(std::string filename)
 {
     std::ofstream sortie;
-    sortie.open("jeu.txt");
-    sortie << this->hau << "*" << this->lar << "*" << this->levels.size() << std::endl;
+    sortie.open(filename + ".txt");
+
+    char sep = '*';
+    sortie << this->hau << sep << this->lar << sep << this->levels.size() << sep;
+    std::vector<int> plyr_pos = plyr->getPos();
+
+    for (unsigned int i = 0; i < plyr_pos.size(); i++)
+    {
+        sortie << plyr_pos[i] << sep;
+    }
+    sortie << std::endl;
 
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        sortie << (*it)->display() << '#' << std::endl;
+        sortie << (*it)->toString() << '#' << std::endl;
     }
     sortie.close();
 }

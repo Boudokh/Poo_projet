@@ -2,16 +2,18 @@
 
 Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
 {
+
     std::vector<Object *> tmp_line;
     Teupor *tmp_teupor;
     Reumus *tmp_reumus;
     Streumons *tmp_streumons;
     Diams *tmp_diams;
     Geurchars *tmp_geurchar;
+    Oueurj *tmp_oueurj;
 
-    for (int i = 0; i < hau; i++)
+    for (int i = 0; i < this->hau; i++)
     {
-        for (int j = 0; j < lar; j++)
+        for (int j = 0; j < this->lar; j++)
         {
             switch (txt_board[i * lar + j])
             {
@@ -46,8 +48,16 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_line.push_back(tmp_geurchar);
                 break;
 
+            case 'J':
+                tmp_oueurj = new Oueurj();
+                tmp_line.push_back(tmp_oueurj);
+                break;
+
             case ' ':
                 tmp_line.push_back(NULL);
+                break;
+
+            default:
                 break;
             }
         }
@@ -127,7 +137,7 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
     //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
 }
 
-std::string Board::display()
+std::string Board::toString()
 {
     std::string plateau = "";
     for (int i = 0; i < hau; i++)
@@ -147,6 +157,12 @@ std::string Board::display()
     }
 
     return plateau;
+}
+
+std::stringstream Board::toStream()
+{
+    std::stringstream boardStream(toString());
+    return boardStream;
 }
 
 Board::~Board()
@@ -298,7 +314,7 @@ void Board::openTeupors()
         dep++;
         dep = dep % (hau * lar);
 
-    }while (!found);
+    } while (!found);
 }
 
 void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
