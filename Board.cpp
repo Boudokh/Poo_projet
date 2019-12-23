@@ -161,26 +161,7 @@ std::string Board::toString()
 
 std::stringstream Board::toStream()
 {
-
     std::stringstream boardStream(toString());
-    /*
-    std::string tmp_str;
-    for (int i = 0; i < hau; i++)
-    {
-        for (int j = 0; j < lar; j++)
-        {
-            if (coord[i][j])
-            {
-                tmp_str.push_back(coord[i][j]->getSymbol());
-            }
-            else
-            {
-                tmp_str += " ";
-            }
-        }
-        boardStream << tmp_str;
-        tmp_str.clear();
-    }*/
     return boardStream;
 }
 
