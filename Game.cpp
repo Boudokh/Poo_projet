@@ -180,6 +180,7 @@ void Game::play()
     char nxt_move;
     dispCurrLevel();
     bool endGame = false;
+
     do
     {
         nxt_move = getMove();
@@ -187,11 +188,21 @@ void Game::play()
 
         playStreumons();
         dispCurrLevel();
-    } while (nxt_move != 's' && !endGame);
+    } while (nxt_move != 's' && !endGame && plyr->getState() == 0);
+
+    if (plyr->getState() == 1)
+    {
+        std::cout << "VICTOIRE" << std::endl;
+    }
+    else if (plyr->getState() == -1)
+    {
+        std::cout << "DEFAITE" << std::endl;
+    }
 }
 
 bool Game::moveOueurj(char move)
 {
+
     std::vector<int> old_pos = plyr->getPos();
     std::vector<int> new_pos = old_pos;
     switch (move)
@@ -238,6 +249,12 @@ bool Game::moveOueurj(char move)
     if (tmp_board[new_pos[1]][new_pos[2]])
     {
         char tmp_sym = tmp_board[new_pos[1]][new_pos[2]]->getSymbol();
+        if (tmp_sym == 's')
+        {
+            plyr->die();
+            std::cout << "lost" << std::endl;
+            return true;
+        }
         if (tmp_sym == 'X' || tmp_sym == '-')
         {
             std::cout << "impossible" << std::endl;
@@ -306,6 +323,7 @@ void Game::playStreumons()
     std::vector<int> plyr_p = plyr->getPos();
     Board &curr_board = *levels[plyr_p[0]];
 
+    std::vector<int> new_pos, old_pos;
     std::string symb_list = curr_board.toString();
 
     for (int i = 0; i < hau; i++)
@@ -317,16 +335,23 @@ void Game::playStreumons()
                 switch (dynamic_cast<Streumons *>(curr_board[i][j])->getType())
                 {
                 case 0:
-                    randMoves(i, j);
+                    new_pos = randMoves(i, j);
                     break;
                 case 1:
-                    aStar(i, j);
+                    new_pos = aStar(i, j);
                     break;
                 case 2:
-                    aStarProba(i, j, plyr_p[0]);
+                    new_pos = aStarProba(i, j, plyr_p[0]);
                     break;
                 default:
                     break;
+                }
+
+                old_pos = {i, j};
+                curr_board.moveStrm(old_pos, new_pos);
+                if (new_pos[0] == plyr_p[1] && new_pos[1] == plyr_p[2])
+                {
+                    this->plyr->die();
                 }
             }
         }
@@ -336,24 +361,21 @@ void Game::playStreumons()
     std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
 
-void Game::randMoves(int i, int j)
+std::vector<int> Game::randMoves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
-    std::vector<int> old_pos;
-    old_pos.push_back(i);
-    old_pos.push_back(j);
+    std::vector<int> old_pos{i, j};
 
     std::vector<std::vector<int>> legal_moves = legalMoves(i, j);
 
-    levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
+    //levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
+    return legal_moves[rand() % legal_moves.size()];
 }
 
 std::vector<std::vector<int>> Game::legalMoves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
-    std::vector<int> old_pos;
-    old_pos.push_back(i);
-    old_pos.push_back(j);
+    std::vector<int> old_pos{i, j};
 
     Board &tmp_board = *levels[plyr_p[0]];
 
@@ -366,9 +388,12 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
         {
             if (tmp_board[x][y] == NULL && (x != i || y != j))
             {
-                tmp_move.clear();
-                tmp_move.push_back(x);
-                tmp_move.push_back(y);
+                tmp_move = {x, y};
+                legal_moves.push_back(tmp_move);
+            }
+            else if (tmp_board[x][y]->getSymbol() == 'J')
+            {
+                tmp_move = {x, y};
                 legal_moves.push_back(tmp_move);
             }
         }
@@ -377,16 +402,13 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     return legal_moves;
 }
 
-void Game::aStar(int i, int j)
+std::vector<int> Game::aStar(int i, int j)
 {
     std::vector<std::vector<int>> moves = legalMoves(i, j);
     std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> new_pos;
-    std::vector<int> old_pos;
-
-    old_pos.push_back(i);
-    old_pos.push_back(j);
+    std::vector<int> old_pos = {i, j};
 
     Board &tmp_board = *levels[plyr_p[0]];
 
@@ -411,20 +433,21 @@ void Game::aStar(int i, int j)
     }
     new_pos = moves[index];
 
-    tmp_board.moveStrm(old_pos, new_pos);
     compteurMove++;
+    return new_pos;
 }
 
-void Game::aStarProba(int i, int j, int current_level)
+std::vector<int> Game::aStarProba(int i, int j, int current_level)
 {
     int proba = rand() % (levels.size());
-
+    std::vector<int> new_pos;
     if (proba < current_level)
     {
-        aStar(i, j);
+        new_pos = aStar(i, j);
     }
     else
     {
-        randMoves(i, j);
+        new_pos = randMoves(i, j);
     }
+    return new_pos;
 }

@@ -89,4 +89,6 @@ void Oueurj::switch_teleport()
 
 int Oueurj::getCurrentlevel() const { return this->pos[0]; }
 
+int Oueurj::getState() const{ return this->state; }
+
 Oueurj::~Oueurj() {}
