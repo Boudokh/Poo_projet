@@ -180,18 +180,28 @@ void Game::play()
     char nxt_move;
     dispCurrLevel();
     bool endGame = false;
-    do
+    if (plyr->getState() == 0)
     {
-        nxt_move = getMove();
-        endGame = moveOueurj(nxt_move);
+        do
+        {
+            nxt_move = getMove();
+            endGame = moveOueurj(nxt_move);
 
-        playStreumons();
-        dispCurrLevel();
-    } while (nxt_move != 's' && !endGame);
+            playStreumons();
+            dispCurrLevel();
+        } while (nxt_move != 's' && !endGame);
+    }
+    else if (plyr->getState() == 1){
+        std::cout << "VICTOIRE" << std::endl;
+    }
+    else{
+        std::cout << "DEFAITE" << std::endl;
+    }
 }
 
 bool Game::moveOueurj(char move)
 {
+
     std::vector<int> old_pos = plyr->getPos();
     std::vector<int> new_pos = old_pos;
     switch (move)
@@ -238,6 +248,12 @@ bool Game::moveOueurj(char move)
     if (tmp_board[new_pos[1]][new_pos[2]])
     {
         char tmp_sym = tmp_board[new_pos[1]][new_pos[2]]->getSymbol();
+        if (tmp_sym == 's')
+        {
+            plyr->die();
+            std::cout << "lost" << std::endl;
+            return true;
+        }
         if (tmp_sym == 'X' || tmp_sym == '-')
         {
             std::cout << "impossible" << std::endl;
@@ -370,6 +386,17 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
                 tmp_move.push_back(x);
                 tmp_move.push_back(y);
                 legal_moves.push_back(tmp_move);
+            }
+            else if (tmp_board[x][y]->getSymbol() == 'J')
+            {
+                tmp_move.clear();
+                tmp_move.push_back(x);
+                tmp_move.push_back(y);
+                legal_moves.clear();
+                legal_moves.push_back(tmp_move);
+                plyr->die();
+                std::cout << "HERRE" << std::endl;
+                return legal_moves;
             }
         }
     }

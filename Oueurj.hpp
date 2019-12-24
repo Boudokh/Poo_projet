@@ -30,6 +30,7 @@ public:
     void win();
 
     std::string getTelep() const;
+    int getState() const;
     std::stringstream toStream() const;
     void eatDiams();
     ~Oueurj();
