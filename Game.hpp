@@ -40,11 +40,11 @@ public:
     friend std::vector<int> Board::getRandomPoint();
 
     void playStreumons();
-    void randMoves(int i, int j);
     std::vector<std::vector<int>> legalMoves(int i, int j);
-    void aStar(int i, int j);
-    void aStarProba(int i, int j, int current_level);
-    int numberOfStreums();
+
+    std::vector<int> randMoves(int i, int j);
+    std::vector<int> aStar(int i, int j);
+    std::vector<int> aStarProba(int i, int j, int current_level);
 };
 
 #endif
