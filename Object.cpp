@@ -9,4 +9,4 @@ std::string Object::getName()
     return typeid(this).name();
 }
 
-Object::~Object(){}
+Object::~Object(){ std::cout << "obj dest" <<std::endl;}
