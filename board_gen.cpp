@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     int lar = 40;
     int hau = 15;
-    int nb_level = 2;
+    int nb_level = 10;
     int teupor = 10;
     int diam = 5;
     int streum = 3;
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     //a->playStreumons();
     //a->affiche();
     a->play();
-    //a->to_txt();
+    a->to_txt();
 
     std::string filename = "jeu.txt";
     Game *b = new Game(filename);
