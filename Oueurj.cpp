@@ -1,6 +1,6 @@
 #include "Oueurj.hpp"
 
-Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, int _nb_teleport, bool _inf_telep, int _state) : pos(_pos), nb_diams(_nb_diams), nb_teleport(_nb_teleport), inf_telep(_inf_telep), state(_state)
+Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, bool _inf_telep, int _nb_teleport, int _state) : pos(_pos), nb_diams(_nb_diams), inf_telep(_inf_telep), nb_teleport(_nb_teleport), state(_state)
 {
     this->symbol = 'J';
 }
@@ -73,6 +73,11 @@ std::string Oueurj::getTelep() const
     return tlp;
 }
 
+int Oueurj::getNbDiams()
+{
+    return this->nb_diams;
+}
+
 std::stringstream Oueurj::toStream() const
 {
     std::stringstream score_line;
@@ -89,6 +94,6 @@ void Oueurj::switch_teleport()
 
 int Oueurj::getCurrentlevel() const { return this->pos[0]; }
 
-int Oueurj::getState() const{ return this->state; }
+int Oueurj::getState() const { return this->state; }
 
 Oueurj::~Oueurj() {}

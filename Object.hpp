@@ -3,6 +3,7 @@
 #include <typeinfo>
 #include <string>
 #include <vector>
+#include <iostream>
 
 class Object
 {

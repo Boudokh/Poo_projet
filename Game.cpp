@@ -35,8 +35,20 @@ Game::Game(std::string filename)
             getline(ss, token, '*');
             init_pos.push_back(stoi(token));
         }
+        std::string telep;
+        getline(ss, telep, '*');
 
-        plyr = new Oueurj(init_pos);
+        getline(ss, token, '*');
+        int nb_diams = stoi(token);
+
+        if (telep == "inf")
+        {
+            plyr = new Oueurj(init_pos, nb_diams, true);
+        }
+        else
+        {
+            plyr = new Oueurj(init_pos, nb_diams, false, stoi(telep));
+        }
 
         std::string level_string;
         level_string.reserve(this->hau * this->lar);
@@ -166,7 +178,7 @@ void Game::to_txt(std::string filename)
     {
         sortie << plyr_pos[i] << sep;
     }
-    sortie << std::endl;
+    sortie << plyr->getTelep() << sep << plyr->getNbDiams() << sep << std::endl;
 
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
@@ -252,7 +264,7 @@ bool Game::moveOueurj(char move)
         if (tmp_sym == 's')
         {
             plyr->die();
-            std::cout << "lost" << std::endl;
+            //std::cout << "lost" << std::endl;
             return true;
         }
         if (tmp_sym == 'X' || tmp_sym == '-')
@@ -265,12 +277,13 @@ bool Game::moveOueurj(char move)
             if (old_pos[0] < (int)levels.size() - 1)
             {
                 plyr->levelUp();
-                std::cout << "teleport" << plyr->getPos()[0] << " " << plyr->getPos()[1] << " " << plyr->getPos()[2] << std::endl;
+                std::cout << "levelup" << plyr->getPos()[0] << " " << plyr->getPos()[1] << " " << plyr->getPos()[2] << std::endl;
                 placerOueurjRandom();
             }
             else
             {
-                std::cout << "gagné" << std::endl;
+                plyr->win();
+                //std::cout << "gagné" << std::endl;
                 return true;
             }
         }
@@ -278,12 +291,14 @@ bool Game::moveOueurj(char move)
         {
             if (tmp_sym == '$')
             {
+                delete (tmp_board[new_pos[1]][new_pos[2]]);
                 plyr->eatDiams();
                 levels[old_pos[0]]->openTeupors();
             }
 
             if (tmp_sym == '*')
             {
+                delete (tmp_board[new_pos[1]][new_pos[2]]);
                 plyr->switch_teleport();
             }
 
