@@ -31,11 +31,6 @@ public:
     void play();
     char getMove();
 
-    void up();
-    void down();
-    void left();
-    void right();
-
     bool moveOueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
 
