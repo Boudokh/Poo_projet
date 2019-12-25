@@ -1,14 +1,17 @@
 #include "Diams.hpp"
 
-Diams::Diams(){
+Diams::Diams()
+{
     this->symbol = '$';
 }
-Diams::~Diams(){}
+Diams::~Diams() {}
 
-char Diams::getSymbol() const {
+char Diams::getSymbol() const
+{
     return this->symbol;
 }
 
-std::string Diams:: getName(){
+std::string Diams::getName()
+{
     return typeid(this).name();
 }

@@ -376,17 +376,6 @@ void Game::playStreumons()
     std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
 
-std::vector<int> Game::randMoves(int i, int j)
-{
-    std::vector<int> plyr_p = plyr->getPos();
-    std::vector<int> old_pos{i, j};
-
-    std::vector<std::vector<int>> legal_moves = legalMoves(i, j);
-
-    //levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
-    return legal_moves[rand() % legal_moves.size()];
-}
-
 std::vector<std::vector<int>> Game::legalMoves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
@@ -415,6 +404,17 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     }
 
     return legal_moves;
+}
+
+std::vector<int> Game::randMoves(int i, int j)
+{
+    std::vector<int> plyr_p = plyr->getPos();
+    std::vector<int> old_pos{i, j};
+
+    std::vector<std::vector<int>> legal_moves = legalMoves(i, j);
+
+    //levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
+    return legal_moves[rand() % legal_moves.size()];
 }
 
 std::vector<int> Game::aStar(int i, int j)

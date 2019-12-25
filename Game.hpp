@@ -35,6 +35,7 @@ public:
     friend std::vector<int> Board::getRandomPoint();
 
     void playStreumons();
+
     std::vector<std::vector<int>> legalMoves(int i, int j);
 
     std::vector<int> randMoves(int i, int j);
