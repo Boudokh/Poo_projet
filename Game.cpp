@@ -370,15 +370,16 @@ void Game::playStreumons()
                 }
                 if(symb_list[new_pos[0] * (lar + 1) + new_pos[1]] == 's')
                 {
+                    std::cout << "type evol" << dynamic_cast<Streumons *>(curr_board[i][j])->getTypeEvol() << std::endl;
                     switch (dynamic_cast<Streumons *>(curr_board[i][j])->getTypeEvol())
                     {
                     case 0:
                         std::cout << "elimination de streums en cours" << std::endl;
-                        elimination(old_pos,new_pos);
+                        curr_board.elimination(old_pos, new_pos);
                         break;
-                    //case 1:
-                        //std::cout << "reproduction de streums en cours " << std::endl;
-                        //reproduction(old_pos,new_pos);
+                    case 1:
+                        std::cout << "reproduction de streums en cours " << std::endl;
+                        curr_board.reproduction(old_pos, new_pos);
                     default:
                         break;
                     }
@@ -481,27 +482,3 @@ std::vector<int> Game::aStarProba(int i, int j, int current_level)
     }
     return new_pos;
 }
-
-void Game::elimination(std::vector<int> pos_1, std::vector<int> pos_2)
-{
-    std::vector<int> pos_player = plyr->getPos();
-    Board &tmp_board = *levels[pos_player[0]];
-
-    delete tmp_board[pos_1[0]][pos_1[1]];
-    delete tmp_board[pos_2[0]][pos_2[1]];
-}
-
-/*
-void Game::reproduction(std::vector<int> pos_1, std::vector<int> pos_2)
-{
-    std::vector<int>pos_player = plyr->getPos();
-    Board &tmp_board = *levels[pos_player[0]];
-
-    std::vector<int> new_pop = tmp_board.getRandomPoint();
-    Streumons *tmp_streums;
-    tmp_streums = new Streumons();
-    
-    tmp_board[new_pop[0]][new_pop[1]] = tmp_streums;
-    
-}
-*/

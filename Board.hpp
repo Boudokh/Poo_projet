@@ -63,6 +63,9 @@ public:
     ~Board();
 
     double heuristicH(std::vector<int> curr, std::vector<int> dest); // Fonction heuristique H % à la position du joueur - distance euclidienne.
+
+    void elimination(std::vector<int> old_p, std::vector<int> new_p);
+    void reproduction(std::vector<int> old_p, std::vector<int> new_p);
 };
 
 #endif

@@ -327,3 +327,21 @@ double Board::heuristicH(std::vector<int> curr, std::vector<int> dest)
 {
     return ((double)sqrt((curr[0] - dest[1]) * (curr[0] - dest[1]) + (curr[1] - dest[2]) * (curr[1] - dest[2])));
 }
+
+void Board::elimination(std::vector<int> pos_1, std::vector<int> pos_2)
+{
+    Object &tmp1 = *coord[pos_1[0]][pos_1[1]];
+    Object &tmp2 = *coord[pos_2[0]][pos_2[1]];
+
+    delete (&tmp1);
+    delete (&tmp2);
+}
+
+void Board::reproduction(std::vector<int> pos_1, std::vector<int> pos_2)
+{
+    Streumons *tmp_streums;
+    elimination(pos_1,pos_2); // élimination ancêtres, reproduction comme certaines espèces de poissons ...
+    coord[pos_2[0]][pos_2[1]] = tmp_streums; // pop de notre new streums aux positions (new_pos[0],new_pos[1])
+}
+
+

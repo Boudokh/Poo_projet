@@ -41,9 +41,6 @@ public:
     std::vector<int> randMoves(int i, int j);
     std::vector<int> aStar(int i, int j);
     std::vector<int> aStarProba(int i, int j, int current_level);
-
-    void elimination(std::vector<int> pos_1, std::vector<int> pos_2);
-    void reproduction(std::vector<int> pos_1, std::vector<int> pos_2);
 };
 
 #endif
