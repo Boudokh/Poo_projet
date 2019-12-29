@@ -327,3 +327,43 @@ double Board::heuristicH(std::vector<int> curr, std::vector<int> dest)
 {
     return ((double)sqrt((curr[0] - dest[1]) * (curr[0] - dest[1]) + (curr[1] - dest[2]) * (curr[1] - dest[2])));
 }
+
+void Board::elimination(std::vector<int> old_pos, std::vector<int> new_pos)
+{
+    delete coord[new_pos[0]][new_pos[1]];
+    coord[new_pos[0]][new_pos[1]] = NULL;
+    delete coord[old_pos[0]][old_pos[1]];
+    coord[new_pos[0]][new_pos[1]] = NULL;
+}
+
+void Board::reproduction(std::vector<int> old_pos, std::vector<int> new_pos)
+{
+    Streumons *tmp_streums;
+    tmp_streums = new Streumons();
+    elimination(old_pos,new_pos); // élimination ancêtres, reproduction comme certaines espèces de poissons ..
+    coord[new_pos[0]][new_pos[1]] = tmp_streums; // naissance du nouveau né !
+}
+
+void Board::fusion(std::vector<int> old_pos, std::vector<int> new_pos)
+{
+    Diams *tmp_diams;
+    Geurchars *tmp_geuchars;
+    int type_obj = rand()%2;
+    tmp_geuchars = new Geurchars();
+    tmp_diams = new Diams();
+    elimination(old_pos,new_pos);
+    
+    switch (type_obj)
+    {
+    case 0:
+        std::cout << "et ... c'est un diams !" << std::endl;
+        coord[new_pos[0]][new_pos[1]] = tmp_diams; // parfois les bêtes produisent de belles choses ...
+        break;
+    case 1:
+        std::cout << "et ... c'est un geurchar !" << std::endl;
+        coord[new_pos[0]][new_pos[1]] = tmp_geuchars; // parfois les bêtes produisent de belles choses ...
+    default:
+        break;
+    }
+}
+

@@ -364,9 +364,28 @@ void Game::playStreumons()
 
                 old_pos = {i, j};
                 curr_board.moveStrm(old_pos, new_pos);
+                std::cout << "types evol : " << dynamic_cast<Streumons *>(curr_board[new_pos[0]][new_pos[1]])->getTypeEvol() << std::endl;
                 if (new_pos[0] == plyr_p[1] && new_pos[1] == plyr_p[2])
                 {
                     this->plyr->die();
+                }
+                if(symb_list[new_pos[0] * (lar + 1) + new_pos[1]] == 's')
+                {
+                    switch (dynamic_cast<Streumons *>(curr_board[new_pos[0]][new_pos[1]])->getTypeEvol())
+                    {
+                    case 0:
+                        std::cout << "Streumons has been slain" << std::endl;
+                        curr_board.elimination(old_pos,new_pos);
+                        break;
+                    case 1:
+                        std::cout << "Un streums est apparu !" << std::endl;
+                        curr_board.reproduction(old_pos,new_pos);
+                    case 2:
+                        std::cout << "Un bonus est apparu, thanks les streums !" << std::endl;
+                        curr_board.fusion(old_pos,new_pos);
+                    default:
+                        break;
+                    }
                 }
             }
         }
