@@ -6,9 +6,9 @@ Streumons::~Streumons()
 
 Streumons::Streumons()
 {
-    int _type_streums = rand() % 3;
     this->symbol = 's';
-    this->type = _type_streums;
+    this->type = rand() % 3;
+    this->typeevol = rand() % 3;
 }
 
 char Streumons::getSymbol() const
@@ -19,4 +19,9 @@ char Streumons::getSymbol() const
 int Streumons::getType() const
 {
     return this->type;
+}
+
+int Streumons::getTypeEvol() const
+{
+    return this->typeevol;
 }
