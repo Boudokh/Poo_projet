@@ -338,21 +338,18 @@ void Board::elimination(std::vector<int> old_pos, std::vector<int> new_pos)
 
 void Board::reproduction(std::vector<int> old_pos, std::vector<int> new_pos)
 {
-    Streumons *tmp_streums;
-    tmp_streums = new Streumons();
-    elimination(old_pos,new_pos); // élimination ancêtres, reproduction comme certaines espèces de poissons ..
+    Streumons *tmp_streums = new Streumons();
+    elimination(old_pos, new_pos);               // élimination ancêtres, reproduction comme certaines espèces de poissons ..
     coord[new_pos[0]][new_pos[1]] = tmp_streums; // naissance du nouveau né !
 }
 
 void Board::fusion(std::vector<int> old_pos, std::vector<int> new_pos)
 {
-    Diams *tmp_diams;
-    Geurchars *tmp_geuchars;
-    int type_obj = rand()%2;
-    tmp_geuchars = new Geurchars();
-    tmp_diams = new Diams();
-    elimination(old_pos,new_pos);
-    
+    int type_obj = rand() % 2;
+    Geurchars *tmp_geuchars = new Geurchars();
+    Diams *tmp_diams = new Diams();
+    elimination(old_pos, new_pos);
+
     switch (type_obj)
     {
     case 0:
@@ -366,4 +363,3 @@ void Board::fusion(std::vector<int> old_pos, std::vector<int> new_pos)
         break;
     }
 }
-
