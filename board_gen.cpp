@@ -18,10 +18,10 @@ int main(int argc, char *argv[])
     //a->playStreumons();
     //a->affiche();
     a->play();
-    //a->to_txt();
+    //a->save_game();
 
     std::string filename = "jeu.txt";
     Game *b = new Game(filename);
-    //b->to_txt();
+    //b->save_game();
     //b->play();
 }

@@ -12,6 +12,9 @@
 *.board
 *.game
 
+gc
+gp
+
 jeu.txt
 Board
 ./.vscode/*

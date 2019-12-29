@@ -25,11 +25,13 @@ public:
     ~Game();
 
     void affiche();
-    void to_txt(std::string filename = "jeu");
+    void save_game(std::string filename = "jeu");
     void placerOueurjRandom();
     void dispCurrLevel() const;
     void play();
+
     char getMove();
+    int get_valid_int();
 
     bool moveOueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
