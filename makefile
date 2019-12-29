@@ -1,5 +1,5 @@
 CPP=g++ --std=c++11 -Wall
-all: Board gc gp
+all: Board gc
 
 Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
 	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o Board
@@ -7,14 +7,8 @@ Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geu
 gc: g_creator.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
 	$(CPP) g_creator.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gc -lncurses
 
-gp: g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
-	$(CPP) g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gc -lncurses
-
 g_creator.o: g_creator.cpp
 	$(CPP) -c g_creator.cpp
-
-g_player.o: g_player.cpp
-	$(CPP) -c g_player.cpp
 
 board_gen.o: board_gen.cpp
 	$(CPP) -c board_gen.cpp
