@@ -67,6 +67,9 @@ public:
     void elimination(std::vector<int> old_p, std::vector<int> new_p);
     void reproduction(std::vector<int> old_p, std::vector<int> new_p);
     void fusion(std::vector<int> old_p, std::vector<int> new_p);
+
+    template<typename T>
+    void addItems(int number);
 };
 
 #endif
