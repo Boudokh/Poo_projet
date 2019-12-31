@@ -34,10 +34,10 @@ int main(int argc, char *argv[])
 
     std::string fname;
     Game *new_game = new Game(hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars);
-
     printw("Saissez le nom du fichier à sauvegarder (sans extension) \n");
 
     new_game->save_game(read_fname());
+
     endwin();
     return 0;
 }
@@ -82,7 +82,7 @@ std::string read_fname()
     if (!(std::regex_match(fname, valid_file)))
     {
         printw("Invalid file name");
-        fname = read_fname();
+        return read_fname();
     }
     return fname;
 }

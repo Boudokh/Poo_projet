@@ -8,7 +8,7 @@ gc: g_creator.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurch
 	$(CPP) g_creator.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gc -lncurses
 
 gp: g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
-	$(CPP) g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gc -lncurses
+	$(CPP) g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gp -lncurses
 
 g_creator.o: g_creator.cpp
 	$(CPP) -c g_creator.cpp
@@ -20,7 +20,7 @@ board_gen.o: board_gen.cpp
 	$(CPP) -c board_gen.cpp
 
 Game.o: Game.cpp Game.hpp
-	$(CPP) -c Game.cpp
+	$(CPP) -c Game.cpp -lncurses
 
 Board.o: Board.cpp Board.hpp
 	$(CPP) -c Board.cpp
@@ -53,4 +53,4 @@ Oueurj.o : Oueurj.cpp Oueurj.hpp Movable.o Object.o
 	$(CPP) -c Oueurj.cpp
 
 clean:
-	rm *.o
+	rm *.o Board gp gc

@@ -28,7 +28,10 @@ public:
     void save_game(std::string filename = "jeu");
     void placerOueurjRandom();
     void dispCurrLevel() const;
+    std::string toString() const;
+
     void play();
+    int play_round(char move);
 
     char getMove();
     int get_valid_int();
