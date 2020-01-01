@@ -75,7 +75,7 @@ std::vector<int> Board::getRandomPoint()
     return rd_point;
 }
 
-template<typename T>
+template <typename T>
 void Board::addItems(int number)
 {
     T *tmp_obj;
@@ -83,7 +83,7 @@ void Board::addItems(int number)
     {
         std::vector<int> rd_point = getRandomPoint();
 
-        if(coord[rd_point[0]][rd_point[1]] == NULL)
+        if (coord[rd_point[0]][rd_point[1]] == NULL)
         {
             tmp_obj = new T();
             coord[rd_point[0]][rd_point[1]] = tmp_obj;
@@ -158,10 +158,9 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
     this->addItems<Diams>(nb_diams);
     this->addItems<Geurchars>(nb_geurchars);
     this->addItems<Streumons>(nb_streumons);
-
 }
 
-std::string Board::toString()
+std::string Board::toString(bool strm_mode)
 {
     std::string plateau = "";
     for (int i = 0; i < hau; i++)
@@ -170,7 +169,14 @@ std::string Board::toString()
         {
             if (coord[i][j])
             {
-                plateau.push_back(coord[i][j]->getSymbol());
+                if (strm_mode && (coord[i][j]->getSymbol() == 's'))
+                {
+                    plateau += std::to_string(dynamic_cast<Streumons *>(coord[i][j])->getType());
+                }
+                else
+                {
+                    plateau.push_back(coord[i][j]->getSymbol());
+                }
             }
             else
             {
@@ -183,9 +189,9 @@ std::string Board::toString()
     return plateau;
 }
 
-std::stringstream Board::toStream()
+std::stringstream Board::toStream(bool strm_mode)
 {
-    std::stringstream boardStream(toString());
+    std::stringstream boardStream(toString(strm_mode));
     return boardStream;
 }
 

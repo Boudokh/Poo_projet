@@ -9,32 +9,53 @@ int main(int argc, char *argv[])
 {
     int hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars;
     initscr();
+    int i = 0;
 
-    printw("nb de niveau?\n");
+    mvprintw(i, 0, "nb de niveau?\n");
     nb_level = read_int();
-    clear();
-    printw("taille des plateaux? \nhauteur ?\n");
+    move(i + 1, 0);
+    clrtoeol();
+    printw("%d", nb_level);
+
+    mvprintw(i += 2, 0, "taille des plateaux? \nhauteur ?\n");
     hau = read_int();
-    refresh();
-    printw("largeur?\n");
+    move(i + 2, 0);
+    clrtoeol();
+    printw("%d", hau);
+
+    mvprintw(i += 3, 0, "largeur?\n");
     lar = read_int();
-    clear();
-    printw("nombre de teupors?\n");
+    move(i + 1, 0);
+    clrtoeol();
+    printw("%d", lar);
+
+    mvprintw(i += 2, 0, "nombre de teupors?\n");
     nb_teupor = read_int();
-    clear();
-    printw("nb de diams ?\n");
+    move(i + 1, 0);
+    clrtoeol();
+    printw("%d", nb_teupor);
+
+    mvprintw(i += 2, 0, "nb de diams ?\n");
     nb_diams = read_int();
-    clear();
-    printw("nb de streumons ?\n");
+    move(i + 1, 0);
+    clrtoeol();
+    printw("%d", nb_diams);
+
+    mvprintw(i += 2, 0, "nb de streumons ?\n");
     nb_streumons = read_int();
-    clear();
-    printw("nb de geurchars ?\n");
+    move(i + 1, 0);
+    clrtoeol();
+    printw("%d", nb_streumons);
+
+    mvprintw(i += 2, 0, "nb de geurchars ?\n");
     nb_geurchars = read_int();
-    clear();
+    move(i + 1, 0);
+    clrtoeol();
+    printw("%d", nb_geurchars);
 
     std::string fname;
     Game *new_game = new Game(hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars);
-    printw("Saissez le nom du fichier à sauvegarder (sans extension) \n");
+    printw("\nSaissez le nom du fichier à sauvegarder (sans extension) \n");
 
     new_game->save_game(read_fname());
 
