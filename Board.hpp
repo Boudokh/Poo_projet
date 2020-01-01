@@ -23,7 +23,14 @@ class Board
 private:
     int hau;
     int lar;
+    std::vector<std::vector<Object *>> coord;
 
+    void reumus_vert(int size_max); // génération aléatoire de murs - vertical
+    void reumus_hor(int size_max);  // génération aléatoire de murs - horizontal
+    void reumus_diag(int size_max); // génération aléatoire de murs - diagonal
+
+    template<typename T>
+    void addItems(int number); // génération aléatoire d'objets (Streumons, Geurchars, Diams) sur le plateau.
     class Row
     {
     private:
@@ -37,20 +44,12 @@ private:
 
 public:
     Row operator[](size_t i) { return coord[i]; }
-    std::vector<std::vector<Object *>> coord;
     Board(int _hau, int _lar, int nb_teupor = 1, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1); //generate random board
 
     Board(std::string txt_board, int _hau, int _lar);
 
     std::string toString();
     std::stringstream toStream();
-
-    void reumus_vert(int size_max); // génération aléatoire de murs - vertical
-    void reumus_hor(int size_max);  // génération aléatoire de murs - horizontal
-    void reumus_diag(int size_max); // génération aléatoire de murs - diagonal
-
-    template<typename T>
-    void addItems(int number); // génération aléatoire d'objets (Streumons, Geurchars, Diams) sur le plateau.
 
     std::vector<int> getRandomPoint();
 
