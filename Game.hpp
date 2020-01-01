@@ -16,22 +16,11 @@ private:
     std::vector<Board *> levels;
     int compteurMove; // Compteur aStar pour streumons.
 
-public:
-    Game();
-    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);
-    Game(std::string filename);
-
     void generateBoardList();
-    ~Game();
 
     void affiche();
-    void save_game(std::string filename = "jeu");
     void placerOueurjRandom();
     void dispCurrLevel() const;
-    std::string toString() const;
-
-    void play();
-    int play_round(char move);
 
     char getMove();
     int get_valid_int();
@@ -46,6 +35,21 @@ public:
     std::vector<int> randMoves(int i, int j);
     std::vector<int> aStar(int i, int j);
     std::vector<int> aStarProba(int i, int j, int current_level);
+
+public:
+    Game();
+    Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);
+    Game(std::string filename);
+
+    ~Game();
+
+    std::string toString() const;
+
+    void play();
+    int play_round(char move);
+
+    void save_game(std::string filename = "jeu");
+
 };
 
 #endif

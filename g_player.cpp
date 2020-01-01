@@ -8,7 +8,6 @@ std::vector<std::string> read_file_names();
 
 int main(int argc, char *argv[])
 {
-
     std::vector<std::string> file_list = read_file_names();
     bool replay = true;
     initscr();

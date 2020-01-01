@@ -15,7 +15,7 @@ g_creator.o: g_creator.cpp
 
 g_player.o: g_player.cpp
 	$(CPP) -c g_player.cpp
- 
+
 board_gen.o: board_gen.cpp
 	$(CPP) -c board_gen.cpp
 
