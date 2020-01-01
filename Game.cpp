@@ -141,13 +141,13 @@ void Game::affiche()
 {
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        std::cout << (*it)->toString() << std::endl;
+        std::cout << (*it)->toString(false) << std::endl;
     }
 }
 
 void Game::dispCurrLevel() const
 {
-    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream();
+    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream(true);
     std::stringstream plyr_info = plyr->toStream();
 
     std::string tmp_str;
@@ -169,7 +169,7 @@ void Game::dispCurrLevel() const
 
 std::string Game::toString() const
 {
-    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream();
+    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream(true);
     std::stringstream plyr_info = plyr->toStream();
 
     std::string tmp_str, sortie = "";
@@ -187,9 +187,7 @@ std::string Game::toString() const
         }
         sortie += "\n";
     }
-    //std::cout << sortie << std::endl << "~~~~~~~~~~" << std::endl;
 
-    const char *sortie_char = tmp_str.c_str();
     return sortie;
 }
 
@@ -210,7 +208,7 @@ void Game::save_game(std::string filename)
 
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        sortie << (*it)->toString() << '#' << std::endl;
+        sortie << (*it)->toString(false) << '#' << std::endl;
     }
     sortie.close();
 }
@@ -373,7 +371,7 @@ void Game::playStreumons()
     Board &curr_board = *levels[plyr_p[0]];
 
     std::vector<int> new_pos, old_pos;
-    std::string symb_list = curr_board.toString();
+    std::string symb_list = curr_board.toString(false);
 
     for (int i = 0; i < hau; i++)
     {

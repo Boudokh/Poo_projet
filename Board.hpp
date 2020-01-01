@@ -48,8 +48,8 @@ public:
 
     Board(std::string txt_board, int _hau, int _lar);
 
-    std::string toString();
-    std::stringstream toStream();
+    std::string toString(bool strm_mode );
+    std::stringstream toStream(bool strm_mode);
 
     std::vector<int> getRandomPoint();
 
