@@ -49,9 +49,8 @@ public:
     void reumus_hor(int size_max);  // génération aléatoire de murs - horizontal
     void reumus_diag(int size_max); // génération aléatoire de murs - diagonal
 
-    void addDiams(int nb_diams);         // génération aléatoire de diams - au sein du plateau - sans les bords.
-    void addGeurchars(int nb_geurchars); // génération aléatoire de geurchars - au sein du plateau - sans les bords.
-    void addStreumons(int nb_streumons); // génération aléatoire de streumons - au sein du plateau - sans les bords.
+    template<typename T>
+    void addItems(int number); // génération aléatoire d'objets (Streumons, Geurchars, Diams) sur le plateau.
 
     std::vector<int> getRandomPoint();
 
@@ -67,6 +66,8 @@ public:
     void elimination(std::vector<int> old_p, std::vector<int> new_p);
     void reproduction(std::vector<int> old_p, std::vector<int> new_p);
     void fusion(std::vector<int> old_p, std::vector<int> new_p);
+
+
 };
 
 #endif

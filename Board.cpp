@@ -66,6 +66,32 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
     }
 }
 
+std::vector<int> Board::getRandomPoint()
+{
+    int point = rand() % ((lar - 2) * (hau - 2));
+    std::vector<int> rd_point;
+    rd_point.push_back(point / (lar - 2) + 1);
+    rd_point.push_back(point % (lar - 2) + 1);
+    return rd_point;
+}
+
+template<typename T>
+void Board::addItems(int number)
+{
+    T *tmp_obj;
+    while (number > 0)
+    {
+        std::vector<int> rd_point = getRandomPoint();
+
+        if(coord[rd_point[0]][rd_point[1]] == NULL)
+        {
+            tmp_obj = new T();
+            coord[rd_point[0]][rd_point[1]] = tmp_obj;
+            number--;
+        }
+    }
+}
+
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
@@ -129,11 +155,10 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
     this->reumus_diag(size_max);
     this->reumus_hor(size_max);
 
-    this->addDiams(nb_diams);
-    this->addGeurchars(nb_geurchars);
-    this->addStreumons(nb_streumons);
+    this->addItems<Diams>(nb_diams);
+    this->addItems<Geurchars>(nb_geurchars);
+    this->addItems<Streumons>(nb_streumons);
 
-    //dynamic_cast<Teupor *>(coord[8][0])->openTeupor();
 }
 
 std::string Board::toString()
@@ -214,64 +239,6 @@ void Board::reumus_diag(int size_max)
     }
 }
 
-void Board::addDiams(int nb_diams)
-{
-
-    // Génération aléatoire diamants.
-
-    while (nb_diams > 0)
-    {
-        Diams *tmp_diams;
-        std::vector<int> rd_point = getRandomPoint();
-
-        if (coord[rd_point[0]][rd_point[1]] == NULL)
-        {
-
-            tmp_diams = new Diams();
-            coord[rd_point[0]][rd_point[1]] = tmp_diams;
-            nb_diams--;
-        }
-    }
-}
-
-void Board::addGeurchars(int nb_geurchars)
-{
-    // Génération aléatoire geurchars.
-
-    while (nb_geurchars > 0)
-    {
-        Geurchars *tmp_geurchar;
-        std::vector<int> rd_point = getRandomPoint();
-
-        if (coord[rd_point[0]][rd_point[1]] == NULL)
-        {
-            tmp_geurchar = new Geurchars();
-            coord[rd_point[0]][rd_point[1]] = tmp_geurchar;
-            nb_geurchars--;
-        }
-    }
-}
-
-void Board::addStreumons(int nb_streumons)
-{
-
-    // Génération aléatoire streumons.
-
-    Streumons *tmp_streums;
-    while (nb_streumons > 0)
-    {
-        std::vector<int> rd_point = getRandomPoint();
-
-        if (coord[rd_point[0]][rd_point[1]] == NULL)
-        {
-
-            tmp_streums = new Streumons();
-            coord[rd_point[0]][rd_point[1]] = tmp_streums;
-            nb_streumons--;
-        }
-    }
-}
-
 void Board::placerOueurj(Oueurj *oueurj)
 {
     std::vector<int> pos = oueurj->getPos();
@@ -282,15 +249,6 @@ void Board::enleverOuerj(Oueurj *oueurj)
 {
     std::vector<int> pos = oueurj->getPos();
     this->coord[pos[1]][pos[2]] = NULL;
-}
-
-std::vector<int> Board::getRandomPoint()
-{
-    int point = rand() % ((lar - 2) * (hau - 2));
-    std::vector<int> rd_point;
-    rd_point.push_back(point / (lar - 2) + 1);
-    rd_point.push_back(point % (lar - 2) + 1);
-    return rd_point;
 }
 
 void Board::openTeupors()
