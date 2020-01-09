@@ -29,7 +29,7 @@ private:
     void reumus_hor(int size_max);  // génération aléatoire de murs - horizontal
     void reumus_diag(int size_max); // génération aléatoire de murs - diagonal
 
-    template<typename T>
+    template <typename T>
     void addItems(int number); // génération aléatoire d'objets (Streumons, Geurchars, Diams) sur le plateau.
     class Row
     {
@@ -48,7 +48,7 @@ public:
 
     Board(std::string txt_board, int _hau, int _lar);
 
-    std::string toString(bool strm_mode );
+    std::string toString(bool strm_mode);
     std::stringstream toStream(bool strm_mode);
 
     std::vector<int> getRandomPoint();
@@ -65,8 +65,6 @@ public:
     void elimination(std::vector<int> old_p, std::vector<int> new_p);
     void reproduction(std::vector<int> old_p, std::vector<int> new_p);
     void fusion(std::vector<int> old_p, std::vector<int> new_p);
-
-
 };
 
 #endif

@@ -13,6 +13,7 @@ Oueurj::Oueurj() : nb_diams(0), nb_teleport(0), state(0)
 
 void Oueurj::levelUp()
 {
+    this->inf_telep = false;
     this->pos[0]++;
 }
 

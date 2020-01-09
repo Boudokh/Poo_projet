@@ -86,7 +86,8 @@ Game::Game(std::string filename)
         plyr = new Oueurj(init_pos);
         placerOueurjRandom();
     }
-    else{
+    else
+    {
         this->levels[plyr->getCurrentlevel()]->placerOueurj(plyr);
     }
 }
@@ -248,7 +249,7 @@ void Game::save_boards(std::string filename)
     fichier_board.close();
 }
 
-int Game::play_round(char move)
+int Game::play_round(const char move)
 {
     if (plyr->getState() == 0)
     {

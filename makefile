@@ -3,13 +3,13 @@ FILES=Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o 
 all: Board gc gp
 
 Board: board_gen.o $(FILES)
-	$(CPP) board_gen.o  $(FILES) -o Board
+	$(CPP) board_gen.o $(FILES) -o Board
 
-gc: g_creator.o  $(FILES)
-	$(CPP) g_creator.o  $(FILES) -o gc -lncurses
+gc: g_creator.o $(FILES)
+	$(CPP) g_creator.o $(FILES) -o gc -lncurses
 
-gp: g_player.o  $(FILES)
-	$(CPP) g_player.o  $(FILES) -o gp -lncurses
+gp: g_player.o $(FILES)
+	$(CPP) g_player.o $(FILES) -o gp -lncurses
 
 g_creator.o: g_creator.cpp
 	$(CPP) -c g_creator.cpp

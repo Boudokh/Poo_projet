@@ -48,7 +48,7 @@ public:
     std::string toString() const;
 
     void play();
-    int play_round(char move);
+    int play_round(const char move);
 
     void save_game(std::string filename = "jeu");
     void save_boards(std::string filename = "plateau");

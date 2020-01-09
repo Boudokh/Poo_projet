@@ -17,6 +17,7 @@ private:
 public:
     Oueurj(std::vector<int> _pos, int _nb_diams = 0, bool _inf_telep = false, int _nb_teleport = 0, int _state = 0);
     Oueurj();
+    ~Oueurj();
 
     void levelUp();
 
@@ -35,7 +36,6 @@ public:
     int getState() const;
     std::stringstream toStream() const;
     void eatDiams();
-    ~Oueurj();
 };
 
 #endif

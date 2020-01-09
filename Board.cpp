@@ -46,7 +46,7 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_geurchar = new Geurchars();
                 tmp_line.push_back(tmp_geurchar);
                 break;
-            
+
             case 'J':
             case ' ':
                 tmp_line.push_back(NULL);
