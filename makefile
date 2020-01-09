@@ -1,14 +1,15 @@
 CPP=g++ --std=c++11 -Wall
+FILES=Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
 all: Board gc gp
 
-Board: board_gen.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
-	$(CPP) board_gen.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o -o Board
+Board: board_gen.o $(FILES)
+	$(CPP) board_gen.o  $(FILES) -o Board
 
-gc: g_creator.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
-	$(CPP) g_creator.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o -o gc -lncurses
+gc: g_creator.o  $(FILES)
+	$(CPP) g_creator.o  $(FILES) -o gc -lncurses
 
-gp: g_player.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
-	$(CPP) g_player.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o -o gp -lncurses
+gp: g_player.o  $(FILES)
+	$(CPP) g_player.o  $(FILES) -o gp -lncurses
 
 g_creator.o: g_creator.cpp
 	$(CPP) -c g_creator.cpp
@@ -20,7 +21,7 @@ board_gen.o: board_gen.cpp
 	$(CPP) -c board_gen.cpp
 
 Game.o: Game.cpp Game.hpp
-	$(CPP) -c Game.cpp -lncurses
+	$(CPP) -c Game.cpp
 
 Board.o: Board.cpp Board.hpp
 	$(CPP) -c Board.cpp
