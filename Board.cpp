@@ -37,6 +37,13 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_line.push_back(tmp_streumons);
                 break;
 
+            case '0':
+            case '1':
+            case '2':
+                tmp_streumons = new Streumons((int)txt_board[i * lar + j] - 48);
+                tmp_line.push_back(tmp_streumons);
+                break;
+
             case '$':
                 tmp_diams = new Diams();
                 tmp_line.push_back(tmp_diams);

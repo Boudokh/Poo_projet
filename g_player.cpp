@@ -138,6 +138,7 @@ bool yes_no(WINDOW *stdscr)
     int input, y, x;
     getyx(stdscr, y, x);
     mvprintw(y, 0, " 1. oui\n 2. non ");
+    move(y, 0);
     int yes = y;
     do
     {

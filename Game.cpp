@@ -197,7 +197,7 @@ void Game::save_game(std::string filename)
 
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        fichier_game << (*it)->toString(false) << '#' << std::endl;
+        fichier_game << (*it)->toString(true) << '#' << std::endl;
     }
 
     fichier_game.close();
