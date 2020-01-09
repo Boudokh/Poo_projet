@@ -1,9 +1,9 @@
 #ifndef TEUPORS_HPP
 #define TEUPORS_HPP
 
-#include "Fixed.hpp"
+#include "Object.hpp"
 
-class Teupor : public Fixed
+class Teupor : public Object
 {
 
 private:

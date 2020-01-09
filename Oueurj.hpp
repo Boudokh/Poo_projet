@@ -1,10 +1,10 @@
 #ifndef OUEURJ_HPP
 #define OUEURJ_HPP
 
-#include "Movable.hpp"
+#include "Object.hpp"
 #include <sstream>
 
-class Oueurj : public Movable
+class Oueurj : public Object
 {
 
 private:
