@@ -1,9 +1,9 @@
 #ifndef STREUMONS_HPP
 #define STREUMONS_HPP
 
-#include "Movable.hpp"
+#include "Object.hpp"
 
-class Streumons : public Movable {
+class Streumons : public Object {
 
     private:
         char symbol;

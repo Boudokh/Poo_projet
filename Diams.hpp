@@ -1,9 +1,9 @@
 #ifndef DIAMS_HPP
 #define DIAMS_HPP
 
-#include "Fixed.hpp"
+#include "Object.hpp"
 
-class Diams : public Fixed {
+class Diams : public Object {
 
     private:
 

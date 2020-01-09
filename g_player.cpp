@@ -4,14 +4,17 @@
 
 char getMove();
 std::vector<std::string> read_file_names();
+std::string read_fname();
+bool yes_no(WINDOW *stdscr);
 
 int main(int argc, char *argv[])
 {
-    std::vector<std::string> file_list = read_file_names();
+    std::vector<std::string> file_list;
     bool replay = true;
     initscr();
     do
     {
+        file_list = read_file_names();
         int i = 0;
         if (file_list.size() == 0)
         {
@@ -72,39 +75,64 @@ int main(int argc, char *argv[])
         {
             mvprintw(y, 0, "\nDEFAITE");
         }
+        else if (game_state == 0)
+        {
+            mvprintw(y, 0, "Partie non ternminée, voulez vous sauvegarder?");
+            move(y + 1, 0);
+
+            if (yes_no(stdscr))
+            {
+                printw("\nSaissez le nom du fichier à sauvegarder (sans l'extension .game) \n");
+                new_game->save_game(read_fname() + ".game");
+            }
+        }
         getyx(stdscr, y, x);
         printw("\nAppuyez sur n'importe quelle touche pour continuer");
         getch();
         clear();
-        mvprintw(0, 0, "Voulez vous rejouer?\n 1. oui\n 2. non ");
-        do
-        {
-            input = getch();
-            getyx(stdscr, y, x);
-            switch (input)
-            {
-            case KEY_UP:
-                move(std::max(1, y - 1), 0);
-                break;
-            case KEY_DOWN:
-                move(std::min(2, y + 1), 0);
-                break;
-            default:
-                break;
-            }
-        } while (input != 10);
 
-        getyx(stdscr, y, x);
-
-        if (y == 2)
-        {
-            replay = false;
-        }
+        mvprintw(0, 0, "Voulez vous rejouer?\n");
+        replay = yes_no(stdscr);
 
     } while (replay);
     endwin();
 
     return 0;
+}
+
+bool yes_no(WINDOW *stdscr)
+{
+    int input, y, x;
+    getyx(stdscr, y, x);
+    mvprintw(y, 0, " 1. oui\n 2. non ");
+    int yes = y;
+    do
+    {
+        input = getch();
+        getyx(stdscr, y, x);
+        switch (input)
+        {
+        case KEY_UP:
+            move(std::max(yes, y - 1), 0);
+            break;
+        case KEY_DOWN:
+            move(std::min(yes + 1, y + 1), 0);
+            break;
+        default:
+            break;
+        }
+    } while (input != 10);
+
+    getyx(stdscr, y, x);
+
+    if (y == yes)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 char getMove()
@@ -146,4 +174,27 @@ std::vector<std::string> read_file_names()
     }
 
     return file_list;
+}
+
+std::string read_fname()
+{
+    clrtoeol();
+
+    std::string fname;
+    std::regex valid_file("[a-zA-Z_][a-zA-Z_0-9]*$");
+
+    int ch = getch();
+
+    while (ch != '\n')
+    {
+        fname.push_back(ch);
+        ch = getch();
+    }
+
+    if (!(std::regex_match(fname, valid_file)))
+    {
+        printw("Invalid file name");
+        return read_fname();
+    }
+    return fname;
 }

@@ -1,9 +1,9 @@
 #ifndef GEURCHARS_HPP
 #define GEURCHARS_HPP
 
-#include "Fixed.hpp"
+#include "Object.hpp"
 
-class Geurchars : public Fixed {
+class Geurchars : public Object {
 
     private:
         char symbol;

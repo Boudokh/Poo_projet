@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     if (argc == 1)
     {
         printw("\nSaissez le nom du fichier à sauvegarder (sans extension) \n");
-        new_game->save_boards(read_fname());
+        new_game->save_boards(read_fname()+".board");
     }
     else if (argc == 2)
     {

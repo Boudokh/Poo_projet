@@ -1,14 +1,14 @@
 CPP=g++ --std=c++11 -Wall
 all: Board gc gp
 
-Board: board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
-	$(CPP) board_gen.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o Board
+Board: board_gen.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
+	$(CPP) board_gen.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o -o Board
 
-gc: g_creator.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
-	$(CPP) g_creator.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gc -lncurses
+gc: g_creator.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
+	$(CPP) g_creator.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o -o gc -lncurses
 
-gp: g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o
-	$(CPP) g_player.o Game.o Board.o Object.o Fixed.o Reumus.o Teupor.o Diams.o Geurchars.o Movable.o Streumons.o Oueurj.o -o gp -lncurses
+gp: g_player.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
+	$(CPP) g_player.o Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o -o gp -lncurses
 
 g_creator.o: g_creator.cpp
 	$(CPP) -c g_creator.cpp
@@ -28,28 +28,22 @@ Board.o: Board.cpp Board.hpp
 Object.o: Object.cpp Object.hpp
 	$(CPP) -c Object.cpp
 
-Fixed.o: Fixed.cpp Fixed.hpp Object.o
-	$(CPP) -c Fixed.cpp
-
-Diams.o : Fixed.cpp Fixed.hpp Object.o Diams.cpp Diams.hpp
+Diams.o : Object.o Diams.cpp Diams.hpp
 	$(CPP) -c Diams.cpp
 
-Reumus.o: Reumus.cpp Reumus.hpp Fixed.o Object.o
+Reumus.o: Reumus.cpp Reumus.hpp Object.o
 	$(CPP) -c Reumus.cpp
 
-Teupor.o: Teupor.cpp Teupor.hpp Fixed.o Object.o
+Teupor.o: Teupor.cpp Teupor.hpp Object.o
 	$(CPP) -c Teupor.cpp
 
-Movable.o : Movable.cpp Movable.hpp Object.o
-	$(CPP) -c Movable.cpp
-
-Geurchars.o : Geurchars.cpp Geurchars.hpp Fixed.o Object.o
+Geurchars.o : Geurchars.cpp Geurchars.hpp Object.o
 	$(CPP) -c Geurchars.cpp
 
-Streumons.o : Streumons.cpp Streumons.hpp Movable.o Object.o
+Streumons.o : Streumons.cpp Streumons.hpp Object.o
 	$(CPP) -c Streumons.cpp
 
-Oueurj.o : Oueurj.cpp Oueurj.hpp Movable.o Object.o
+Oueurj.o : Oueurj.cpp Oueurj.hpp Object.o
 	$(CPP) -c Oueurj.cpp
 
 clean:
