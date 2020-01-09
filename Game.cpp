@@ -92,37 +92,6 @@ Game::Game(std::string filename)
     }
 }
 
-Game::Game()
-{
-    int nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars;
-    this->compteurMove = 0;
-
-    std::cout << "nb de niveau?" << std::endl;
-    nb_level = get_valid_int();
-    std::cout << "taille des plateaux? \nhauteur ?" << std::endl;
-    this->hau = get_valid_int();
-    std::cout << "largeur?" << std::endl;
-    this->lar = get_valid_int();
-    std::cout << "nombre de teupors?";
-    nb_teupor = get_valid_int();
-    std::cout << "nb de diams ?" << std::endl;
-    nb_diams = get_valid_int();
-    std::cout << "nb de streumons ?" << std::endl;
-    nb_streumons = get_valid_int();
-    std::cout << "nb de geurchars ?" << std::endl;
-    nb_geurchars = get_valid_int();
-
-    for (int i = 0; i < nb_level; i++)
-    {
-        this->levels.push_back(new Board(this->hau, this->lar, nb_teupor, nb_diams, nb_streumons, nb_geurchars));
-    }
-
-    std::vector<int> init_pos;
-    init_pos.assign(3, 0);
-    plyr = new Oueurj(init_pos);
-    placerOueurjRandom();
-}
-
 Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     this->compteurMove = 0;
@@ -228,7 +197,7 @@ void Game::save_game(std::string filename)
 
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        fichier_game << (*it)->toString(false) << '#' << std::endl;
+        fichier_game << (*it)->toString(true) << '#' << std::endl;
     }
 
     fichier_game.close();
@@ -258,31 +227,6 @@ int Game::play_round(const char move)
     }
 
     return plyr->getState();
-}
-
-void Game::play()
-{
-    char nxt_move;
-    dispCurrLevel();
-    bool endGame = false;
-
-    do
-    {
-        nxt_move = getMove();
-        endGame = moveOueurj(nxt_move);
-
-        playStreumons();
-        dispCurrLevel();
-    } while (nxt_move != 's' && !endGame && plyr->getState() == 0);
-
-    if (plyr->getState() == 1)
-    {
-        std::cout << "VICTOIRE" << std::endl;
-    }
-    else if (plyr->getState() == -1)
-    {
-        std::cout << "DEFAITE" << std::endl;
-    }
 }
 
 bool Game::moveOueurj(char move)
@@ -341,7 +285,6 @@ bool Game::moveOueurj(char move)
         }
         if (tmp_sym == 'X' || tmp_sym == '-')
         {
-            //std::cout << "impossible" << std::endl;
         }
         else if (tmp_sym == '+')
         {
@@ -349,13 +292,11 @@ bool Game::moveOueurj(char move)
             if (old_pos[0] < (int)levels.size() - 1)
             {
                 plyr->levelUp();
-                //std::cout << "levelup" << plyr->getPos()[0] << " " << plyr->getPos()[1] << " " << plyr->getPos()[2] << std::endl;
                 placerOueurjRandom();
             }
             else
             {
                 plyr->win();
-                //std::cout << "gagné" << std::endl;
                 return true;
             }
         }
@@ -402,7 +343,6 @@ char Game::getMove()
 
 void Game::playStreumons()
 {
-    //auto start = std::chrono::high_resolution_clock::now();
     std::vector<int> plyr_p = plyr->getPos();
     Board &curr_board = *levels[plyr_p[0]];
 
@@ -432,7 +372,6 @@ void Game::playStreumons()
 
                 old_pos = {i, j};
                 curr_board.moveStrm(old_pos, new_pos);
-                //std::cout << "types evol : " << dynamic_cast<Streumons *>(curr_board[new_pos[0]][new_pos[1]])->getTypeEvol() << std::endl;
                 if (new_pos[0] == plyr_p[1] && new_pos[1] == plyr_p[2])
                 {
                     this->plyr->die();
@@ -442,14 +381,11 @@ void Game::playStreumons()
                     switch (dynamic_cast<Streumons *>(curr_board[new_pos[0]][new_pos[1]])->getTypeEvol())
                     {
                     case 0:
-                        //std::cout << "Streumons has been slain" << std::endl;
                         curr_board.elimination(old_pos, new_pos);
                         break;
                     case 1:
-                        //std::cout << "Un streums est apparu !" << std::endl;
                         curr_board.reproduction(old_pos, new_pos);
                     case 2:
-                        //std::cout << "Un bonus est apparu, thanks les streums !" << std::endl;
                         curr_board.fusion(old_pos, new_pos);
                     default:
                         break;
@@ -458,11 +394,6 @@ void Game::playStreumons()
             }
         }
     }
-    /*
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    std::cout << "Elapsed time: " << elapsed.count() << " s\n";
-    */
 }
 
 std::vector<std::vector<int>> Game::legalMoves(int i, int j)

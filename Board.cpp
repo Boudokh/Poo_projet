@@ -37,6 +37,13 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_line.push_back(tmp_streumons);
                 break;
 
+            case '0':
+            case '1':
+            case '2':
+                tmp_streumons = new Streumons((int)txt_board[i * lar + j] - 48);
+                tmp_line.push_back(tmp_streumons);
+                break;
+
             case '$':
                 tmp_diams = new Diams();
                 tmp_line.push_back(tmp_diams);
@@ -145,10 +152,13 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
             nb_teupor--;
         }
     }
-    int size_max = 6;
-    this->reumus_vert(size_max);
-    this->reumus_diag(size_max);
-    this->reumus_hor(size_max);
+
+    for (int i = 0; i < (this->lar * this->hau) / 600 + 1; i++)
+    {
+        this->reumus_vert(this->hau / 3);
+        this->reumus_diag(std::min(this->lar, this->hau) / 3);
+        this->reumus_hor(this->hau / 3);
+    }
 
     this->addItems<Diams>(nb_diams);
     this->addItems<Geurchars>(nb_geurchars);
@@ -203,7 +213,7 @@ Board::~Board()
 
 void Board::reumus_vert(int size_max)
 {
-    int size = (rand() % size_max) + 2;
+    int size = (rand() % size_max) + 4;
     std::vector<int> rd_point = getRandomPoint();
 
     for (int line = rd_point[0]; line < std::min(rd_point[0] + size, hau - 1); line++)
@@ -215,7 +225,7 @@ void Board::reumus_vert(int size_max)
 
 void Board::reumus_hor(int size_max)
 {
-    int size = (rand() % size_max) + 2;
+    int size = (rand() % size_max) + 4;
     std::vector<int> rd_point = getRandomPoint();
 
     for (int row = rd_point[1]; row < std::min(rd_point[1] + size, lar - 1); row++)
@@ -227,7 +237,7 @@ void Board::reumus_hor(int size_max)
 
 void Board::reumus_diag(int size_max)
 {
-    int size = (rand() % size_max) + 2;
+    int size = (rand() % size_max) + 4;
     std::vector<int> rd_point = getRandomPoint();
 
     for (int i = 0; i < size; i++)
@@ -312,11 +322,9 @@ void Board::fusion(std::vector<int> old_pos, std::vector<int> new_pos)
     switch (type_obj)
     {
     case 0:
-        std::cout << "et ... c'est un diams !" << std::endl;
         coord[new_pos[0]][new_pos[1]] = tmp_diams; // parfois les bêtes produisent de belles choses ...
         break;
     case 1:
-        std::cout << "et ... c'est un geurchar !" << std::endl;
         coord[new_pos[0]][new_pos[1]] = tmp_geuchars; // parfois les bêtes produisent de belles choses ...
     default:
         break;

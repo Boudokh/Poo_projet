@@ -5,16 +5,18 @@
 
 class Teupor : public Object
 {
-
 private:
 public:
-
-    Teupor();                    /* par défaut la porte est fermée */
-    char getStateTeupor() const; /* état courante de la porte */
-    void openTeupor();           /* ouverture d'une porte après que le joueur ait pris un diamant */
-    virtual std::string  getName();
+    Teupor();
     ~Teupor();
 
+    // état actuel de la porte
+    char getStateTeupor() const;
+
+    // ouverture d'une porte après que le joueur ait pris un diamant
+    void openTeupor();
+
+    virtual std::string getName();
 };
 
 #endif

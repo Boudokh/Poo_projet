@@ -20,7 +20,6 @@ private:
 
     void generateBoardList();
 
-    void affiche();
     void placerOueurjRandom();
     void dispCurrLevel() const;
 
@@ -39,7 +38,6 @@ private:
     std::vector<int> aStarProba(int i, int j, int current_level);
 
 public:
-    Game();
     Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);
     Game(std::string filename);
 
@@ -47,11 +45,11 @@ public:
 
     std::string toString() const;
 
-    void play();
     int play_round(const char move);
 
     void save_game(std::string filename = "jeu");
     void save_boards(std::string filename = "plateau");
+    void affiche();
 };
 
 #endif

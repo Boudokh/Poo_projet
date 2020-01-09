@@ -11,48 +11,81 @@ int main(int argc, char *argv[])
 {
     std::vector<std::string> file_list;
     bool replay = true;
+    int input, x, y;
+
+    Game *my_game;
+
+    std::regex is_game("([a-zA-Z0-9_])+(.game)$");
+
+    if (argc > 2)
+    {
+        std::cerr << " Too many arguments" << std::endl;
+        return 0;
+    }
+    else if (argc == 2)
+    {
+        if (!regex_match(argv[1], is_game))
+        {
+            std::cerr << "invalid .game file name" << std::endl;
+            return 0;
+        }
+        std::ifstream file_check(argv[1]);
+        if (!file_check.good())
+        {
+            std::cerr << "couldn't find .game file" << std::endl;
+            return 0;
+        }
+        file_check.close();
+    }
+
     initscr();
     do
     {
-        file_list = read_file_names();
-        int i = 0;
-        if (file_list.size() == 0)
-        {
-            mvprintw(0, 0, "Aucun fichier .board détécté, veuillez en créer grace au fichier \'gc\'\nAppuyez sur n'importe quelle touche pour sortir");
-            getch();
-            endwin();
-            return 0;
-        }
-        mvprintw(0, 0, "choisissez le fichier board à jouer: ");
-        for (std::vector<std::string>::iterator it = file_list.begin(); it != file_list.end(); it++, i++)
-        {
-            mvprintw(i + 1, 0, " %2d. %s", i + 1, it->c_str());
-        }
-        move(1, 0);
         keypad(stdscr, true);
 
-        int input, x, y;
-
-        do
+        if (argc == 1)
         {
-            input = getch();
-            getyx(stdscr, y, x);
-            switch (input)
+            file_list = read_file_names();
+            int i = 0;
+            if (file_list.size() == 0)
             {
-            case KEY_UP:
-                move(std::max(1, y - 1), 0);
-                break;
-            case KEY_DOWN:
-                move(std::min(int(file_list.size()), y + 1), 0);
-                break;
-            default:
-                break;
+                mvprintw(0, 0, "Aucun fichier .board détécté, veuillez en créer grace au fichier \'gc\'\nAppuyez sur n'importe quelle touche pour sortir");
+                getch();
+                endwin();
+                return 0;
             }
-        } while (input != 10);
+            mvprintw(0, 0, "choisissez le fichier board à jouer: ");
+            for (std::vector<std::string>::iterator it = file_list.begin(); it != file_list.end(); it++, i++)
+            {
+                mvprintw(i + 1, 0, " %2d. %s", i + 1, it->c_str());
+            }
+            move(1, 0);
 
-        getyx(stdscr, y, x);
+            do
+            {
+                input = getch();
+                getyx(stdscr, y, x);
+                switch (input)
+                {
+                case KEY_UP:
+                    move(std::max(1, y - 1), 0);
+                    break;
+                case KEY_DOWN:
+                    move(std::min(int(file_list.size()), y + 1), 0);
+                    break;
+                default:
+                    break;
+                }
+            } while (input != 10);
 
-        Game *new_game = new Game(file_list[y - 1]);
+            getyx(stdscr, y, x);
+
+            my_game = new Game(file_list[y - 1]);
+        }
+        else
+        {
+            my_game = new Game(argv[1]);
+        }
 
         char next_move = '0';
         int game_state = 0;
@@ -60,9 +93,9 @@ int main(int argc, char *argv[])
         while (next_move != 's' && game_state == 0)
         {
             clear();
-            printw(new_game->toString().c_str());
+            printw(my_game->toString().c_str());
             next_move = getMove();
-            game_state = new_game->play_round(next_move);
+            game_state = my_game->play_round(next_move);
         }
 
         getyx(stdscr, y, x);
@@ -83,7 +116,7 @@ int main(int argc, char *argv[])
             if (yes_no(stdscr))
             {
                 printw("\nSaissez le nom du fichier à sauvegarder (sans l'extension .game) \n");
-                new_game->save_game(read_fname() + ".game");
+                my_game->save_game(read_fname() + ".game");
             }
         }
         getyx(stdscr, y, x);
@@ -105,6 +138,7 @@ bool yes_no(WINDOW *stdscr)
     int input, y, x;
     getyx(stdscr, y, x);
     mvprintw(y, 0, " 1. oui\n 2. non ");
+    move(y, 0);
     int yes = y;
     do
     {
@@ -150,7 +184,6 @@ char getMove()
 
 std::vector<std::string> read_file_names()
 {
-
     std::regex is_board("([a-zA-Z0-9_])+(.game)$");
 
     std::string tmp_fname;
@@ -167,7 +200,6 @@ std::vector<std::string> read_file_names()
             if (std::regex_match(tmp_fname, is_board))
             {
                 file_list.push_back(tmp_fname);
-                //std::cout << tmp_fname << std::endl;
             }
         }
         closedir(d);

@@ -1,6 +1,6 @@
 CPP=g++ --std=c++11 -Wall
 FILES=Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
-all: Board gc gp
+all: gc gp
 
 Board: board_gen.o $(FILES)
 	$(CPP) board_gen.o $(FILES) -o Board

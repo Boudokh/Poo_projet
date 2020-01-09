@@ -11,6 +11,12 @@ Streumons::Streumons()
     this->typeevol = rand() % 3;
 }
 
+Streumons::Streumons(int _type):type(_type)
+{
+    this->symbol = 's';
+    this->typeevol = rand() % 3;
+}
+
 char Streumons::getSymbol() const
 {
     return this->symbol;
