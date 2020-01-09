@@ -13,63 +13,82 @@ Game::Game(std::string filename)
     std::string tmp_str;
     std::vector<int> init_pos;
 
+    std::regex is_board("([a-zA-Z0-9_])+(.board)$");
+    std::regex is_game("([a-zA-Z0-9_])+(.game)$");
+
     this->compteurMove = 0;
 
-    readFile.open(filename);
-    if (readFile.is_open())
+    if (std::regex_match(filename, is_board) || std::regex_match(filename, is_game))
     {
-        getline(readFile, tmp_str);
-        std::istringstream ss(tmp_str);
-        std::string token;
-
-        getline(ss, token, '*');
-        this->hau = stoi(token);
-        getline(ss, token, '*');
-        this->lar = stoi(token);
-
-        getline(ss, token, '*');
-        int nb_level = stoi(token);
-
-        for (int i = 0; i < 3; i++)
+        readFile.open(filename);
+        if (readFile.is_open())
         {
+            getline(readFile, tmp_str);
+            std::istringstream ss(tmp_str);
+            std::string token;
+
             getline(ss, token, '*');
-            init_pos.push_back(stoi(token));
-        }
-        std::string telep;
-        getline(ss, telep, '*');
+            this->hau = stoi(token);
+            getline(ss, token, '*');
+            this->lar = stoi(token);
 
-        getline(ss, token, '*');
-        int nb_diams = stoi(token);
+            getline(ss, token, '*');
+            int nb_level = stoi(token);
 
-        if (telep == "inf")
-        {
-            plyr = new Oueurj(init_pos, nb_diams, true);
-        }
-        else
-        {
-            plyr = new Oueurj(init_pos, nb_diams, false, stoi(telep));
-        }
-
-        std::string level_string;
-        level_string.reserve(this->hau * this->lar);
-
-        for (int k = 0; k < nb_level; k++)
-        {
-            if (!readFile.eof())
+            if (std::regex_match(filename, is_game))
             {
-                level_string = "";
-                getline(readFile, tmp_str);
-                while (tmp_str != "#" && tmp_str != "\n" && !readFile.eof())
+                for (int i = 0; i < 3; i++)
                 {
-                    level_string += tmp_str;
-                    getline(readFile, tmp_str);
+                    getline(ss, token, '*');
+                    init_pos.push_back(stoi(token));
                 }
+                std::string telep;
+                getline(ss, telep, '*');
 
-                levels.push_back(new Board(level_string, hau, lar));
+                getline(ss, token, '*');
+                int nb_diams = stoi(token);
+
+                if (telep == "inf")
+                {
+                    plyr = new Oueurj(init_pos, nb_diams, true);
+                }
+                else
+                {
+                    plyr = new Oueurj(init_pos, nb_diams, false, stoi(telep));
+                }
+            }
+
+            std::string level_string;
+            level_string.reserve(this->hau * this->lar);
+
+            for (int k = 0; k < nb_level; k++)
+            {
+                if (!readFile.eof())
+                {
+                    level_string = "";
+                    getline(readFile, tmp_str);
+                    while (tmp_str != "#" && tmp_str != "\n" && !readFile.eof())
+                    {
+                        level_string += tmp_str;
+                        getline(readFile, tmp_str);
+                    }
+
+                    levels.push_back(new Board(level_string, hau, lar));
+                }
             }
         }
+        readFile.close();
     }
-    readFile.close();
+
+    if (std::regex_match(filename, is_board))
+    {
+        init_pos.assign(3, 0);
+        plyr = new Oueurj(init_pos);
+        placerOueurjRandom();
+    }
+    else{
+        this->levels[plyr->getCurrentlevel()]->placerOueurj(plyr);
+    }
 }
 
 Game::Game()
@@ -193,24 +212,40 @@ std::string Game::toString() const
 
 void Game::save_game(std::string filename)
 {
-    std::ofstream sortie;
-    sortie.open(filename + ".board");
+    std::ofstream fichier_game;
+    fichier_game.open(filename);
 
     char sep = '*';
-    sortie << this->hau << sep << this->lar << sep << this->levels.size() << sep;
+    fichier_game << this->hau << sep << this->lar << sep << this->levels.size() << sep;
     std::vector<int> plyr_pos = plyr->getPos();
 
     for (unsigned int i = 0; i < plyr_pos.size(); i++)
     {
-        sortie << plyr_pos[i] << sep;
+        fichier_game << plyr_pos[i] << sep;
     }
-    sortie << plyr->getTelep() << sep << plyr->getNbDiams() << sep << std::endl;
+    fichier_game << plyr->getTelep() << sep << plyr->getNbDiams() << sep << std::endl;
 
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
-        sortie << (*it)->toString(false) << '#' << std::endl;
+        fichier_game << (*it)->toString(false) << '#' << std::endl;
     }
-    sortie.close();
+
+    fichier_game.close();
+}
+
+void Game::save_boards(std::string filename)
+{
+    std::ofstream fichier_board;
+    fichier_board.open(filename);
+
+    char sep = '*';
+    fichier_board << this->hau << sep << this->lar << sep << this->levels.size() << sep << std::endl;
+
+    for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
+    {
+        fichier_board << (*it)->toString(false) << '#' << std::endl;
+    }
+    fichier_board.close();
 }
 
 int Game::play_round(char move)

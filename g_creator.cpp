@@ -1,12 +1,54 @@
 #include "Game.hpp"
 #include <ncurses.h>
-#include <regex>
 
 int read_int();
 std::string read_fname();
 
 int main(int argc, char *argv[])
 {
+
+    std::regex is_board("([a-zA-Z0-9_])+(.board)$");
+    std::regex is_game("([a-zA-Z0-9_])+(.game)$");
+
+    if (argc > 1)
+    {
+        if (argc > 3)
+        {
+            std::cerr << " Too many arguments" << std::endl;
+            return 0;
+        }
+        if (argc == 2 && !std::regex_match(argv[1], is_board))
+        {
+            std::cerr << "invalid .board file name" << std::endl;
+            return 0;
+        }
+        if (argc == 3)
+        {
+            if (!std::regex_match(argv[1], is_game))
+            {
+                std::cerr << "invalid .game file name" << std::endl;
+                return 0;
+            }
+            if (!std::regex_match(argv[2], is_board))
+            {
+                std::cerr << "invalid .board file name" << std::endl;
+                return 0;
+            }
+            std::ifstream file_check(argv[2]);
+            if (!file_check.good())
+            {
+                std::cerr << "couldn't find .board file" << std::endl;
+                return 0;
+            }
+            file_check.close();
+
+            Game *new_game = new Game(argv[2]);
+            new_game->save_game(argv[1]);
+
+            std::cout << "jeu \"" << argv[1] <<"\" crée avec succées" << std::endl;
+            return 0;
+        }
+    }
     int hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars;
     initscr();
     int i = 0;
@@ -55,9 +97,16 @@ int main(int argc, char *argv[])
 
     std::string fname;
     Game *new_game = new Game(hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars);
-    printw("\nSaissez le nom du fichier à sauvegarder (sans extension) \n");
 
-    new_game->save_game(read_fname());
+    if (argc == 1)
+    {
+        printw("\nSaissez le nom du fichier à sauvegarder (sans extension) \n");
+        new_game->save_boards(read_fname());
+    }
+    else if (argc == 2)
+    {
+        new_game->save_boards(argv[1]);
+    }
 
     endwin();
     return 0;

@@ -6,6 +6,7 @@
 #include <limits>
 #include <math.h>
 #include <chrono>
+#include <regex>
 
 class Game
 {
@@ -13,6 +14,7 @@ private:
     Oueurj *plyr;
     int hau;
     int lar;
+    std::string board_name;
     std::vector<Board *> levels;
     int compteurMove; // Compteur aStar pour streumons.
 
@@ -49,7 +51,7 @@ public:
     int play_round(char move);
 
     void save_game(std::string filename = "jeu");
-
+    void save_boards(std::string filename = "plateau");
 };
 
 #endif

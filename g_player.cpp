@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <regex>
 #include <ncurses.h>
 #include <dirent.h>
 
@@ -124,7 +123,7 @@ char getMove()
 std::vector<std::string> read_file_names()
 {
 
-    std::regex is_board("([a-zA-Z0-9_])+(.board)$");
+    std::regex is_board("([a-zA-Z0-9_])+(.game)$");
 
     std::string tmp_fname;
     struct dirent *dir;

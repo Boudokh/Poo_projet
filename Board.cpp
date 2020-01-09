@@ -9,7 +9,6 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
     Streumons *tmp_streumons;
     Diams *tmp_diams;
     Geurchars *tmp_geurchar;
-    Oueurj *tmp_oueurj;
 
     for (int i = 0; i < this->hau; i++)
     {
@@ -47,12 +46,8 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
                 tmp_geurchar = new Geurchars();
                 tmp_line.push_back(tmp_geurchar);
                 break;
-
+            
             case 'J':
-                tmp_oueurj = new Oueurj();
-                tmp_line.push_back(tmp_oueurj);
-                break;
-
             case ' ':
                 tmp_line.push_back(NULL);
                 break;
