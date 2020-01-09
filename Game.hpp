@@ -23,19 +23,16 @@ private:
     void placerOueurjRandom();
     void dispCurrLevel() const;
 
-    char getMove();
-    int get_valid_int();
-
-    bool moveOueurj(char move);
+    bool move_oueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
 
-    void playStreumons();
+    void play_streumons();
 
     std::vector<std::vector<int>> legalMoves(int i, int j);
 
-    std::vector<int> randMoves(int i, int j);
-    std::vector<int> aStar(int i, int j);
-    std::vector<int> aStarProba(int i, int j, int current_level);
+    std::vector<int> rand_moves(int i, int j);
+    std::vector<int> a_star(int i, int j);
+    std::vector<int> a_star_proba(int i, int j, int current_level);
 
 public:
     Game(int _hau, int _lar, int nb_level, int nb_teupor = 0, int nb_diams = 1, int nb_streumons = 1, int nb_geurchars = 1);

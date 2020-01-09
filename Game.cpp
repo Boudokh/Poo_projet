@@ -7,6 +7,11 @@ Game::~Game()
         delete *i;
     }
 }
+
+/**
+ * @brief  consructeur à partir du nom d'un fichier
+ * @param  filename: un nom de fichier .board ou .game
+ */
 Game::Game(std::string filename)
 {
     std::ifstream readFile;
@@ -23,6 +28,7 @@ Game::Game(std::string filename)
         readFile.open(filename);
         if (readFile.is_open())
         {
+            // lecture des dimensi tu tableau
             getline(readFile, tmp_str);
             std::istringstream ss(tmp_str);
             std::string token;
@@ -37,6 +43,7 @@ Game::Game(std::string filename)
 
             if (std::regex_match(filename, is_game))
             {
+                // lecture des détails de la partie (uniquement pour les '.game')
                 for (int i = 0; i < 3; i++)
                 {
                     getline(ss, token, '*');
@@ -61,6 +68,7 @@ Game::Game(std::string filename)
             std::string level_string;
             level_string.reserve(this->hau * this->lar);
 
+            // lecture des plateaux
             for (int k = 0; k < nb_level; k++)
             {
                 if (!readFile.eof())
@@ -80,6 +88,7 @@ Game::Game(std::string filename)
         readFile.close();
     }
 
+    // placement du oueurj pour les '.board'
     if (std::regex_match(filename, is_board))
     {
         init_pos.assign(3, 0);
@@ -92,6 +101,17 @@ Game::Game(std::string filename)
     }
 }
 
+
+/**
+ * @brief  constructeur à partir de paramétres détaillés
+ * @param  _hau: hauteur des plateaux
+ * @param  _lar: largeur des plateaux
+ * @param  nb_level: nombre de plateaux
+ * @param  nb_teupor: nombre de portes par plateau
+ * @param  nb_diams: nombre de diams par plateau
+ * @param  nb_streumons: nombre de streumon par plateau
+ * @param  nb_geurchars: nombre de geurchar par plateau
+ */
 Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
     this->compteurMove = 0;
@@ -107,6 +127,11 @@ Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb
     placerOueurjRandom();
 }
 
+/**
+ * @brief  fonction qui replace le joueur aléatoirement sur le tableau actuel
+ * @note   utilisée pour la téléportation aléatoire et le placement initial du joueur
+ * @retval None
+ */
 void Game::placerOueurjRandom()
 {
     std::vector<int> rd_point;
@@ -114,10 +139,12 @@ void Game::placerOueurjRandom()
     Board &tmp_board = *levels[new_pos[0]];
     bool keep_search = true;
 
+    // calcule une position aléatoire sur le tableau et vérifie qu'elle n'est pas déjà occupée
     while (keep_search)
     {
         rd_point = this->levels[new_pos[0]]->getRandomPoint();
         new_pos[1] = rd_point[0], new_pos[2] = rd_point[1];
+
         if (tmp_board[new_pos[1]][new_pos[2]] == NULL)
             keep_search = false;
     }
@@ -126,6 +153,7 @@ void Game::placerOueurjRandom()
     this->levels[new_pos[0]]->placerOueurj(plyr);
 }
 
+//TO DELETE
 void Game::affiche()
 {
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
@@ -134,6 +162,7 @@ void Game::affiche()
     }
 }
 
+//TO DELETE
 void Game::dispCurrLevel() const
 {
     std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream(true);
@@ -156,6 +185,11 @@ void Game::dispCurrLevel() const
     }
 }
 
+/**
+ * @brief  génére le tableau du niveau actuel sous format string avec l'affichage du score
+ * @note   utilisée dans l'affichage ncurses dans le game player
+ * @retval string résumant l'état actuel du jeu
+ */
 std::string Game::toString() const
 {
     std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream(true);
@@ -180,21 +214,30 @@ std::string Game::toString() const
     return sortie;
 }
 
+/**
+ * @brief  sauvegarde le jeu actuel dans un fichier .game
+ * @note   contient une ligne de description de l'état du (position du Oueurj, quantité de diams, téléportations, etc)
+ *         et tous lea tableaux du jeu
+ * @param  filename: nom du fichier de destination (avec extension .game)
+ * @retval None
+ */
 void Game::save_game(std::string filename)
 {
     std::ofstream fichier_game;
     fichier_game.open(filename);
 
+    //premiére ligne du fichier contentenant les données de la partie séparés par '*'
     char sep = '*';
     fichier_game << this->hau << sep << this->lar << sep << this->levels.size() << sep;
-    std::vector<int> plyr_pos = plyr->getPos();
 
+    std::vector<int> plyr_pos = plyr->getPos();
     for (unsigned int i = 0; i < plyr_pos.size(); i++)
     {
         fichier_game << plyr_pos[i] << sep;
     }
     fichier_game << plyr->getTelep() << sep << plyr->getNbDiams() << sep << std::endl;
 
+    //écriture des plateaux séparés par '#'
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
         fichier_game << (*it)->toString(true) << '#' << std::endl;
@@ -203,6 +246,12 @@ void Game::save_game(std::string filename)
     fichier_game.close();
 }
 
+/**
+ * @brief  sauvegarde uniquement les plateaux du jeu actuel dans un fichier .board
+ * @note   
+ * @param  filename: nom du fichier de destination (avec extension .board)
+ * @retval None
+ */
 void Game::save_boards(std::string filename)
 {
     std::ofstream fichier_board;
@@ -211,6 +260,7 @@ void Game::save_boards(std::string filename)
     char sep = '*';
     fichier_board << this->hau << sep << this->lar << sep << this->levels.size() << sep << std::endl;
 
+    //écriture des plateaux séparés par '#'
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
     {
         fichier_board << (*it)->toString(false) << '#' << std::endl;
@@ -218,53 +268,67 @@ void Game::save_boards(std::string filename)
     fichier_board.close();
 }
 
+/**
+ * @brief  execution d'un tour de jeu
+ * @note   un mouvement du joueur suivi des mouvements de streumons
+ * @param  move: direction du déplacement
+ * @retval l'état du jeu : 0 = en cours, 1 = victoire, -1 = défaite
+ */
 int Game::play_round(const char move)
 {
     if (plyr->getState() == 0)
     {
-        moveOueurj(move);
-        playStreumons();
+        move_oueurj(move);
+        play_streumons();
     }
 
     return plyr->getState();
 }
 
-bool Game::moveOueurj(char move)
+/**
+ * @brief  déplacement du Oueurj
+ * @note   
+ * @param  move: direction du déplacement : "azedcxwq" autorisés, "t" pour les téléportations
+ * @retval true si le jeu est fini (victoire ou défaite)
+ */
+bool Game::move_oueurj(char move)
 {
 
     std::vector<int> old_pos = plyr->getPos();
     std::vector<int> new_pos = old_pos;
+
+    // calcul de la nouvelle position
     switch (move)
     {
-    case 'a':
+    case 'z': // haut
+        new_pos[1] = std::max(0, old_pos[1] - 1);
+        break;
+    case 'x': // bas
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        break;
+    case 'q': // gauche
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 'd': // droite
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    case 'a': // haut + gauche
         new_pos[1] = std::max(0, old_pos[1] - 1);
         new_pos[2] = std::max(0, old_pos[2] - 1);
         break;
-    case 'q':
-        new_pos[2] = std::max(0, old_pos[2] - 1);
-        break;
-    case 'z':
-        new_pos[1] = std::max(0, old_pos[1] - 1);
-        break;
-    case 'd':
-        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
-        break;
-    case 'x':
-        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
-        break;
-    case 'c':
-        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
-        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
-        break;
-    case 'w':
-        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
-        new_pos[2] = std::max(0, old_pos[2] - 1);
-        break;
-    case 'e':
+    case 'e': // haut + droite
         new_pos[1] = std::max(0, old_pos[1] - 1);
         new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
         break;
-    case 't':
+    case 'c': // bas + droite
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        new_pos[2] = std::min(lar - 1, old_pos[2] + 1);
+        break;
+    case 'w': // bas + gauche
+        new_pos[1] = std::min(hau - 1, old_pos[1] + 1);
+        new_pos[2] = std::max(0, old_pos[2] - 1);
+        break;
+    case 't': // téléportation : Oueurj rplacé aléatoirement dans le même plateau
         if (plyr->teleport())
         {
             this->levels[old_pos[0]]->enleverOuerj(plyr);
@@ -273,21 +337,27 @@ bool Game::moveOueurj(char move)
         }
         return false;
     }
+
+    // plateau actuel
     Board &tmp_board = *levels[old_pos[0]];
 
+    //vérifie que la nouvelle case est non vide (NULL)
     if (tmp_board[new_pos[1]][new_pos[2]])
     {
         char tmp_sym = tmp_board[new_pos[1]][new_pos[2]]->getSymbol();
         if (tmp_sym == 's')
         {
+            // mort lors de la rencontre avec un streumon
             plyr->die();
             return true;
         }
-        if (tmp_sym == 'X' || tmp_sym == '-')
+        else if (tmp_sym == 'X' || tmp_sym == '-')
         {
+            // ne rien faire si c'est un mur ou une teupor fermée
         }
         else if (tmp_sym == '+')
         {
+            // passage au niveau supérieur
             this->levels[old_pos[0]]->enleverOuerj(plyr);
             if (old_pos[0] < (int)levels.size() - 1)
             {
@@ -296,6 +366,7 @@ bool Game::moveOueurj(char move)
             }
             else
             {
+                // victoire si c'est le dernier niveau
                 plyr->win();
                 return true;
             }
@@ -304,6 +375,7 @@ bool Game::moveOueurj(char move)
         {
             if (tmp_sym == '$')
             {
+                // ouvre une porte aléatoire
                 delete (tmp_board[new_pos[1]][new_pos[2]]);
                 plyr->eatDiams();
                 levels[old_pos[0]]->openTeupors();
@@ -311,10 +383,12 @@ bool Game::moveOueurj(char move)
 
             if (tmp_sym == '*')
             {
+                // déclenche les téléportations infinies
                 delete (tmp_board[new_pos[1]][new_pos[2]]);
                 plyr->switch_teleport();
             }
 
+            // replacement du Oueurj
             this->levels[old_pos[0]]->enleverOuerj(plyr);
             plyr->setPos(new_pos);
             this->levels[old_pos[0]]->placerOueurj(plyr);
@@ -322,6 +396,7 @@ bool Game::moveOueurj(char move)
     }
     else
     {
+        // déplacement simple si la case est vide
         this->levels[old_pos[0]]->enleverOuerj(plyr);
         plyr->setPos(new_pos);
         this->levels[old_pos[0]]->placerOueurj(plyr);
@@ -329,19 +404,12 @@ bool Game::moveOueurj(char move)
     return false;
 }
 
-char Game::getMove()
-{
-    char nxt_move;
-    std::string legal_moves = "azeqsdwxct";
-    do
-    {
-        nxt_move = std::cin.get();
-    } while (legal_moves.find(nxt_move) == std::string::npos);
-
-    return nxt_move;
-}
-
-void Game::playStreumons()
+/**
+ * @brief  déplacements des streumons
+ * @note   
+ * @retval None
+ */
+void Game::play_streumons()
 {
     std::vector<int> plyr_p = plyr->getPos();
     Board &curr_board = *levels[plyr_p[0]];
@@ -353,18 +421,20 @@ void Game::playStreumons()
     {
         for (int j = 0; j < lar; j++)
         {
+            // recherche des streumons
             if (symb_list[i * (lar + 1) + j] == 's')
             {
+                // choix de l'algorithme
                 switch (dynamic_cast<Streumons *>(curr_board[i][j])->getType())
                 {
                 case 0:
-                    new_pos = randMoves(i, j);
+                    new_pos = rand_moves(i, j);
                     break;
                 case 1:
-                    new_pos = aStar(i, j);
+                    new_pos = a_star(i, j);
                     break;
                 case 2:
-                    new_pos = aStarProba(i, j, plyr_p[0]);
+                    new_pos = a_star_proba(i, j, plyr_p[0]);
                     break;
                 default:
                     break;
@@ -378,6 +448,7 @@ void Game::playStreumons()
                 }
                 if (symb_list[new_pos[0] * (lar + 1) + new_pos[1]] == 's')
                 {
+                    // choix du le gestion des interactions des streumons
                     switch (dynamic_cast<Streumons *>(curr_board[new_pos[0]][new_pos[1]])->getTypeEvol())
                     {
                     case 0:
@@ -396,6 +467,12 @@ void Game::playStreumons()
     }
 }
 
+/**
+ * @brief  mouvement autorisés pour le streumon parmi les case voisines
+ * @param  i: ligne du streumon
+ * @param  j: colonne
+ * @retval liste des mouvements autorisés
+ */
 std::vector<std::vector<int>> Game::legalMoves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
@@ -417,6 +494,7 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
             }
             else if (tmp_board[x][y]->getSymbol() == 'J')
             {
+                // si le oueurj est dans une case voisine, retourner uniquement ce mouvement
                 tmp_move = {x, y};
                 legal_moves.push_back(tmp_move);
             }
@@ -426,21 +504,34 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
     return legal_moves;
 }
 
-std::vector<int> Game::randMoves(int i, int j)
+/**
+ * @brief  déplacement aléatoire du streumon
+ * @param  i: ligne du streumon
+ * @param  j: colonne
+ * @retval case choisie aléatoirement
+ */
+std::vector<int> Game::rand_moves(int i, int j)
 {
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> old_pos{i, j};
 
     std::vector<std::vector<int>> legal_moves = legalMoves(i, j);
 
-    //levels[plyr_p[0]]->moveStrm(old_pos, legal_moves[rand() % legal_moves.size()]);
     return legal_moves[rand() % legal_moves.size()];
 }
 
-std::vector<int> Game::aStar(int i, int j)
+/**
+ * @brief  algorithme A* pour les déplacement des streuemons
+ * @param  i: ligne du streumon
+ * @param  j: colonne
+ * @retval case de destination
+ */
+std::vector<int> Game::a_star(int i, int j)
 {
     std::vector<std::vector<int>> moves = legalMoves(i, j);
-    std::vector<double> tmp_score; // vecteur permettant de stocker les heuristiques (distance à vol d'oiseau) pour les cases choisies (valides) à la destination finale.
+
+    // heuristique (distance euclidienne) pour les cases choisies (valides) à la destination finale.
+    std::vector<double> tmp_score;
     std::vector<int> plyr_p = plyr->getPos();
     std::vector<int> new_pos;
     std::vector<int> old_pos = {i, j};
@@ -463,7 +554,7 @@ std::vector<int> Game::aStar(int i, int j)
         if (tmp_score[i] < minHeuristic)
         {
             minHeuristic = tmp_score[i];
-            index = i; // récupération de indice minimale
+            index = i;
         }
     }
     new_pos = moves[index];
@@ -472,30 +563,25 @@ std::vector<int> Game::aStar(int i, int j)
     return new_pos;
 }
 
-std::vector<int> Game::aStarProba(int i, int j, int current_level)
+/**
+ * @brief  choix entre mouvelent aléatoire ou A*
+ * @note   difficulté qui augmente: probablité de A* augment au fil des niveau
+ * @param  i: ligne du streumon
+ * @param  j: colonne
+ * @param  current_level: le niveau actuel
+ * @retval case de destination
+ */
+std::vector<int> Game::a_star_proba(int i, int j, int current_level)
 {
     int proba = rand() % (levels.size());
     std::vector<int> new_pos;
     if (proba < current_level)
     {
-        new_pos = aStar(i, j);
+        new_pos = a_star(i, j);
     }
     else
     {
-        new_pos = randMoves(i, j);
+        new_pos = rand_moves(i, j);
     }
     return new_pos;
-}
-
-int Game::get_valid_int()
-{
-    int input;
-
-    while (!(std::cin >> input))
-    {
-        std::cin.clear();
-        std::cin.ignore(1000, '\n');
-        std::cout << "saissez un entier valide" << std::endl;
-    }
-    return input;
 }
