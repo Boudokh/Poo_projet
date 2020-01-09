@@ -101,6 +101,7 @@ Game::Game(std::string filename)
     }
 }
 
+
 /**
  * @brief  constructeur à partir de paramétres détaillés
  * @param  _hau: hauteur des plateaux
