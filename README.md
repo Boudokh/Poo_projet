@@ -1,174 +1,142 @@
-Euj Escape Game - EEG🚪💠🌟🏃👾👾👾
-====================================
+# Euj Escape Game - EEG🚪💠🌟🏃👾👾👾
 
-<p>
-<details>
-<summary> Projet C++ 2019/2020 - Langage à Objets Avancé - Université de Paris - Double Master Mathématiques, Informatique parcours Data Science (MIDS). <summary>
+Projet C++ 2019/2020 - Langage à Objets Avancé - Université de Paris - Double Master Mathématiques, Informatique parcours Data Science (MIDS).
 
-<details>
-<p>
-<summary> Tuteur : Jean-Baptiste Yunès (aka JBY). 
+Tuteur : Jean-Baptiste Yunès.
 
-<details>
-<p>
-<summary> Réalisé par : Mohamed Boudokhane et Mohamed-Amine Bousahih.
+Réalisé par : Mohamed Boudokhane et Mohamed-Amine Bousahih.
 
+## Description du projet
 
-Description du projet
----------------------
+Ce projet propose la création d'un ensemble de deux applications écrites en langage C++ : une application de conception de plateaux de jeu et une application permettant de jouer sur un ensemble de plateaux.
 
-Ce projet a pour but de proposer la création d'un ensemble de deux applications écrites en langage C++ : une application de conception de plateaux de jeu et une application permettant de jouer sur un ensemble de plateaux. 
-
-Le jeu est à temps discret directement piloté par l'utilisateur. Celui-ci déplace à l'aide d'un clavier un personnage afin d'aller récupérer un maximum de trésors tandis que des personnages hostiles automatisés tentent de l'en empêcher. 
+Le jeu est à temps discret, directement piloté par l'utilisateur. Celui-ci déplace à l'aide du clavier un personnage afin d'aller récupérer un maximum de trésors tandis que des personnages hostiles, automatisés, tentent de l'en empêcher.
 
 Votre mission est la suivante : réussir à traverser tous les plateaux.
 
+Attention : les streumons 👾 deviennent de plus en plus intelligents au fil des niveaux.
 
-Attention : nos amis les streumons 👾 apprennent de leurs erreurs et deviennent de plus en plus intelligents ... 
+## Concepts de bases
 
-Concepts de bases
------------------
+Un oueurj 🏃 symbolisé par le caractère J et qui peut se déplacer, à chaque tour, dans l'une des huits adjacentes (si possible), rester sur place ou se téléporter.
 
-<details>
-<p>
-<summary> Un oueurj 🏃 symbolisé par le caractère J et qui peut se déplacer, à chaque tour, dans l'une des huits adjacentes (si possible), rester sur place ou se téléporter (voir après).
+Des streumons 👾 symbolisés par '0', '1' ou '2' (leur symbole indique le type déplacement) et qui peuvent se déplacer, à chaque tour, dans l'une des huits cases adjacentes (si possible). Un streumon n'a qu'un but dans la vie : dévorer le oueurj.
 
-<details>
-<p>
-<summary> Des streumons 👾 symbolisés par le caractère s et qui peuvent se déplacer, à chaque tour, dans l'une des huits cases adjacentes (si possible). Un streumon n'a qu'un but dans la vie : dévorer le oueurj.
+Des reumus symbolisés par 'X'. Un reumu est un obstacle inamovible et aucun élément ne peut le traverser. Ils délimitent le plateau et peuvent former des barrières à l'intérieur du plateau.
 
-<details>
-<p>
-<summary> Des reumus symbolisés par X. Un reumu est inamovible et aucun élément ne peut le traverser ou monter dessus. C'est un obstacle parfait. Il y a tout autour du plateau des reumus ainsi qu'au moins une teupors (voir après).
+Des diams 💠 symbolisés par '\$' qui peuvent être rammassés par le oueurj. Celui-ci doit d'ailleurs en ramasser au moins un avant qu'une porte de sortie ne s'ouvre et qu'il puisse tenter de s'y engouffrer. Les diams sont ignorés par les streumons.
 
-<details>
-<p>
-<summary> Des diams 💠 symbolisés par le caractère $ qui peuvent être rammassés par le oueurj. Celui-ci doit d'ailleurs en ramasser au moins un avant qu'une porte de sortie ne s'ouvre et qu'il puisse tenter de s'y engouffrer. Les diams sont ignorés par les streumons.
+Des geurchars 🌟 symbolisés par '\*' et qui permettent d'obtenir, pour le oueurj, la possibilité de téléportation infinie dans le niveau actuel.
 
-<details>
-<p>
-<summary> Des geurchars 🌟 symbolisés par le caractère * et qui permettent d'obtenir, pour le oueurj, une possibilité de téléportation en plus et activable à volonté.
+Des teupors 🚪 symbolisés par '+' si elles sont ouvertes et '-' si fermées. A chaque fois que le oueurj ramasse un diam, une nouvelle teupor s'ouvre à travers laquelle le oueurj peut sortir du plateau.
 
-<details>
-<p>
-<summary> Des teupors 🚪 symbolisés par + si elles sont ouvertes et - si fermées. A chaque fois que le oueurj ramasse un diam une nouvelle teupor s'ouvre par laquelle le oueurj peut sortir du plateau.
+## Représentation d'un plateau
 
+![Sauvegarde](./images/plateau2.png)
 
-Représentation d'un plateau
--------------------
+## Commandes de bases
 
-![Sauvegarde](./plateau2.png)
+En tant qu'utilisateur, vous déplacez le oueurj:
 
+- z : haut
+- x : bas
+- d : droite
+- q : gauche
+- a : haut diagonale gauche
+- e : haut diagonale droite
+- c : bas diagonale droite
+- w : bas diagonale gauche
+- s : arrêter le jeu et éventuellement sauvgarder.
 
-Commandes de bases 
---------------------
-
-En tant qu'utilisateur, vous contrôlez le oueurj à travers ses déplacements :
-
-- z : déplacement en haut.
-- a : déplacement en haut diagonale gauche.
-- e : déplacement en haut diagonale droite.
-- d : déplacement à droite.
-- q : déplacement à gauche.
-- x : déplacement en bas.
-- c : déplacement en bas diagonale droite.
-- w : déplacement en bas diagonale gauche.
-- s : arrêter le jeu.
-
-
-Lorsque vous récupérez des geuchars 🌟 , vous avez la possibilité de vous téléportez (de manière infini) :
+Lorsque vous récupérez des geuchars 🌟 , vous avez la possibilité de vous téléporter, de manière infinie dans le niveau actuel :
 
 - t : téléportation aléatoire sur une position (i,j) du plateau.
 
-Attention : dans certaines situations, vous remercierez votre ami le geuchar 🌟 de vous avoir sauvé des streumons 👾. Dans certains cas, il peut vous mettre dans des situations délicates ...
+Attention : dans certaines situations, vous remercierez votre ami le geuchar 🌟 de vous avoir sauvé des streumons 👾. Dans certains cas, il peut vous mettre dans des situations délicates et vous téléporter juste à coté d'un streumon.
 
-Extensions utiles 
------------------
+## Extensions utiles
 
-<details>
-<p>
-<summary>  Les streumons 👾 <summary>
-
+Les streumons 👾
 
 Au cours de votre partie, vous aurez l'occasion de rencontrer différents types de streumons doués de plus ou moins d'intelligence (cf représentation plateau ci-dessus):
 
 - Type n°0 : ce sont des streumons qui ne sont pas allé à l'école des streumons quand ils étaient petit ... leurs déplacements sont aléatoires et ne tiennent pas en compte de la position du oueurj.
 
-- Type n°1 : diplômés de l'école des streumons, ils appliquent l'algorithme A* à la perfection afin de rechercher le chemin le plus court afin de dévorer le oueurj !.
+- Type n°1 : diplômés de l'école des streumons, ils appliquent l'algorithme A\* à la perfection afin de rechercher le chemin le plus court afin de dévorer le oueurj !.
 
-- Type n°2 : ce sont des streumons schizophrène qui passent de l'état "aléatoire" à l'état "A*" à tout moment. 
+- Type n°2 : ce sont des streumons qui choisissent aléatoirement entre déplacement "aléatoire" et "A\*", la probabilité de A\* augmente au fil des niveaux.
 
+Lorsque les streumons se croisent, différentes interactions sont possibles :
 
-Lorsque les streumons se marchent dessus, différentes interactions sont possibles :
+- L'élimination : si deux streumons se croisent alors ils disparaissent.
 
-- L'élimination : si deux streumons se marchent dessus alors ils disparaissent.
+- La reproduction : si deux streumons se croisent alors ils fusinnent.
 
-- La reproduction : si deux streumons se marchent dessus alors ils disparaissenent et engendrent un baby streum ! (une sorte de reproduction comme les poissons ...).
+- La création d'artefact : si deux streumons se croisent alors ils disparaissent et engendrent un trésor (un diams 💠 ou un geuchar 🌟 ).
 
-- La création d'artefact : si deux streumons se marchent dessus alors ils disparaissent et engendrent un trésor (un diams 💠 ou un geuchar 🌟 ). Le oueurj 🏃 s'en réjouira ! 
+## Lancement du jeu 🎮
 
+Le temps est venu de vous expliquez comment configurer et lancer une partie afin que votre aventure EEG puisse débuter !.
 
-Lancement du jeu 🎮
------------------
+### Configuration
 
-Le temps est venu de vous expliquez comment configurer et lancer une partie afin que votre aventure EEG puisse débuter !. 
+Avant de pouvoir enfiler vos baskets et courir dans les plateaux pour éviter les streumons, il faut compiler le projet avec simplement:
 
+```bash
+make
+```
 
-<details>
-<p>
-<summary> Configurations  <summary>
+ensuite il faut générer les plateaux:
 
-Avant de pouvoir enfiler vos baskets et courir dans les plateaux pour éviter les streumons, il y a deux choses à réaliser : 
+```bash
+ ./gc fichier.board
+```
 
-> ./gc [votre nom de fichier].board
-
-![Sauvegarde](./menu1.png)
+![Sauvegarde](./images/menu1.png)
 
 Cette commande permet de créer des plateaux (fichiers d'extensions .board). Elle enclenchera directement un menu qui vous demandera de spécifier quelques paramètres afin de configurer vos plateaux :
 
-- le nombre de levels que vous voulez
-- la taille de vos plateaux (hauteur, largeur)
+- le nombre de niveaux
+- la taille des plateaux (hauteur, largeur)
 - le nombre de teupors
 - le nombre de diams
 - le nombre de streumons
 - le nombre de geuchars
 
-![Sauvegarde](./menu2.png)
+![Sauvegarde](./images/menu2.png)
 
+Après avoir configuré les plateaux à votre guise, vous devez créer un "jeu" à partir de votre fichier .board précédent en créant un fichier d'extension .game :
 
-Après avoir configurer les plateaux à votre guise, vous devez créer un "jeu" à partir de votre fichier .board précédent en créant un fichier d'extension .game :
+```bash
+./gc fichier1.game fichier2.board
+```
 
-> ./gc [votre nom de jeu].game [nom du fichier précédent].board
+![Sauvegarde](./images/game1.png)
 
-![Sauvegarde](./game1.png)
+Lancer le jeu
 
-<details>
-<p>
-<summary> Lancer le jeu  <summary>
-
-Félicitations, vous avez réussi à faire la part la plus difficile du travail ! 
+Félicitations, vous avez réussi à faire la part la plus difficile du travail !
 
 Afin de pouvoir commencer à jouer et débuter l'aventure EEG, veuillez tappez la commande suivante :
 
-> ./gp [votre nom de game précédent sans extension .game].game
+```bash
+./gp fichier.game
+```
 
-![Sauvegarde](./game3.png)
-
+![Sauvegarde](./images/game3.png)
 
 Have fun ! C'est parti pour l'aventure ! 🚪💠🌟🏃👾👾👾
 
-Sauvegarder une partie
------------------------
+## Sauvegarder une partie
 
-Si vous devez mettre fin à cette belle aventure pour rejoindre des amis ou enfin aller bosser après avoir jouer plusieurs heures sur ces plateaux de jeux, vous pouvez arrêter le jeu en appuyant sur le touche 's'. 
+Si vous devez mettre fin à cette belle aventure, vous pouvez arrêter le jeu en appuyant sur le touche 's'.
 
-Automatiquement, le menu s'affichera en vous proposant la possibilité de sauvegarder votre partie en cours :
+Le menu vous proposera la possibilité de sauvegarder votre partie en cours :
 
-![Sauvegarde](./test1.png)
+![Sauvegarde](./images/test1.png)
 
-Il vous suffit simplement de choisir l'option n°1 puis d'écrire le nom de votre fichier (sans l'extension .game) et de reprendre votre partie dès que vous avez à nouveau du temps libre (en tappant à nouveau ./gp nomfichier.game ).
+Il vous suffit simplement d'écrire le nom de votre fichier (sans l'extension .game) et vous pouvez reprendre votre partie plus tard (en saisissant à nouveau ./gp nomfichier.game).
 
-![Sauvegarde](./testimg.png)
+![Sauvegarde](./images/testimg.png)
 
 PS : ça ne sert à rien d'appuyer sur 's' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
-
