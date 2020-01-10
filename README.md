@@ -57,7 +57,7 @@ Concepts de bases
 Représentation d'un plateau
 -------------------
 
-(add un screen d'un plateau)
+![Sauvegarde](./plateau2.png)
 
 
 Commandes de bases 
@@ -90,7 +90,7 @@ Extensions utiles
 <summary>  Les streumons 👾 <summary>
 
 
-Au cours de votre partie, vous aurez l'occasion de rencontrer différents types de streumons doués de plus ou moins d'intelligence :
+Au cours de votre partie, vous aurez l'occasion de rencontrer différents types de streumons doués de plus ou moins d'intelligence (cf représentation plateau ci-dessus):
 
 - Type n°0 : ce sont des streumons qui ne sont pas allé à l'école des streumons quand ils étaient petit ... leurs déplacements sont aléatoires et ne tiennent pas en compte de la position du oueurj.
 
@@ -108,6 +108,67 @@ Lorsque les streumons se marchent dessus, différentes interactions sont possibl
 - La création d'artefact : si deux streumons se marchent dessus alors ils disparaissent et engendrent un trésor (un diams 💠 ou un geuchar 🌟 ). Le oueurj 🏃 s'en réjouira ! 
 
 
+Lancement du jeu 🎮
+-----------------
+
+Le temps est venu de vous expliquez comment configurer et lancer une partie afin que votre aventure EEG puisse débuter !. 
+
+
 <details>
 <p>
-<summary> Sauvegarder une partie   <summary>
+<summary> Configurations  <summary>
+
+Avant de pouvoir enfiler vos baskets et courir dans les plateaux pour éviter les streumons, il y a deux choses à réaliser : 
+
+> ./gc [votre nom de fichier].board
+
+![Sauvegarde](./menu1.png)
+
+Cette commande permet de créer des plateaux (fichiers d'extensions .board). Elle enclenchera directement un menu qui vous demandera de spécifier quelques paramètres afin de configurer vos plateaux :
+
+- le nombre de levels que vous voulez
+- la taille de vos plateaux (hauteur, largeur)
+- le nombre de teupors
+- le nombre de diams
+- le nombre de streumons
+- le nombre de geuchars
+
+![Sauvegarde](./menu2.png)
+
+
+Après avoir configurer les plateaux à votre guise, vous devez créer un "jeu" à partir de votre fichier .board précédent en créant un fichier d'extension .game :
+
+> ./gc [votre nom de jeu].game [nom du fichier précédent].board
+
+![Sauvegarde](./game1.png)
+
+<details>
+<p>
+<summary> Lancer le jeu  <summary>
+
+Félicitations, vous avez réussi à faire la part la plus difficile du travail ! 
+
+Afin de pouvoir commencer à jouer et débuter l'aventure EEG, veuillez tappez la commande suivante :
+
+> ./gp [votre nom de game précédent sans extension .game].game
+
+![Sauvegarde](./game3.png)
+
+
+Have fun ! C'est parti pour l'aventure ! 🚪💠🌟🏃👾👾👾
+
+Sauvegarder une partie
+-----------------------
+
+Si vous devez mettre fin à cette belle aventure pour rejoindre des amis ou enfin aller bosser après avoir jouer plusieurs heures sur ces plateaux de jeux, vous pouvez arrêter le jeu en appuyant sur le touche 's'. 
+
+Automatiquement, le menu s'affichera en vous proposant la possibilité de sauvegarder votre partie en cours :
+
+![Sauvegarde](./test1.png)
+
+Il vous suffit simplement de choisir l'option n°1 puis d'écrire le nom de votre fichier (sans l'extension .game) et de reprendre votre partie dès que vous avez à nouveau du temps libre (en tappant à nouveau ./gp nomfichier.game ).
+
+![Sauvegarde](./testimg.png)
+
+PS : ça ne sert à rien d'appuyer sur 's' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
+
