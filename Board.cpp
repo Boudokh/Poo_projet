@@ -7,7 +7,6 @@
  * @param _hau hauteur du plateau
  * @param _lar largeur du plateau
  */
-
 Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
 {
 
@@ -77,11 +76,9 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
 }
 
 /**
- * @brief obtenir une position aléatoire (i,j) sur le Board.
- * 
- * @return std::vector<int> 
+ * @brief obtenir une position aléatoire (i, j) à l'intérieur des bords(exclus).
+ * @return std::vector<int> les coordonnées (i, j)
  */
-
 std::vector<int> Board::getRandomPoint()
 {
     int point = rand() % ((lar - 2) * (hau - 2));
@@ -93,11 +90,9 @@ std::vector<int> Board::getRandomPoint()
 
 /**
  * @brief ajout des objets lors de la création d'un board.
- * 
  * @tparam T type générique représentant un object : streumons, diams, reumus, geurchars.
  * @param number nombre d'objets au départ.
  */
-
 template <typename T>
 void Board::addItems(int number)
 {
@@ -117,7 +112,7 @@ void Board::addItems(int number)
 
 /**
  * @brief constructeur à partir des paramètres entrés par l'utilisateur.
- * 
+ *
  * @param _hau hauteur du board.
  * @param _lar largeur du board.
  * @param nb_teupor nombre de teupors.
@@ -125,14 +120,15 @@ void Board::addItems(int number)
  * @param nb_streumons nombre de streumons.
  * @param nb_geurchars nombre de geurchars.
  */
-
 Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
 {
-    nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); 
-    nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
-    nb_streumons = std::min((lar - 2) * (hau - 2), nb_streumons);
-    nb_geurchars = std::min((lar - 2) * (hau - 2), nb_geurchars);
+    // limite de nombre d'artefact présents sur le plateau
+    nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor);
+    nb_diams = std::min((lar - 2) * (hau - 2) / 6, nb_diams);
+    nb_streumons = std::min((lar - 2) * (hau - 2) / 6, nb_streumons);
+    nb_geurchars = std::min((lar - 2) * (hau - 2) / 6, nb_geurchars);
 
+    // on génére d'abord un tableau vide avec des remus sur les bords
     std::vector<Object *> tmp_line;
     for (int i = 0; i < hau; i++)
     {
@@ -140,6 +136,7 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
         {
             if (j == 0 || j == lar - 1 || i == 0 || i == hau - 1)
             {
+                // remus sur les bords
                 Reumus *tmp_reumus = new Reumus();
                 tmp_line.push_back(tmp_reumus);
             }
@@ -153,10 +150,36 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
         tmp_line.clear();
     }
 
+    // remplissage du plateau
+
+    this->add_teurpors(nb_teupor);
+
+    for (int i = 0; i < (this->lar * this->hau) / 600 + 1; i++)
+    {
+        this->reumus_vert(this->hau / 3);
+        this->reumus_diag(std::min(this->lar, this->hau) / 3);
+        this->reumus_hor(this->hau / 3);
+    }
+
+    this->addItems<Diams>(nb_diams);
+    this->addItems<Geurchars>(nb_geurchars);
+    this->addItems<Streumons>(nb_streumons);
+}
+
+/**
+ * @brief  ajout des teupors sur le bords
+ * @note   on repmlace des remus par des teupors fermées
+ * @param  nb_teupor: nombre de teupor à ajouter
+ */
+void Board::add_teurpors(int nb_teupor)
+{
     while (nb_teupor > 0)
     {
         int coord_i, coord_j;
+        // choisir une case aléatoirement sur le bord
         int rd = rand() % (2 * (hau + lar));
+
+        // retrouver les coordonnées de la case
         if (rd < lar)
         {
             coord_i = 0;
@@ -179,31 +202,21 @@ Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, 
         }
         if (coord[coord_i][coord_j]->getName() == typeid(Reumus *).name())
         {
+            // remplacer par une teupor si c'est un remu
             Teupor *tmp_teupor = new Teupor();
             coord[coord_i][coord_j] = tmp_teupor;
             nb_teupor--;
         }
     }
-
-    for (int i = 0; i < (this->lar * this->hau) / 600 + 1; i++)
-    {
-        this->reumus_vert(this->hau / 3);
-        this->reumus_diag(std::min(this->lar, this->hau) / 3);
-        this->reumus_hor(this->hau / 3);
-    }
-
-    this->addItems<Diams>(nb_diams);
-    this->addItems<Geurchars>(nb_geurchars);
-    this->addItems<Streumons>(nb_streumons);
 }
 
 /**
- * @brief 
- * 
- * @param strm_mode 
- * @return std::string 
+ * @brief retourner le tableau en tant que string
+ * @note utile pour l'affichage et l'écriture des fichiers
+ * @param strm_mode True  : on symbolise les streumons par 0,1,2,..
+ *                  False : tous les treumons sont symbolisés par 's'
+ * @return std::string le plateau converti
  */
-
 std::string Board::toString(bool strm_mode)
 {
     std::string plateau = "";
@@ -234,12 +247,12 @@ std::string Board::toString(bool strm_mode)
 }
 
 /**
- * @brief 
- * 
- * @param strm_mode 
- * @return std::stringstream 
+ * @brief retourner le tableau en tant que stringstream
+ * @note utile pour l'affichage du plateau, on peut le manipuler ligne par ligne
+ * @param strm_mode True  : on symbolise les streumons par 0,1,2,..
+ *                  False : tous les treumons sont symbolisés par 's'
+ * @return std::stringstream le plateau converti
  */
-
 std::stringstream Board::toStream(bool strm_mode)
 {
     std::stringstream boardStream(toString(strm_mode));
@@ -248,9 +261,7 @@ std::stringstream Board::toStream(bool strm_mode)
 
 /**
  * @brief destructeur du board.
- * 
  */
-
 Board::~Board()
 {
     for (std::vector<std::vector<Object *>>::iterator i = coord.begin(); i < coord.end(); i++)
@@ -261,6 +272,7 @@ Board::~Board()
         }
     }
 }
+
 /**
  * @brief génération de reumus (de manière vertical) aléatoire lors de la création de Board.
  * 
@@ -277,6 +289,7 @@ void Board::reumus_vert(int size_max)
         coord[line][rd_point[1]] = tmp_str;
     }
 }
+
 /**
  * @brief génération de reumus (de manière horizontale) aléatoire lors de la création de Board.
  * 
@@ -293,6 +306,7 @@ void Board::reumus_hor(int size_max)
         coord[rd_point[0]][row] = tmp_str;
     }
 }
+
 /**
  * @brief génération de reumus (de manière diagonale) aléatoire lors de la création de Board.
  * 
@@ -312,22 +326,24 @@ void Board::reumus_diag(int size_max)
         }
     }
 }
+
 /**
  * @brief placement du oueurj sur le plateau en récupérant ses coordonnées.
  * 
  * @param oueurj pointeur sur un objet Oueurj.
  */
-void Board::placerOueurj(Oueurj *oueurj)
+void Board::placer_oueurj(Oueurj *oueurj)
 {
     std::vector<int> pos = oueurj->getPos();
     this->coord[pos[1]][pos[2]] = oueurj;
 }
+
 /**
  * @brief retirer le oueurj du plateau.
  * 
  * @param oueurj pointeur sur un objet Oueurj.
  */
-void Board::enleverOuerj(Oueurj *oueurj)
+void Board::enlever_oueurj(Oueurj *oueurj)
 {
     std::vector<int> pos = oueurj->getPos();
     this->coord[pos[1]][pos[2]] = NULL;
@@ -335,10 +351,8 @@ void Board::enleverOuerj(Oueurj *oueurj)
 
 /**
  * @brief ouverture de teupors lorsque que le oueurj récupère des diams.
- * 
  */
-
-void Board::openTeupors()
+void Board::open_teupors()
 {
     int dep = rand() % (lar * hau);
     bool found = false;
@@ -367,7 +381,6 @@ void Board::openTeupors()
  * @param old_p position courante d'un streumon.
  * @param new_p nouvelle position choisie par le streumon parmi ses legals moves.
  */
-
 void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
 {
 
@@ -380,9 +393,8 @@ void Board::moveStrm(std::vector<int> old_p, std::vector<int> new_p)
  * 
  * @param curr position courante d'un streumon.
  * @param dest position du oueurj.
- * @return double 
+ * @return double : l'heuristique calculée
  */
-
 double Board::heuristicH(std::vector<int> curr, std::vector<int> dest)
 {
     return ((double)sqrt((curr[0] - dest[1]) * (curr[0] - dest[1]) + (curr[1] - dest[2]) * (curr[1] - dest[2])));
@@ -394,7 +406,6 @@ double Board::heuristicH(std::vector<int> curr, std::vector<int> dest)
  * @param old_pos position courante d'un streumon.
  * @param new_pos nouvelle position choisie par le streumon parmi ses legals moves.
  */
-
 void Board::elimination(std::vector<int> old_pos, std::vector<int> new_pos)
 {
     delete coord[new_pos[0]][new_pos[1]];
@@ -402,13 +413,13 @@ void Board::elimination(std::vector<int> old_pos, std::vector<int> new_pos)
     delete coord[old_pos[0]][old_pos[1]];
     coord[new_pos[0]][new_pos[1]] = NULL;
 }
+
 /**
  * @brief interraction entre deux streumons lors d'une collision, suppression des deux streumons initiaux et création d'un nouveau streumon.
  * 
  * @param old_pos position courante d'un streumon.
  * @param new_pos nouvelle position choisie par le streumon parmi ses legals moves.
  */
-
 void Board::reproduction(std::vector<int> old_pos, std::vector<int> new_pos)
 {
     Streumons *tmp_streums = new Streumons();
@@ -422,7 +433,6 @@ void Board::reproduction(std::vector<int> old_pos, std::vector<int> new_pos)
  * @param old_pos position courante d'un streumon.
  * @param new_pos nouvelle position choisie par le streumon parmi ses legals moves.
  */
-
 void Board::fusion(std::vector<int> old_pos, std::vector<int> new_pos)
 {
     int type_obj = rand() % 2;
