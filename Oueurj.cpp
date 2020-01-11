@@ -5,12 +5,6 @@ Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, bool _inf_telep, int _nb_te
     this->symbol = 'J';
 }
 
-Oueurj::Oueurj() : nb_diams(0), nb_teleport(0), state(0)
-{
-    this->pos.assign(3, 0);
-    this->symbol = 'J';
-}
-
 void Oueurj::levelUp()
 {
     this->inf_telep = false;
