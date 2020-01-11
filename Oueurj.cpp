@@ -1,7 +1,7 @@
 #include "Oueurj.hpp"
 
 /**
- * @brief constructeur d'un oueurj
+ * @brief constructeur personnalisé d'un oueurj
  * 
  * @param _pos position du oueurj
  * @param _nb_diams nombre de diams
@@ -26,6 +26,11 @@ std::vector<int> Oueurj::getPos() const
     return this->pos;
 }
 
+/**
+ * @brief mise à jour de la position du oueurj sur le plateau lors d'un déplacement.
+ * 
+ * @param new_pos 
+ */
 void Oueurj::setPos(const std::vector<int> new_pos)
 {
     this->pos = new_pos;
@@ -46,6 +51,13 @@ void Oueurj::eatDiams()
     this->nb_diams++;
 }
 
+/**
+ * @brief utilisation de la teleportation (infinie ou finie (de type compteur)).
+ * 
+ * @return true 
+ * @return false 
+ */
+
 bool Oueurj::teleport()
 {
     if (this->inf_telep)
@@ -61,6 +73,12 @@ bool Oueurj::teleport()
 
     return false;
 }
+
+/**
+ * @brief affichage du nombre de téléportations.
+ * 
+ * @return std::string 
+ */
 
 std::string Oueurj::getTelep() const
 {

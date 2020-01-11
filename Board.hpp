@@ -50,7 +50,7 @@ private:
     };
 
 public:
-    // opeérateur [i][j], pour accéder directement à l'objet dans la case [i][j]
+    // opérateur [i][j], pour accéder directement à l'objet dans la case [i][j]
     Row operator[](size_t i) { return coord[i]; }
 
     // constructeur à de plateau aléatoire à
