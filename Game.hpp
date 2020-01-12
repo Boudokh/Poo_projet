@@ -23,7 +23,7 @@ private:
     void placerOueurjRandom();
     void dispCurrLevel() const;
 
-    bool move_oueurj(char move);
+    void move_oueurj(char move);
     friend std::vector<int> Board::getRandomPoint();
 
     void play_streumons();

@@ -13,9 +13,10 @@ private:
     bool inf_telep;
     int nb_teleport;
     int state; // 0 en jeu, -1 mort, 1 gagné
+    int vies;
 
 public:
-    Oueurj(std::vector<int> _pos, int _nb_diams = 0, bool _inf_telep = false, int _nb_teleport = 0, int _state = 0);
+    Oueurj(std::vector<int> _pos, int _nb_diams = 0, bool _inf_telep = false, int _nb_teleport = 2, int _vies = 3);
     Oueurj();
     ~Oueurj();
 
@@ -30,11 +31,12 @@ public:
     void die();
     void win();
 
-    std::string getTelep() const;
-    int getNbDiams();
-
+    std::string getTelep(bool for_file = false) const;
+    int getNbDiams() const;
     int getState() const;
-    std::stringstream toStream() const;
+    int getVies() const;
+
+    std::stringstream toStream(int lvl_max) const;
     void eatDiams();
 };
 

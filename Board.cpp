@@ -94,7 +94,14 @@ void Board::addItems(int number)
     }
 }
 
-Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
+Board::Board(
+    int _hau,
+    int _lar,
+    int nb_teupor,
+    int nb_diams,
+    int nb_streumons,
+    int nb_geurchars)
+    : hau(_hau), lar(_lar)
 {
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor); //éviter un trop gros nombre de portes
     nb_diams = std::min((lar - 2) * (hau - 2), nb_diams);
