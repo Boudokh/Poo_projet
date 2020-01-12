@@ -17,7 +17,7 @@ Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, bool _inf_telep, int _nb_te
 
 void Oueurj::levelUp()
 {
-    // bonus teleportation infini désactivé à chaque niveau
+    // bonus téleportation infini désactivé à chaque passage de niveau
     this->inf_telep = false;
     this->pos[0]++;
 }
@@ -30,18 +30,27 @@ std::vector<int> Oueurj::getPos() const
 /**
  * @brief mise à jour de la position du oueurj sur le plateau lors d'un déplacement.
  * 
- * @param new_pos 
+ * @param new_pos nouvelle position du Oueurj
  */
 void Oueurj::setPos(const std::vector<int> new_pos)
 {
     this->pos = new_pos;
 }
 
+/**
+ * @brief  fonction utilisée lors du contact avec les streumons
+ * @note   perte de vie ou mort si aucune vie restante
+ * @retval None
+ */
 void Oueurj::die()
 {
     this->state = -1;
 }
 
+/**
+ * @brief  victoire si le Oueurj atteint une porte ouverte au dernier plateau
+ * @retval None
+ */
 void Oueurj::win()
 {
     this->state = 1;
@@ -55,10 +64,9 @@ void Oueurj::eatDiams()
 /**
  * @brief utilisation de la teleportation (infinie ou par défaut dès le départ (de type compteur)).
  * 
- * @return true 
- * @return false 
+ * @return true téléportation autorisée
+ * @return false téléportation refusée
  */
-
 bool Oueurj::teleport()
 {
     // téléportation infinie.
@@ -79,9 +87,8 @@ bool Oueurj::teleport()
 /**
  * @brief affichage du nombre de téléportations.
  * 
- * @return std::string 
+ * @return std::string à afficher dans l'écran des scores inf ou le nombre de téléportation restant
  */
-
 std::string Oueurj::getTelep() const
 {
 
@@ -104,11 +111,11 @@ int Oueurj::getNbDiams()
 }
 
 /**
- * @brief affichage sur la console du nombre de téléportation, de diams et du niveau courant à droite du plateau.
- * 
- * @return std::stringstream 
+ * @brief description des la situation actuelle:
+ * @note nombre de téléportation, de diams et du niveau courant, utilisé pour l'affichage du score.
+ *
+ * @return std::stringstream description des la situation actuelle
  */
-
 std::stringstream Oueurj::toStream() const
 {
     std::stringstream score_line;
@@ -122,7 +129,6 @@ std::stringstream Oueurj::toStream() const
  * @brief activation de l'option teleportation infinie
  * 
  */
-
 void Oueurj::switch_teleport()
 {
     this->inf_telep = true;
@@ -133,7 +139,7 @@ int Oueurj::getCurrentlevel() const { return this->pos[0]; }
 /**
  * @brief état courant du oueurj
  * 
- * @return int 
+ * @return int état courant du oueurj
  */
 int Oueurj::getState() const { return this->state; }
 

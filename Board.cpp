@@ -82,9 +82,7 @@ Board::Board(std::string txt_board, int _hau, int _lar) : hau(_hau), lar(_lar)
 std::vector<int> Board::getRandomPoint()
 {
     int point = rand() % ((lar - 2) * (hau - 2));
-    std::vector<int> rd_point;
-    rd_point.push_back(point / (lar - 2) + 1);
-    rd_point.push_back(point % (lar - 2) + 1);
+    std::vector<int> rd_point{(point / (lar - 2) + 1), (point % (lar - 2) + 1)};
     return rd_point;
 }
 
