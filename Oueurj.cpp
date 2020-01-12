@@ -1,5 +1,14 @@
 #include "Oueurj.hpp"
 
+/**
+ * @brief constructeur personnalisé d'un oueurj
+ * 
+ * @param _pos position du oueurj
+ * @param _nb_diams nombre de diams
+ * @param _inf_telep option teleportation infinie active 
+ * @param _nb_teleport nombre de teleportation
+ * @param _state etat actuel du oueurj
+ */
 Oueurj::Oueurj(
     std::vector<int> _pos,
     int _nb_diams,
@@ -12,14 +21,14 @@ Oueurj::Oueurj(
     this->symbol = 'J';
 }
 
-Oueurj::Oueurj() : nb_diams(0), nb_teleport(0), state(0)
+Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, bool _inf_telep, int _nb_teleport, int _state) : pos(_pos), nb_diams(_nb_diams), inf_telep(_inf_telep), nb_teleport(_nb_teleport), state(_state)
 {
-    this->pos.assign(3, 0);
     this->symbol = 'J';
 }
 
 void Oueurj::levelUp()
 {
+    // bonus téleportation infini désactivé à chaque passage de niveau
     this->inf_telep = false;
     this->pos[0]++;
     this->nb_teleport++;
@@ -31,11 +40,21 @@ std::vector<int> Oueurj::getPos() const
     return this->pos;
 }
 
+/**
+ * @brief mise à jour de la position du oueurj sur le plateau lors d'un déplacement.
+ * 
+ * @param new_pos nouvelle position du Oueurj
+ */
 void Oueurj::setPos(const std::vector<int> new_pos)
 {
     this->pos = new_pos;
 }
 
+/**
+ * @brief  fonction utilisée lors du contact avec les streumons
+ * @note   perte de vie ou mort si aucune vie restante
+ * @retval None
+ */
 void Oueurj::die()
 {
     if (vies > 0)
@@ -48,6 +67,10 @@ void Oueurj::die()
     }
 }
 
+/**
+ * @brief  victoire si le Oueurj atteint une porte ouverte au dernier plateau
+ * @retval None
+ */
 void Oueurj::win()
 {
     this->state = 1;
@@ -58,13 +81,20 @@ void Oueurj::eatDiams()
     this->nb_diams++;
 }
 
+/**
+ * @brief utilisation de la teleportation (infinie ou par défaut dès le départ (de type compteur)).
+ * 
+ * @return true téléportation autorisée
+ * @return false téléportation refusée
+ */
 bool Oueurj::teleport()
 {
+    // téléportation infinie.
     if (this->inf_telep)
     {
         return true;
     }
-
+    // téléportation par défaut.
     if (this->nb_teleport > 0)
     {
         this->nb_teleport--;
@@ -74,6 +104,11 @@ bool Oueurj::teleport()
     return false;
 }
 
+/**
+ * @brief affichage du nombre de téléportations.
+ * 
+ * @return std::string à afficher dans l'écran des scores inf ou le nombre de téléportation restant
+ */
 std::string Oueurj::getTelep(bool for_file) const
 {
 
@@ -99,11 +134,17 @@ int Oueurj::getNbDiams() const
     return this->nb_diams;
 }
 
+
 int Oueurj::getVies() const
 {
     return this->vies;
 }
-
+/**
+ * @brief description des la situation actuelle:
+ * @note nombre de téléportation, de diams et du niveau courant, utilisé pour l'affichage du score.
+ *
+ * @return std::stringstream description des la situation actuelle
+ */
 std::stringstream Oueurj::toStream(int lvl_max) const
 {
     std::stringstream score_line;
@@ -114,6 +155,10 @@ std::stringstream Oueurj::toStream(int lvl_max) const
     return score_line;
 }
 
+/**
+ * @brief activation de l'option teleportation infinie
+ * 
+ */
 void Oueurj::switch_teleport()
 {
     this->inf_telep = true;
@@ -121,6 +166,11 @@ void Oueurj::switch_teleport()
 
 int Oueurj::getCurrentlevel() const { return this->pos[0]; }
 
+/**
+ * @brief état courant du oueurj
+ * 
+ * @return int état courant du oueurj
+ */
 int Oueurj::getState() const { return this->state; }
 
 Oueurj::~Oueurj() {}

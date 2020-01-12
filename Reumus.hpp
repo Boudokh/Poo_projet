@@ -8,7 +8,7 @@ class Reumus : public Object
 private:
 public:
     Reumus();
-    virtual std::string getName(); //à améliorer
+    virtual std::string getName();
     virtual char getSymbol() const;
     ~Reumus();
 };

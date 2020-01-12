@@ -96,7 +96,7 @@ Game::Game(std::string filename)
     }
     else
     {
-        this->levels[plyr->getCurrentlevel()]->placerOueurj(plyr);
+        this->levels[plyr->getCurrentlevel()]->placer_oueurj(plyr);
     }
 }
 
@@ -134,7 +134,7 @@ Game::Game(
 }
 
 /**
- * @brief  fonction qui replace le joueur aléatoirement sur le tableau actuel
+ * @brief  replacer le joueur aléatoirement sur le tableau actuel
  * @note   utilisée pour la téléportation aléatoire et le placement initial du joueur
  * @retval None
  */
@@ -156,39 +156,7 @@ void Game::placerOueurjRandom()
     }
 
     plyr->setPos(new_pos);
-    this->levels[new_pos[0]]->placerOueurj(plyr);
-}
-
-//TO DELETE
-void Game::affiche()
-{
-    for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
-    {
-        std::cout << (*it)->toString(false) << std::endl;
-    }
-}
-
-//TO DELETE
-void Game::dispCurrLevel() const
-{
-    std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream(true);
-    std::stringstream plyr_info = plyr->toStream(this->levels.size());
-
-    std::string tmp_str;
-
-    for (int i = 0; i < hau; i++)
-    {
-        getline(level_strm, tmp_str);
-        std::cout << tmp_str;
-        tmp_str.clear();
-        getline(plyr_info, tmp_str);
-        std::cout << tmp_str;
-        if (i == 2)
-        {
-            std::cout << "/" << this->levels.size();
-        }
-        std::cout << std::endl;
-    }
+    this->levels[new_pos[0]]->placer_oueurj(plyr);
 }
 
 /**
@@ -341,7 +309,7 @@ void Game::move_oueurj(char move)
     case 't': // téléportation : Oueurj rplacé aléatoirement dans le même plateau
         if (plyr->teleport())
         {
-            this->levels[old_pos[0]]->enleverOuerj(plyr);
+            this->levels[old_pos[0]]->enlever_oueurj(plyr);
             plyr->setPos(new_pos);
             placerOueurjRandom();
         }
@@ -368,7 +336,7 @@ void Game::move_oueurj(char move)
         else if (tmp_sym == '+')
         {
             // passage au niveau supérieur
-            this->levels[old_pos[0]]->enleverOuerj(plyr);
+            this->levels[old_pos[0]]->enlever_oueurj(plyr);
             if (old_pos[0] < (int)levels.size() - 1)
             {
                 plyr->levelUp();
@@ -389,7 +357,7 @@ void Game::move_oueurj(char move)
                 // ouvre une porte aléatoire
                 delete (tmp_board[new_pos[1]][new_pos[2]]);
                 plyr->eatDiams();
-                levels[old_pos[0]]->openTeupors();
+                levels[old_pos[0]]->open_teupors();
             }
 
             if (tmp_sym == '*')
@@ -400,17 +368,17 @@ void Game::move_oueurj(char move)
             }
 
             // replacement du Oueurj
-            this->levels[old_pos[0]]->enleverOuerj(plyr);
+            this->levels[old_pos[0]]->enlever_oueurj(plyr);
             plyr->setPos(new_pos);
-            this->levels[old_pos[0]]->placerOueurj(plyr);
+            this->levels[old_pos[0]]->placer_oueurj(plyr);
         }
     }
     else
     {
         // déplacement simple si la case est vide
-        this->levels[old_pos[0]]->enleverOuerj(plyr);
+        this->levels[old_pos[0]]->enlever_oueurj(plyr);
         plyr->setPos(new_pos);
-        this->levels[old_pos[0]]->placerOueurj(plyr);
+        this->levels[old_pos[0]]->placer_oueurj(plyr);
     }
     return;
 }
@@ -520,7 +488,7 @@ std::vector<std::vector<int>> Game::legalMoves(int i, int j)
  * @brief  déplacement aléatoire du streumon
  * @param  i: ligne du streumon
  * @param  j: colonne
- * @retval case choisie aléatoirement
+ * @retval std::vector<int> case choisie aléatoirement
  */
 std::vector<int> Game::rand_moves(int i, int j)
 {
@@ -536,7 +504,7 @@ std::vector<int> Game::rand_moves(int i, int j)
  * @brief  algorithme A* pour les déplacement des streuemons
  * @param  i: ligne du streumon
  * @param  j: colonne
- * @retval case de destination
+ * @retval std::vector<int> case de destination
  */
 std::vector<int> Game::a_star(int i, int j)
 {
@@ -581,7 +549,7 @@ std::vector<int> Game::a_star(int i, int j)
  * @param  i: ligne du streumon
  * @param  j: colonne
  * @param  current_level: le niveau actuel
- * @retval case de destination
+ * @retval std::vector<int> case de destination
  */
 std::vector<int> Game::a_star_proba(int i, int j, int current_level)
 {
