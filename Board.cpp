@@ -118,7 +118,14 @@ void Board::addItems(int number)
  * @param nb_streumons nombre de streumons.
  * @param nb_geurchars nombre de geurchars.
  */
-Board::Board(int _hau, int _lar, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
+Board::Board(
+    int _hau,
+    int _lar,
+    int nb_teupor,
+    int nb_diams,
+    int nb_streumons,
+    int nb_geurchars)
+    : hau(_hau), lar(_lar)
 {
     // limite de nombre d'artefact présents sur le plateau
     nb_teupor = std::min(2 * (hau + lar - 2), nb_teupor);

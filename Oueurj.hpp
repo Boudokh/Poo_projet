@@ -13,10 +13,11 @@ private:
     bool inf_telep; // teleportation infinie
     int nb_teleport;
     int state; // 0 en jeu, -1 mort, 1 gagné
+    int vies;
 
 public:
     // constructeur personnalisé dépendant des informations liées au oueurj
-    Oueurj(std::vector<int> _pos, int _nb_diams = 0, bool _inf_telep = false, int _nb_teleport = 0, int _state = 0);
+    Oueurj(std::vector<int> _pos, int _nb_diams = 0, bool _inf_telep = false, int _nb_teleport = 2, int _vies = 3);
     ~Oueurj();
 
     // passage au niveau suivant lorsque le oueurj atteint une teupor +
@@ -40,16 +41,16 @@ public:
     void win();
 
     // affichage du nombre de téléportations.
-    std::string getTelep() const;
+    std::string getTelep(bool for_file = false) const;
 
     // nombre de diams.
-    int getNbDiams();
+    int getNbDiams() const;
 
     // état courant du oueurj.
     int getState() const;
 
     // affichage du nombre de téléportations, de diams et du niveau actuel.
-    std::stringstream toStream() const;
+    std::stringstream toStream(int lvl_max) const;
 
     void eatDiams();
 };

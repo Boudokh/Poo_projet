@@ -26,8 +26,8 @@ private:
     void placerOueurjRandom();
 
     // déplacer le oueurj
-    bool move_oueurj(char move);
-    // déplacer tous les streumons
+    void move_oueurj(char move);
+    // déplacer tous les streumons 
     void play_streumons();
 
     friend std::vector<int> Board::getRandomPoint();

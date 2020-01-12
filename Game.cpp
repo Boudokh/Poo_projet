@@ -49,20 +49,19 @@ Game::Game(std::string filename)
                     getline(ss, token, '*');
                     init_pos.push_back(stoi(token));
                 }
-                std::string telep;
-                getline(ss, telep, '*');
+                getline(ss, token, '*');
+                bool telep_inf = stoi(token);
+
+                getline(ss, token, '*');
+                bool nb_telep = stoi(token);
 
                 getline(ss, token, '*');
                 int nb_diams = stoi(token);
 
-                if (telep == "inf")
-                {
-                    plyr = new Oueurj(init_pos, nb_diams, true);
-                }
-                else
-                {
-                    plyr = new Oueurj(init_pos, nb_diams, false, stoi(telep));
-                }
+                getline(ss, token, '*');
+                int vies = stoi(token);
+
+                plyr = new Oueurj(init_pos, nb_diams, telep_inf, nb_telep, vies);
             }
 
             std::string level_string;
@@ -111,7 +110,15 @@ Game::Game(std::string filename)
  * @param  nb_streumons: nombre de streumon par plateau
  * @param  nb_geurchars: nombre de geurchar par plateau
  */
-Game::Game(int _hau, int _lar, int nb_level, int nb_teupor, int nb_diams, int nb_streumons, int nb_geurchars) : hau(_hau), lar(_lar)
+Game::Game(
+    int _hau,
+    int _lar,
+    int nb_level,
+    int nb_teupor,
+    int nb_diams,
+    int nb_streumons,
+    int nb_geurchars)
+    : hau(_hau), lar(_lar)
 {
     this->compteurMove = 0;
 
@@ -160,22 +167,26 @@ void Game::placerOueurjRandom()
 std::string Game::toString() const
 {
     std::stringstream level_strm = this->levels[plyr->getCurrentlevel()]->toStream(true);
-    std::stringstream plyr_info = plyr->toStream();
+    std::stringstream plyr_info = plyr->toStream(this->levels.size());
 
     std::string tmp_str, sortie = "";
 
     for (int i = 0; i < hau; i++)
     {
-        getline(level_strm, tmp_str);
-        sortie += tmp_str;
-        tmp_str.clear();
-        getline(plyr_info, tmp_str);
-        sortie += tmp_str;
-        if (i == 2)
+        if (level_strm)
         {
-            sortie += "/" + std::to_string(this->levels.size());
+            getline(level_strm, tmp_str);
+            sortie += tmp_str;
+            tmp_str.clear();
+
+            if (plyr_info)
+            {
+                getline(plyr_info, tmp_str);
+                sortie += tmp_str;
+            }
+
+            sortie += "\n";
         }
-        sortie += "\n";
     }
 
     return sortie;
@@ -202,7 +213,7 @@ void Game::save_game(std::string filename)
     {
         fichier_game << plyr_pos[i] << sep;
     }
-    fichier_game << plyr->getTelep() << sep << plyr->getNbDiams() << sep << std::endl;
+    fichier_game << plyr->getTelep(true) << sep << plyr->getNbDiams() << sep << plyr->getVies() << sep << std::endl;
 
     //écriture des plateaux séparés par '#'
     for (std::vector<Board *>::iterator it = this->levels.begin(); it != this->levels.end(); ++it)
@@ -254,11 +265,11 @@ int Game::play_round(const char move)
 
 /**
  * @brief  déplacement du Oueurj
- * @note   
+ * @note
  * @param  move: direction du déplacement : "azedcxwq" autorisés, "t" pour les téléportations
- * @retval true si le jeu est fini (victoire ou défaite)
+ * @retval none
  */
-bool Game::move_oueurj(char move)
+void Game::move_oueurj(char move)
 {
 
     std::vector<int> old_pos = plyr->getPos();
@@ -302,7 +313,7 @@ bool Game::move_oueurj(char move)
             plyr->setPos(new_pos);
             placerOueurjRandom();
         }
-        return false;
+        return;
     }
 
     // plateau actuel
@@ -316,7 +327,7 @@ bool Game::move_oueurj(char move)
         {
             // mort lors de la rencontre avec un streumon
             plyr->die();
-            return true;
+            return;
         }
         else if (tmp_sym == 'X' || tmp_sym == '-')
         {
@@ -335,7 +346,8 @@ bool Game::move_oueurj(char move)
             {
                 // victoire si c'est le dernier niveau
                 plyr->win();
-                return true;
+                placerOueurjRandom();
+                return;
             }
         }
         else
@@ -368,7 +380,7 @@ bool Game::move_oueurj(char move)
         plyr->setPos(new_pos);
         this->levels[old_pos[0]]->placer_oueurj(plyr);
     }
-    return false;
+    return;
 }
 
 /**
@@ -412,6 +424,7 @@ void Game::play_streumons()
                 if (new_pos[0] == plyr_p[1] && new_pos[1] == plyr_p[2])
                 {
                     this->plyr->die();
+                    this->placerOueurjRandom();
                 }
                 if (symb_list[new_pos[0] * (lar + 1) + new_pos[1]] == 's')
                 {
