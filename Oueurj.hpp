@@ -49,9 +49,13 @@ public:
     // état courant du oueurj.
     int getState() const;
 
+    //récupérer le nombre de vies restantes
+    int getVies() const;
+
     // affichage du nombre de téléportations, de diams et du niveau actuel.
     std::stringstream toStream(int lvl_max) const;
 
+    // récupérer un diams
     void eatDiams();
 };
 

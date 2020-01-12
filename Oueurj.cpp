@@ -21,11 +21,6 @@ Oueurj::Oueurj(
     this->symbol = 'J';
 }
 
-Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, bool _inf_telep, int _nb_teleport, int _state) : pos(_pos), nb_diams(_nb_diams), inf_telep(_inf_telep), nb_teleport(_nb_teleport), state(_state)
-{
-    this->symbol = 'J';
-}
-
 void Oueurj::levelUp()
 {
     // bonus téleportation infini désactivé à chaque passage de niveau
@@ -42,7 +37,7 @@ std::vector<int> Oueurj::getPos() const
 
 /**
  * @brief mise à jour de la position du oueurj sur le plateau lors d'un déplacement.
- * 
+ *
  * @param new_pos nouvelle position du Oueurj
  */
 void Oueurj::setPos(const std::vector<int> new_pos)
@@ -106,8 +101,9 @@ bool Oueurj::teleport()
 
 /**
  * @brief affichage du nombre de téléportations.
- * 
- * @return std::string à afficher dans l'écran des scores inf ou le nombre de téléportation restant
+ * @param  for_file: true : retourne un string adapté pour le format d'ecriture .game
+ *                   faux : format adapté à l'affichage
+ * @retval std::string à afficher dans l'écran des scores inf ou le nombre de téléportation restant
  */
 std::string Oueurj::getTelep(bool for_file) const
 {
@@ -115,7 +111,7 @@ std::string Oueurj::getTelep(bool for_file) const
     std::string tlp;
     if (for_file)
     {
-        return std::to_string(this->inf_telep)+"*"+std::to_string(this->nb_teleport);
+        return std::to_string(this->inf_telep) + "*" + std::to_string(this->nb_teleport);
     }
     if (this->inf_telep)
     {
@@ -134,15 +130,15 @@ int Oueurj::getNbDiams() const
     return this->nb_diams;
 }
 
-
 int Oueurj::getVies() const
 {
     return this->vies;
 }
+
 /**
  * @brief description des la situation actuelle:
  * @note nombre de téléportation, de diams et du niveau courant, utilisé pour l'affichage du score.
- *
+ * @param int lvl_max : le niveau maximal dans cette partie
  * @return std::stringstream description des la situation actuelle
  */
 std::stringstream Oueurj::toStream(int lvl_max) const
@@ -164,12 +160,15 @@ void Oueurj::switch_teleport()
     this->inf_telep = true;
 }
 
+/**
+ * @brief  obtenir le noveau actuel
+ * @retval int : niveau actuel du Oueurj
+ */
 int Oueurj::getCurrentlevel() const { return this->pos[0]; }
 
 /**
  * @brief état courant du oueurj
- * 
- * @return int état courant du oueurj
+ * @return int : état courant du oueurj
  */
 int Oueurj::getState() const { return this->state; }
 
