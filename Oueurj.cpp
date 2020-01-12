@@ -17,6 +17,7 @@ Oueurj::Oueurj(std::vector<int> _pos, int _nb_diams, bool _inf_telep, int _nb_te
 
 void Oueurj::levelUp()
 {
+    // bonus teleportation infini désactivé à chaque niveau
     this->inf_telep = false;
     this->pos[0]++;
 }
@@ -52,7 +53,7 @@ void Oueurj::eatDiams()
 }
 
 /**
- * @brief utilisation de la teleportation (infinie ou finie (de type compteur)).
+ * @brief utilisation de la teleportation (infinie ou par défaut dès le départ (de type compteur)).
  * 
  * @return true 
  * @return false 
@@ -60,11 +61,12 @@ void Oueurj::eatDiams()
 
 bool Oueurj::teleport()
 {
+    // téléportation infinie.
     if (this->inf_telep)
     {
         return true;
     }
-
+    // téléportation par défaut.
     if (this->nb_teleport > 0)
     {
         this->nb_teleport--;

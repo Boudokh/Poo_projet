@@ -16,9 +16,12 @@ private:
 
 public:
 
+    // constructeur personnalisé dépendant des informations liées au oueurj.
+    
     Oueurj(std::vector<int> _pos, int _nb_diams = 0, bool _inf_telep = false, int _nb_teleport = 0, int _state = 0);
     ~Oueurj();
 
+    // passage au niveau suivant lorsque le oueurj atteint une teupor +
     void levelUp();
 
     // déplacement du oueurj sur le plateau.
@@ -44,6 +47,7 @@ public:
 
     std::string getTelep() const;
 
+    // nombre de diams.
 
     int getNbDiams();
 
