@@ -314,7 +314,6 @@ void Board::reumus_hor(int size_max)
 
 /**
  * @brief génération de reumus (de manière diagonale) aléatoire lors de la création de Board.
- * 
  * @param size_max nombre maximal de reumus générés.
  */
 void Board::reumus_diag(int size_max)
@@ -334,7 +333,6 @@ void Board::reumus_diag(int size_max)
 
 /**
  * @brief placement du oueurj sur le plateau en récupérant ses coordonnées.
- * 
  * @param oueurj pointeur sur un objet Oueurj.
  */
 void Board::placer_oueurj(Oueurj *oueurj)

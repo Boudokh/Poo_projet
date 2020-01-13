@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
         char next_move = '0';
         int game_state = 0;
 
-        while (next_move != 's' && game_state == 0)
+        while (next_move != 'o' && game_state == 0)
         {
             clear();
             printw(my_game->toString().c_str());
@@ -180,7 +180,7 @@ bool yes_no(WINDOW *stdscr)
 char getMove()
 {
     int key;
-    std::string legal_moves = "azeqsdwxct";
+    std::string legal_moves = "azeqodwxct";
     do
     {
         key = getch();

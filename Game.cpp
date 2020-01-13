@@ -385,7 +385,6 @@ void Game::move_oueurj(char move)
 
 /**
  * @brief  déplacements des streumons
- * @note   
  * @retval None
  */
 void Game::play_streumons()
