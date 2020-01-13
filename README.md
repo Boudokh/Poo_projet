@@ -46,7 +46,7 @@ En tant qu'utilisateur, vous déplacez le oueurj:
 - e : haut diagonale droite
 - c : bas diagonale droite
 - w : bas diagonale gauche
-- s : arrêter le jeu et éventuellement sauvgarder.
+- o : arrêter le jeu et éventuellement sauvgarder.
 
 A chaque début de partie, vous avez une téléportation. Dès lors que vous réussissez à traverser un niveau, vous obtenez une téléportation supplémentaire.
 
@@ -61,6 +61,8 @@ Attention : dans certaines situations, vous remercierez votre ami le geuchar �
 Un système de vies a été mis en place. Dès le début de la partie, vous avez trois vies. A chaque passage de niveau, vous obtenez une vie supplémentaire.
 
 ## Extensions utiles
+
+- possibilité de sauvegarde en cours de partie et reprendre plus tard.
 
 Les streumons 👾
 
@@ -135,7 +137,7 @@ Have fun ! C'est parti pour l'aventure ! 🚪💠🌟🏃👾👾👾
 
 ## Sauvegarder une partie
 
-Si vous devez mettre fin à cette belle aventure, vous pouvez arrêter le jeu en appuyant sur le touche 's'.
+Si vous devez mettre fin à cette belle aventure, vous pouvez arrêter le jeu en appuyant sur le touche 'o'.
 
 Le menu vous proposera la possibilité de sauvegarder votre partie en cours :
 
@@ -145,4 +147,10 @@ Il vous suffit simplement d'écrire le nom de votre fichier (sans l'extension .g
 
 ![Sauvegarde](./images/save.png)
 
-PS : ça ne sert à rien d'appuyer sur 's' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
+PS : ça ne sert à rien d'appuyer sur '' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
+
+## le format de fichier '.game'
+
+la première ligne contient les information sur le jeu séparés par des * : largeur du plateau, hauteur, nombre de niveaux, niveau du joueur, sa postion, nombre de diams, de téléportations et vies restantes.
+
+ensuite nous avons la liste des symboles des plateaux séparés par '#".
