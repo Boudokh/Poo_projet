@@ -149,8 +149,8 @@ Il vous suffit simplement d'écrire le nom de votre fichier (sans l'extension .g
 
 PS : ça ne sert à rien d'appuyer sur '' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
 
-## le format de fichier '.game'
+## Le format de fichier '.game'
 
-la première ligne contient les information sur le jeu séparés par des * : largeur du plateau, hauteur, nombre de niveaux, niveau du joueur, sa postion, nombre de diams, de téléportations et vies restantes.
+La première ligne contient les informations sur lpartie concernée que nous séparons par des '*' : largeur du plateau, hauteur, nombre de niveaux, niveau du joueur, sa position, nombre de diams, de téléportations et vies restantes.
 
-ensuite nous avons la liste des symboles des plateaux séparés par '#".
+Ensuite nous avons la liste des symboles des plateaux séparés par '#".
