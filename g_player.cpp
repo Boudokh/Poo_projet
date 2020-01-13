@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
             mvprintw(0, 0, "choisissez le fichier board à jouer: ");
             for (std::vector<std::string>::iterator it = file_list.begin(); it != file_list.end(); it++, i++)
             {
-                mvprintw(i + 1, 0, " %2d. %s", i + 1, it->c_str());
+                mvprintw(i + 1, 0, "  %s", it->c_str());
             }
             move(1, 0);
 
