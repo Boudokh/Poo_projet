@@ -32,7 +32,7 @@ Des teupors 🚪 symbolisés par '+' si elles sont ouvertes et '-' si fermées. 
 
 ## Représentation d'un plateau
 
-![Sauvegarde](./images/plateau2.png)
+![Sauvegarde](./images/plateauu.png)
 
 ## Commandes de bases
 
@@ -111,7 +111,7 @@ Après avoir configuré les plateaux à votre guise, vous devez créer un "jeu" 
 ./gc fichier1.game fichier2.board
 ```
 
-![Sauvegarde](./images/game1.png)
+![Sauvegarde](./images/compil1.png)
 
 Lancer le jeu
 
@@ -123,7 +123,7 @@ Afin de pouvoir commencer à jouer et débuter l'aventure EEG, veuillez tappez l
 ./gp fichier.game
 ```
 
-![Sauvegarde](./images/game3.png)
+![Sauvegarde](./images/compil2.png)
 
 Have fun ! C'est parti pour l'aventure ! 🚪💠🌟🏃👾👾👾
 
@@ -133,10 +133,10 @@ Si vous devez mettre fin à cette belle aventure, vous pouvez arrêter le jeu en
 
 Le menu vous proposera la possibilité de sauvegarder votre partie en cours :
 
-![Sauvegarde](./images/test1.png)
+![Sauvegarde](./images/savefirst.png)
 
 Il vous suffit simplement d'écrire le nom de votre fichier (sans l'extension .game) et vous pouvez reprendre votre partie plus tard (en saisissant à nouveau ./gp nomfichier.game).
 
-![Sauvegarde](./images/testimg.png)
+![Sauvegarde](./images/save.png)
 
 PS : ça ne sert à rien d'appuyer sur 's' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
