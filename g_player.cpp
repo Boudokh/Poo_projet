@@ -2,9 +2,13 @@
 #include <ncurses.h>
 #include <dirent.h>
 
+// récuperer un char qui creespond à un mouvement
 char getMove();
+// lire les noms de fichiers .game dans le dossier courant
 std::vector<std::string> read_file_names();
+// lire un nom de fichier saisi au clavier
 std::string read_fname();
+// demander un réponse oui ou non à l'utilisateur
 bool yes_no(WINDOW *stdscr);
 
 int main(int argc, char *argv[])
@@ -26,6 +30,7 @@ int main(int argc, char *argv[])
     }
     else if (argc == 2)
     {
+        // vérifier si l'utilisateur a saisi un fichier .game et le lire
         if (!regex_match(argv[1], is_game))
         {
             std::cerr << "invalid .game file name" << std::endl;
@@ -45,6 +50,7 @@ int main(int argc, char *argv[])
     {
         keypad(stdscr, true);
 
+        // proposer la liste des fichiers .game dans le dossier courant et laisser l'utilisateur choisir grâce aux fléches haut et bas
         if (argc == 1)
         {
             file_list = read_file_names();

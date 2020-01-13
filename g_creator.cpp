@@ -1,13 +1,16 @@
 #include "Game.hpp"
 #include <ncurses.h>
 
+// lire un entier saisi au clavier
 int read_int();
+// lecture et vérification d'un nom de fichier saisi au clavier
 std::string read_fname();
 
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
 
+    // regex pour vérifier les noms et extensions des fichiers
     std::regex is_board("([a-zA-Z0-9_])+(.board)$");
     std::regex is_game("([a-zA-Z0-9_])+(.game)$");
 
@@ -15,6 +18,7 @@ int main(int argc, char *argv[])
     {
         if (argc > 3)
         {
+            // au plus deux entrées
             std::cerr << " Too many arguments" << std::endl;
             return 0;
         }
@@ -43,6 +47,7 @@ int main(int argc, char *argv[])
             }
             file_check.close();
 
+            // créer un '.game' à partir d'un '.board'
             Game *new_game = new Game(argv[2]);
             new_game->save_game(argv[1]);
 
@@ -50,10 +55,15 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+
+    // génération du fichier '.board'
     int hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars;
-    initscr();
+
+    initscr(); // lacement de la fenetre ncurses
+
     int i = 0;
 
+    // lecture des attributs utilisés pour la construction des boards
     mvprintw(i, 0, "nb de niveau?\n");
     nb_level = read_int();
     move(i + 1, 0);
@@ -99,6 +109,7 @@ int main(int argc, char *argv[])
     std::string fname;
     Game *new_game = new Game(hau, lar, nb_level, nb_teupor, nb_diams, nb_streumons, nb_geurchars);
 
+    // demander le nom du fichier '.board' si il n'a pas été saisi en entrée
     if (argc == 1)
     {
         printw("\nSaissez le nom du fichier à sauvegarder (sans extension) \n");
@@ -118,9 +129,10 @@ int read_int()
     clrtoeol();
 
     int ch = getch();
-    std::regex valid_int("^[1-9][0-9]*$");
+    std::regex valid_int("^[1-9][0-9]*$"); // entier naturel > 0
     std::string tmp_int;
 
+    // lecture char par char
     while (ch != '\n')
     {
         tmp_int.push_back(ch);
@@ -132,7 +144,7 @@ int read_int()
         printw("Invalid integer");
         return read_int();
     }
-    return stoi(tmp_int);
+    return stoi(tmp_int); // conversion en int
 }
 
 std::string read_fname()
@@ -140,7 +152,7 @@ std::string read_fname()
     clrtoeol();
 
     std::string fname;
-    std::regex valid_file("[a-zA-Z_][a-zA-Z_0-9]*$");
+    std::regex valid_file("[a-zA-Z_0-9]*$"); // nom de fichier sans extension
 
     int ch = getch();
 
