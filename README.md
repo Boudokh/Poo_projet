@@ -48,11 +48,17 @@ En tant qu'utilisateur, vous déplacez le oueurj:
 - w : bas diagonale gauche
 - s : arrêter le jeu et éventuellement sauvgarder.
 
+A chaque début de partie, vous avez une téléportation. Dès lors que vous réussissez à traverser un niveau, vous obtenez une téléportation supplémentaire.
+
+Attention : vous n'avez qu'un nombre fini de téléportations. Par exemple, supposons que au niveau n°2 vous aviez cinq téléportations. Si vous utilisez toutes vos téléportations "par défaut" pour échapper aux streumons 👾 , alors au niveau n°3 vous restera qu'une téléportation.
+
 Lorsque vous récupérez des geuchars 🌟 , vous avez la possibilité de vous téléporter, de manière infinie dans le niveau actuel :
 
 - t : téléportation aléatoire sur une position (i,j) du plateau.
 
 Attention : dans certaines situations, vous remercierez votre ami le geuchar 🌟 de vous avoir sauvé des streumons 👾. Dans certains cas, il peut vous mettre dans des situations délicates et vous téléporter juste à coté d'un streumon.
+
+Un système de vies a été mis en place. Dès le début de la partie, vous avez trois vies. A chaque passage de niveau, vous obtenez une vie supplémentaire.
 
 ## Extensions utiles
 
