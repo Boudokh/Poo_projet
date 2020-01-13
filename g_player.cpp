@@ -9,6 +9,8 @@ bool yes_no(WINDOW *stdscr);
 
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
+
     std::vector<std::string> file_list;
     bool replay = true;
     int input, x, y;

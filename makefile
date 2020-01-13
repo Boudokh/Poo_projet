@@ -2,9 +2,6 @@ CPP=g++ --std=c++11 -Wall
 FILES=Game.o Board.o Object.o Reumus.o Teupor.o Diams.o Geurchars.o Streumons.o Oueurj.o
 all: gc gp
 
-Board: board_gen.o $(FILES)
-	$(CPP) board_gen.o $(FILES) -o Board
-
 gc: g_creator.o $(FILES)
 	$(CPP) g_creator.o $(FILES) -o gc -lncurses
 
@@ -16,9 +13,6 @@ g_creator.o: g_creator.cpp
 
 g_player.o: g_player.cpp
 	$(CPP) -c g_player.cpp
-
-board_gen.o: board_gen.cpp
-	$(CPP) -c board_gen.cpp
 
 Game.o: Game.cpp Game.hpp
 	$(CPP) -c Game.cpp
@@ -48,4 +42,4 @@ Oueurj.o : Oueurj.cpp Oueurj.hpp Object.o
 	$(CPP) -c Oueurj.cpp
 
 clean:
-	rm *.o Board gp gc
+	rm *.o gp gc

@@ -12,7 +12,9 @@ private:
     int typeevol; // type interraction streumons : elimination (0) , reproduction (1), fusion(2).
 
 public:
+    // constructeur d'un streumon de type aléatoire
     Streumons();
+    // constructeur d'un streumon de type donné
     Streumons(int _type);
     ~Streumons();
 

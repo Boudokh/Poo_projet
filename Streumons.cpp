@@ -4,6 +4,9 @@ Streumons::~Streumons()
 {
 }
 
+/**
+ * @brief  constructeur d'un streumon de type aléatoire
+ */
 Streumons::Streumons()
 {
     this->symbol = 's';
@@ -11,6 +14,10 @@ Streumons::Streumons()
     this->typeevol = rand() % 3;
 }
 
+/**
+ * @brief  constructeur d'un streumon de type donné
+ * @param  _type: type de déplacement du streumon
+ */
 Streumons::Streumons(int _type):type(_type)
 {
     this->symbol = 's';

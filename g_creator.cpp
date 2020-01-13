@@ -6,6 +6,7 @@ std::string read_fname();
 
 int main(int argc, char *argv[])
 {
+    srand(time(NULL));
 
     std::regex is_board("([a-zA-Z0-9_])+(.board)$");
     std::regex is_game("([a-zA-Z0-9_])+(.game)$");
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])
             Game *new_game = new Game(argv[2]);
             new_game->save_game(argv[1]);
 
-            std::cout << "jeu \"" << argv[1] <<"\" crée avec succées" << std::endl;
+            std::cout << "jeu \"" << argv[1] << "\" crée avec succées" << std::endl;
             return 0;
         }
     }
@@ -101,7 +102,7 @@ int main(int argc, char *argv[])
     if (argc == 1)
     {
         printw("\nSaissez le nom du fichier à sauvegarder (sans extension) \n");
-        new_game->save_boards(read_fname()+".board");
+        new_game->save_boards(read_fname() + ".board");
     }
     else if (argc == 2)
     {
