@@ -18,17 +18,17 @@ Attention : les streumons 👾 deviennent de plus en plus intelligents au fil de
 
 ## Concepts de bases
 
-Un oueurj 🏃 symbolisé par le caractère J et qui peut se déplacer, à chaque tour, dans l'une des huits adjacentes (si possible), rester sur place ou se téléporter.
+Un oueurj 🏃 : symbolisé par le caractère J et qui peut se déplacer, à chaque tour, dans l'une des huits adjacentes (si possible), rester sur place ou se téléporter.
 
-Des streumons 👾 symbolisés par '0', '1' ou '2' (leur symbole indique le type déplacement) et qui peuvent se déplacer, à chaque tour, dans l'une des huits cases adjacentes (si possible). Un streumon n'a qu'un but dans la vie : dévorer le oueurj.
+Des streumons 👾: symbolisés par '0', '1' ou '2' (leur symbole indique le type déplacement) et qui peuvent se déplacer, à chaque tour, dans l'une des huits cases adjacentes (si possible). Un streumon n'a qu'un but dans la vie : dévorer le oueurj.
 
-Des reumus symbolisés par 'X'. Un reumu est un obstacle inamovible et aucun élément ne peut le traverser. Ils délimitent le plateau et peuvent former des barrières à l'intérieur du plateau.
+Des reumus : symbolisés par 'X'. Un reumu est un obstacle inamovible et aucun élément ne peut le traverser. Ils délimitent le plateau et peuvent former des barrières à l'intérieur du plateau.
 
-Des diams 💠 symbolisés par '\$' qui peuvent être rammassés par le oueurj. Celui-ci doit d'ailleurs en ramasser au moins un avant qu'une porte de sortie ne s'ouvre et qu'il puisse tenter de s'y engouffrer. Les diams sont ignorés par les streumons.
+Des diams 💠: symbolisés par '\$' qui peuvent être rammassés par le oueurj. Celui-ci doit d'ailleurs en ramasser au moins un avant qu'une porte de sortie ne s'ouvre et qu'il puisse tenter de s'y engouffrer. Les diams sont ignorés par les streumons.
 
-Des geurchars 🌟 symbolisés par '\*' et qui permettent d'obtenir, pour le oueurj, la possibilité de téléportation infinie dans le niveau actuel.
+Des geurchars 🌟: symbolisés par '\*' et qui permettent d'obtenir, pour le oueurj, la possibilité de téléportation infinie dans le niveau actuel.
 
-Des teupors 🚪 symbolisés par '+' si elles sont ouvertes et '-' si fermées. A chaque fois que le oueurj ramasse un diam, une nouvelle teupor s'ouvre à travers laquelle le oueurj peut sortir du plateau.
+Des teupors 🚪: symbolisés par '+' si elles sont ouvertes et '-' si fermées. A chaque fois que le oueurj ramasse un diam, une nouvelle teupor s'ouvre à travers laquelle le oueurj peut sortir du plateau.
 
 ## Représentation d'un plateau
 
