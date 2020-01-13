@@ -50,7 +50,7 @@ En tant qu'utilisateur, vous déplacez le oueurj:
 
 A chaque début de partie, vous avez une téléportation. Dès lors que vous réussissez à traverser un niveau, vous obtenez une téléportation supplémentaire.
 
-Attention : vous n'avez qu'un nombre fini de téléportations. Par exemple, supposons que au niveau n°2 vous aviez cinq téléportations. Si vous utilisez toutes vos téléportations "par défaut" pour échapper aux streumons 👾 , alors au niveau n°3 vous restera qu'une téléportation.
+Attention : vous n'avez qu'un nombre fini de téléportations. Par exemple, supposons qu'au niveau n°2 vous aviez cinq téléportations. Si vous utilisez toutes vos téléportations "par défaut" pour échapper aux streumons 👾 , alors au niveau n°3 il ne vous restera qu'une téléportation.
 
 Lorsque vous récupérez des geuchars 🌟 , vous avez la possibilité de vous téléporter, de manière infinie dans le niveau actuel :
 
