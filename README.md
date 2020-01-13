@@ -94,7 +94,7 @@ Avant de pouvoir enfiler vos baskets et courir dans les plateaux pour éviter le
 make
 ```
 
-ensuite il faut générer les plateaux:
+ensuite il faut générer les plateaux, vous avez deux possibilités :
 
 ```bash
  ./gc fichier.board
@@ -113,6 +113,16 @@ Cette commande permet de créer des plateaux (fichiers d'extensions .board). Ell
 
 ![Sauvegarde](./images/menu2.png)
 
+Une autre manière est de tapper simplement la commande suivante :
+
+```bash
+ ./gc
+```
+
+Cela vous permettra d'enclencher directement le menu afin de spécifier les paramètres comme précédemment puis de donner un nom à votre fichier .board :
+
+![Sauvegarde](./images/gc.png)
+
 Après avoir configuré les plateaux à votre guise, vous devez créer un "jeu" à partir de votre fichier .board précédent en créant un fichier d'extension .game :
 
 ```bash
@@ -125,11 +135,21 @@ Lancer le jeu
 
 Félicitations, vous avez réussi à faire la part la plus difficile du travail !
 
-Afin de pouvoir commencer à jouer et débuter l'aventure EEG, veuillez tappez la commande suivante :
+Afin de pouvoir commencer à jouer et débuter l'aventure EEG, veuillez tappez (au choix) l'une des commandes suivantes :
+
+```bash
+./gp
+```
+
+Cette première commande vous permettra de choisir de reprendre une partie parmi les fichiers .game existants :
+
+![Sauvegarde](./images/listing3.png)
 
 ```bash
 ./gp fichier.game
 ```
+
+Cette seconde commande vous permettra de spécifier le nom exacte de la partie que vous souhaitez reprendre :
 
 ![Sauvegarde](./images/compil2.png)
 
@@ -149,8 +169,16 @@ Il vous suffit simplement d'écrire le nom de votre fichier (sans l'extension .g
 
 PS : ça ne sert à rien d'appuyer sur '' puis de sauvegarder votre partie avant qu'un streumon ne vous dévore ... il sera patient et vous attendra dès votre retour ... 👾👾👾
 
+Remarque : Dès lors que vous souhaitez mettre fin à votre partie en appuyant sur la touche 'o', vous serez redirigé vers le menu afin de choisir si vous souhaitez sauvegarder votre partie ...
+
+![Sauvegarde](./images/listing1.png)
+
+... puis de choisir si vous souhaitez reprendre la partie sauvegardée ...
+
+![Sauvegarde](./images/listing2.png)
+
 ## Le format de fichier '.game'
 
-La première ligne contient les informations sur lpartie concernée que nous séparons par des '*' : largeur du plateau, hauteur, nombre de niveaux, niveau du joueur, sa position, nombre de diams, de téléportations et vies restantes.
+La première ligne contient les informations sur la partie en cours : largeur du plateau, hauteur, nombre de niveaux, niveau du joueur, sa position, nombre de diams, de téléportations et vies restantes. Nous séparons ces informations par des '*' .
 
-Ensuite nous avons la liste des symboles des plateaux séparés par '#".
+De plus, nous avons la liste des différents symboles sur le plateau séparés par '#".
